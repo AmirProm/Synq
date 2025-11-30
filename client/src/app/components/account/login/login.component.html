@@ -10,10 +10,10 @@
         <form class="auth-form">
             <!-- Email -->
             <div class="auth-field">
-                <input class="auth-label" type="email" [formControl]="EmailCtrl" matInput>
+                <label class="auth-label" for="login-email">Email address</label>
                 <div class="auth-input-wrapper">
                     <span class="auth-input-icon material-icons">mail</span>
-                    <input id="login-email" type="email" class="auth-input" placeholder="your@email.com" />
+                    <input id="login-email" class="auth-input" type="email" [formControl]="EmailCtrl" matInput>
                 </div>
             </div>
 
@@ -22,17 +22,13 @@
                 <label class="auth-label" for="login-password">Password</label>
                 <div class="auth-input-wrapper">
                     <span class="auth-input-icon material-icons">lock</span>
-
-                    <input class="auth-input" type="password" [formControl]="PasswordCtrl" placeholder="••••••••"
-                        matInput>
-
+                    <input id="login-password" type="password" class="auth-input" [formControl]="PasswordCtrl" matInput>
                 </div>
             </div>
 
             <!-- Login button -->
-            <button type="submit" class="auth-btn auth-btn--primary">
-                <span>Log in</span>
-                <span class="material-icons auth-btn__icon">arrow_forward</span>
+            <button type="submit" class="auth-btn auth-btn--primary" (click)="login()" [disabled]="loginFg.invalid">
+                Login
             </button>
 
             <!-- Forgot password -->
@@ -50,7 +46,7 @@
             <!-- Sign up link -->
             <p class="auth-footer-text">
                 Don’t have an account?
-                <a routerLink="/register" class="auth-link">Sign up</a>
+                <a routerLink="/account/register" class="auth-link">Sign up</a>
             </p>
         </form>
     </main>

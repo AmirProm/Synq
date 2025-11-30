@@ -1,10 +1,78 @@
-<section>
-    <!-- Signal basic 
+<div class="auth-page">
+    <div class="auth-header">
+        <div class="auth-logo">bambam</div>
+        <p class="auth-subtitle">Join the community</p>
+    </div>
+
+    <main class="auth-card">
+        <h1 class="auth-title">Create account</h1>
+
+        <form class="auth-form">
+            <!-- Full name -->
+            <div class="auth-field">
+                <label class="auth-label" for="reg-name">Full name</label>
+                <div class="auth-input-wrapper">
+                    <span class="auth-input-icon material-icons">person</span>
+                    <input id="reg-name" type="text" class="auth-input" placeholder="AmirAliSafay"
+                        [formControl]="UserNameCtrl">
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="auth-field">
+                <label class="auth-label" for="reg-email">Email address</label>
+                <div class="auth-input-wrapper">
+                    <span class="auth-input-icon material-icons">mail</span>
+                     <input id="reg-email" type="email" class="auth-input" placeholder="your@email.com" [formControl]="EmailCtrl" >
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="auth-field">
+                <label class="auth-label" for="reg-password">Password</label>
+                <div class="auth-input-wrapper">
+                    <span class="auth-input-icon material-icons">lock</span>
+                    <input id="reg-password" type="password" class="auth-input" placeholder="••••••••" [formControl]="PasswordCtrl" />
+                </div>
+            </div>
+
+            <!-- Confirm password -->
+            <div class="auth-field">
+                <label class="auth-label" for="reg-confirm">Confirm password</label>
+                <div class="auth-input-wrapper">
+                    <span class="auth-input-icon material-icons">lock</span>
+                    <input id="reg-confirm" type="password" class="auth-input" placeholder="••••••••" [formControl]="ConfirmPasswordCtrl" />
+                </div>
+            </div>
+
+            <!-- Terms checkbox -->
+            <label class="auth-checkbox">
+                <input type="checkbox" />
+                <span class="auth-checkbox__box"></span>
+                <span>I agree to the <a href="#" class="auth-link">Terms of Service</a></span>
+            </label>
+
+            <!-- Create account button -->
+            <button type="submit" class="auth-btn auth-btn--primary">
+                <span>Create account</span>
+                <span class="material-icons auth-btn__icon">arrow_forward</span>
+            </button>
+
+            <!-- Already have account -->
+            <p class="auth-footer-text">
+                Already have an account?
+                <a routerLink="/login" class="auth-link">Log in</a>
+            </p>
+        </form>
+    </main>
+</div>
+
+<!-- <section> -->
+<!-- Signal basic 
         <p>Value: {{accountService.responseUser}}</p> 
     -->
 
-    <div class="item-1">
-        <!-- <h1>{{exampleService.number}}</h1> -->
+<!-- <div class="item-1">
         <form>
             <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
@@ -47,7 +115,7 @@
             }
         </form> 
     </div>
-</section>
+</section> -->
 
 <!-- <button (click)="login()" mat-stroked-button color="parimary">Login</button> -->
 
