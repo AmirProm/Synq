@@ -1,0 +1,135 @@
+<mat-toolbar>
+    <section class="left">
+        <a class="brand" routerLink="/">
+            <mat-icon>eco</mat-icon>
+            Match Finder
+        </a>
+        <!-- <h3>value of ageSig: {{exampleService.ageSig()}}</h3> -->
+    </section>
+    <section class="right">
+        @if (accountService.loggedInUserSig(); as user) {
+        <button [mat-menu-trigger-for]="appMenu" class="menu-button" mat-mini-fab>
+            @if (user.profilePhotoUrl) {
+            <img src="{{apiUrl + user.profilePhotoUrl}}" alt="">
+            <!-- // localhost:5000/storage/photo/sldkfjlsj92374.web -->
+            }
+            @else {
+            <span>{{user.userName[0] | titlecase}}</span>
+            }
+        </button>
+        }
+        @else {
+        <button routerLink="/account/register" mat-raised-button>Register</button>
+        <button routerLink="/account/login" mat-raised-button>Login</button>
+        }
+    </section>
+
+    <mat-menu class="mat-menu" #appMenu>
+        @if (accountService.loggedInUserSig(); as user) {
+        <div class="user-info">
+            <div class="profile-info">
+                @if (user.profilePhotoUrl) {
+                <img src="{{apiUrl + user.profilePhotoUrl}}" alt="">
+                }
+                @else {
+                <img src="member.jpg" alt="{{user.userName[0] | titlecase}}">
+                }
+                <!-- <p>{{ user.name[0] | titlecase }}</p> -->
+            </div>
+            <div>
+                <p class="email">{{ user.email }}</p>
+            </div>
+        </div>
+        }
+
+        <mat-divider></mat-divider>
+        <mat-list>
+            <mat-list-item routerLink="user/user-edit">
+                <div class="menu-items">
+                    <mat-icon>edit_note</mat-icon>
+                    Edit Profile
+                </div>
+            </mat-list-item>
+            <mat-list-item>
+                <div class="menu-items">
+                    <mat-icon>flaky</mat-icon>
+                    All Members
+                </div>
+            </mat-list-item>
+            <mat-list-item>
+                <div class="menu-items">
+                    <mat-icon>assignment_returned</mat-icon>
+                    Messages
+                </div>
+            </mat-list-item>
+        </mat-list>
+
+        <mat-divider></mat-divider>
+        <div class="logout">
+            <button (click)="logout()" mat-raised-button color="warn">Logout</button>
+        </div>
+    </mat-menu>
+</mat-toolbar>
+
+<!-- signal
+    @if (accountService.responseSignal()) {
+    <button (click)="logout()" mat-raised-button color="warn">Logout</button>
+    }
+    @else {
+    <button routerLink="/account/login" mat-raised-button>Login</button>
+    <button routerLink="/account/register" mat-raised-button>Register</button>
+    }
+-->
+
+
+<!-- <mat-toolbar>
+    <section class="left">
+        <a class="brand" routerLink="/">
+            <mat-icon>eco</mat-icon>
+            Match Finder
+        </a>
+    </section>
+    <section class="right">
+        
+
+        @if (accountService.loggedInUserSig(); as user) {
+        <button [mat-menu-trigger-for]="matMenu" class="menu-button" mat-mini-fab>
+            <span>{{user.name[0] | titlecase }}</span>
+        </button>
+        }
+        @else {
+        <button routerLink="/account/register" mat-raised-button>Register</button>
+        <button routerLink="/account/login" mat-raised-button>Login</button>
+        }
+
+        <mat-menu #matMenu class="mat-menu">
+            @if (accountService.loggedInUserSig(); as user) {
+            <div class="user-info">
+                <div class="profile-info">
+                    <p>{{ user.name[0] | titlecase }}</p>
+                </div>
+                <div>
+                    <p class="email">{{ user.email }}</p>
+                </div>
+            </div>
+            }
+
+            <mat-divider></mat-divider>
+            <button>Edit Profile</button>
+            <button>All Members</button>
+            <button (click)="logout()" mat-stroked-button color="warn">Logout</button>
+        </mat-menu>
+    </section>
+</mat-toolbar> -->
+
+<!-- <button (click)="logout()" mat-raised-button color="warn">Logout</button>
+        <button routerLink="/account/login" mat-raised-button>Login</button>
+        <button routerLink="/account/register" mat-raised-button>Register</button> -->
+
+<!-- @if (aS.loggedInUserSig()) {
+            <button (click)="logout()" mat-raised-button color="warn">Logout</button>
+        }
+        @else {
+            <button routerLink="/account/login" mat-raised-button>Login</button>
+            <button routerLink="/account/register" mat-raised-button>Register</button>
+        } -->
