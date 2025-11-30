@@ -44,3 +44,46 @@ host {
   line-height: 1.5;
   color: #4b5563;
 }
+
+.example-card{
+    background-color:#04785707;
+    width: 700px;
+    height: 250px;
+}
+
+.bmb-btn--primary {
+  color: #ffffff;
+  background-image: linear-gradient(to right, #0f766e, #16a34a);
+  width: 500px;
+  height: 100px;
+  margin-top: 20px 0 50px 0;
+  box-shadow: 0 10px 25px rgba(22, 163, 74, 0.35);
+}
+
+.bmb-btn--primary:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+.bmb-btn--outline {
+  background: #ecfdf5;
+  color: #047857;
+  border-color: #6ee7b7;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.1);
+}
+
+.bmb-btn--outline:hover {
+  background: #d1fae5;
+}
+.bmb-btn--full {
+  width: 100%;
+}
+.bmb-btn--primary {
+  color: #ffffff;
+  background-image: linear-gradient(to right, #0f766e, #16a34a);
+  box-shadow: 0 10px 25px rgba(22, 163, 74, 0.35);
+}
+
+.bmb-btn--primary:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
