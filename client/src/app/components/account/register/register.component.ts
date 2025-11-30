@@ -6,6 +6,7 @@ import { RegisterUser } from '../../../models/register-user.model';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatStepperModule} from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -15,7 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   standalone: true,
   imports: [
     FormsModule, ReactiveFormsModule,
-    MatButtonModule, MatFormFieldModule, MatInputModule, MatDatepickerModule
+    MatButtonModule, MatFormFieldModule, MatInputModule, MatDatepickerModule , MatStepperModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
