@@ -1,0 +1,55 @@
+<section>
+    <!-- Signal basic 
+        <p>Value: {{accountService.responseUser}}</p> 
+    -->
+
+    <div class="item-1">
+        <!-- <h1>{{exampleService.number}}</h1> -->
+        <form>
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input type="email" [formControl]="EmailCtrl" matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input type="text" [formControl]="UserNameCtrl" matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input type="password" [formControl]="PasswordCtrl" matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Confirm Password</mat-label>
+                <input type="password" [formControl]="ConfirmPasswordCtrl" matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Date of Birth</mat-label>
+                <input [formControl]="DateOfBirthCtrl" [min]="minDate" [max]="maxDate" matInput [matDatepicker]="dp3"
+                    placeholder="Enter your date off birth">
+                <mat-hint>Between {{minDate.getFullYear()}} to {{maxDate.getFullYear()}}</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
+                <mat-datepicker #dp3 touchUi disabled="false"></mat-datepicker>
+                @if (DateOfBirthCtrl.hasError('required')) {
+                <mat-error>This field is required.</mat-error>
+                }
+            </mat-form-field>
+
+            <button (click)="register()" mat-flat-button color="parimary" [disabled]="registerFg.invalid">
+                Register
+            </button>
+
+            @if (passwordsNotMatch) {
+            <p>Passwords don't match!</p>
+            }
+        </form> 
+    </div>
+</section>
+
+<!-- <button (click)="login()" mat-stroked-button color="parimary">Login</button> -->
+
+<!-- <p>register works!</p>
+<button routerLink="/account/login">login</button> -->
