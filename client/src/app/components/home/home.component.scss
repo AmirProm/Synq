@@ -12,6 +12,7 @@ host {
   gap: 18px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
+
 .home__hero {
   text-align: left;
   margin-bottom: 4px;
@@ -45,10 +46,10 @@ host {
   color: #4b5563;
 }
 
-.example-card{
-    background-color:#04785707;
-    width: 700px;
-    height: 250px;
+.example-card {
+  background-color: #04785707;
+  width: 700px;
+  height: 250px;
 }
 
 .bmb-btn--primary {
@@ -64,6 +65,7 @@ host {
   filter: brightness(1.05);
   transform: translateY(-1px);
 }
+
 .bmb-btn--outline {
   background: #ecfdf5;
   color: #047857;
@@ -74,9 +76,11 @@ host {
 .bmb-btn--outline:hover {
   background: #d1fae5;
 }
+
 .bmb-btn--full {
   width: 100%;
 }
+
 .bmb-btn--primary {
   color: #ffffff;
   background-image: linear-gradient(to right, #0f766e, #16a34a);
@@ -87,3 +91,4 @@ host {
   filter: brightness(1.05);
   transform: translateY(-1px);
 }
+
