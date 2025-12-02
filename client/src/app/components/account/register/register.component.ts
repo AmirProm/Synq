@@ -16,7 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   standalone: true,
   imports: [
     FormsModule, ReactiveFormsModule,
-    MatButtonModule, MatFormFieldModule, MatInputModule, MatDatepickerModule , MatStepperModule
+    MatButtonModule, MatFormFieldModule, MatInputModule, MatDatepickerModule , MatStepperModule , RouterLink
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -111,7 +111,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   sliceString(): void {
-    let fullName: string = "Parsa Jafary"
+    let fullName: string = "Amir"
 
     let name: string = fullName.slice(0, 5);
 
