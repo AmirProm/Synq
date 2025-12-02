@@ -44,7 +44,7 @@ public class SeedController : BaseApiController
 
         if (databaseExists == true)
             // return BadRequest("Database already exists");
-            await _client.DropDatabaseAsync("match-finder");
+            await _client.DropDatabaseAsync("BamBamV1");
         // await _database.DropCollectionAsync(_collectionName);
         #endregion If databaseExists
 
@@ -62,7 +62,7 @@ public class SeedController : BaseApiController
             Email = "admin@a.com"
         };
 
-        await _userManager.CreateAsync(admin, "Aaaaaaaa/"); // Create admin
+        await _userManager.CreateAsync(admin, "Aa"); // Create admin
         await _userManager.AddToRolesAsync(admin, ["admin", "moderator"]); // Add admin to two roles of "admin" and "moderator"
 
         // Moderator
