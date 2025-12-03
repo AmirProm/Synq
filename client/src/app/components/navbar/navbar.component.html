@@ -1,16 +1,129 @@
-<mat-toolbar>
+<mat-toolbar color="transparent" class="synq-toolbar">
+    <section class="synq-toolbar-left">
+        <a class="synq-brand" routerLink="/">
+            <span class="synq-brand-dot"></span>
+            <span class="synq-brand-text">spnq</span>
+        </a>
+
+        <nav class="synq-nav-links">
+            <a mat-button routerLink="/home" routerLinkActive="active">Home</a>
+            <a mat-button routerLink="/chat" routerLinkActive="active">Chat</a>
+            <a mat-button routerLink="/explore" routerLinkActive="active">Explore</a>
+        </nav>
+    </section>
+
+    <section class="synq-toolbar-right">
+        @if (accountService.loggedInUserSig(); as user) {
+        <button mat-stroked-button class="synq-quick-action" routerLink="/chat/new">
+            <mat-icon>add_comment</mat-icon>
+            <span>New chat</span>
+        </button>
+
+        <button mat-mini-fab class="synq-avatar-button" [matMenuTriggerFor]="appMenu">
+            @if (user.profilePhotoUrl) {
+            <img [src]="apiUrl + user.profilePhotoUrl" [alt]="user.userName" />
+            }
+            @else {
+            <span class="synq-avatar-initial">
+                {{ user.userName[0] | titlecase }}
+            </span>
+            }
+        </button>
+        }
+        @else {
+        <button mat-stroked-button class="synq-auth-btn" routerLink="/account/login">
+            Log in
+        </button>
+
+        <button mat-flat-button color="primary" class="synq-auth-btn primary" routerLink="/account/register">
+            Sign up
+        </button>
+        }
+    </section>
+</mat-toolbar>
+
+<mat-menu #appMenu="matMenu" class="synq-user-menu">
+    @if (accountService.loggedInUserSig(); as user) {
+    <div class="synq-user-menu-header">
+        <div class="synq-user-avatar">
+            @if (user.profilePhotoUrl) {
+            <img [src]="apiUrl + user.profilePhotoUrl" [alt]="user.userName" />
+            }
+            @else {
+            <span>{{ user.userName[0] | titlecase }}</span>
+            }
+        </div>
+        <div class="synq-user-meta">
+            <p class="synq-user-name">{{ user.userName }}</p>
+            <p class="synq-user-email">{{ user.email }}</p>
+        </div>
+    </div>
+    }
+
+    <mat-divider></mat-divider>
+
+    <mat-nav-list class="synq-user-menu-list">
+        <a mat-list-item routerLink="/profile">
+            <mat-icon matListIcon>person</mat-icon>
+            <span matLine>Profile</span>
+        </a>
+
+        <a mat-list-item routerLink="/settings">
+            <mat-icon matListIcon>tune</mat-icon>
+            <span matLine>Settings</span>
+        </a>
+
+        <a mat-list-item routerLink="/messages">
+            <mat-icon matListIcon>chat_bubble</mat-icon>
+            <span matLine>Messages</span>
+        </a>
+    </mat-nav-list>
+
+    <mat-divider></mat-divider>
+
+    <button mat-button class="synq-logout" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Log out</span>
+    </button>
+</mat-menu>
+
+<!-- <!DOCTYPE html>
+<header class="synq-nav">
+  <div class="synq-nav-inner">
+    <a class="synq-brand" href="#">
+      <span class="logo-dot"></span>
+      <span class="logo-text">synq</span>
+      <span class="logo-pill">beta</span>
+    </a>
+
+    <nav class="synq-links">
+      <a href="#why-synq">Why Synq</a>
+      <a href="#chat">Chat</a>
+      <a href="#explore">Explore</a>
+      <a href="#features">Features</a>
+    </nav>
+
+    <div class="synq-actions">
+      <button class="nav-link">Log in</button>
+      <button class="nav-cta">Open app</button>
+    </div>
+  </div>
+</header> -->
+
+
+<!--<mat-toolbar>
     <section class="left">
         <a class="brand" routerLink="/">
             <h1>SocialCaht</h1>
         </a>
-        <!-- <h3>value of ageSig: {{exampleService.ageSig()}}</h3> -->
+
     </section>
     <section class="right">
         @if (accountService.loggedInUserSig(); as user) {
         <button [mat-menu-trigger-for]="appMenu" class="menu-button" mat-mini-fab>
             @if (user.profilePhotoUrl) {
             <img src="{{apiUrl + user.profilePhotoUrl}}" alt="">
-            <!-- // localhost:5000/storage/photo/sldkfjlsj92374.web -->
+           
             }
             @else {
             <span>{{user.userName[0] | titlecase}}</span>
@@ -32,7 +145,7 @@
                 @else {
                 <img src="member.jpg" alt="{{user.userName[0] | titlecase}}">
                 }
-                <!-- <p>{{ user.name[0] | titlecase }}</p> -->
+                 <p>{{ user.name[0] | titlecase }}</p> 
             </div>
             <div>
                 <p class="email">{{ user.email }}</p>
@@ -67,7 +180,7 @@
             <button (click)="logout()" mat-raised-button color="warn">Logout</button>
         </div>
     </mat-menu>
-</mat-toolbar>
+</mat-toolbar> -->
 
 <!-- signal
     @if (accountService.responseSignal()) {

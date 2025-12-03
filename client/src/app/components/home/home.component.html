@@ -1,31 +1,103 @@
 <div class="home">
-  <header class="home__hero">
-    <h1 class="home__brand">bambam</h1>
-    <p class="home__tagline">Connect, chat, and share with friends</p>
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-pill">Social chat & explore</div>
+        <h1 class="hero-title">Synq your conversations &amp; moments.</h1>
+        <p class="hero-sub">
+          A calm, minimal social hub for fast chat and effortless content discovery.
+          Switch between focused messaging and a clean explore feed in one place.
+        </p>
 
-    <h2 class="home__title">Welcome to Your Social Hub</h2>
-    <p class="home__subtitle">
-      Experience the perfect blend of instant messaging and photo sharing.
-      Jump into chat, explore your feed, and stay close to the people you care about.
-    </p>
-  </header>
+        <div class="hero-actions">
+          <button class="btn btn-primary" (click)="selectTab('chat')">
+            Open Chat
+          </button>
+          <button class="btn btn-ghost" (click)="selectTab('explore')">
+            Explore Feed
+          </button>
+        </div>
 
-<mat-card class="example-card" appearance="outlined">
-  <mat-card-header>
-    <mat-card-title-group>
-      <mat-card-title>Caht</mat-card-title>
-      <mat-card-subtitle>Welcome to Your Social Caht</mat-card-subtitle>
-      <img mat-card-lg-image src="caht.jpg" >
-    </mat-card-title-group>
-  </mat-card-header>
-  <mat-card-content>
-     {{caht}}
-  </mat-card-content>
-<button class="bmb-btn bmb-btn--primary">
-  Start chatting
-  <span class="material-icons">arrow_forward</span>
-</button>
-</mat-card>
+        <div class="hero-meta">
+          <span>Zero-noise UI</span>
+          <span>Instant switching</span>
+          <span>Built for Angular</span>
+        </div>
+      </div>
 
+      <aside class="hero-card">
+        <header class="hero-card-header">
+          <div class="hero-card-title">
+            {{ activeTab === 'chat' ? 'Live chat preview' : 'Explore preview' }}
+          </div>
+          <span class="hero-card-dot"></span>
+        </header>
 
+        <div class="mock-tabs">
+          <button class="mock-tab" [class.active]="activeTab === 'chat'" type="button" (click)="selectTab('chat')">
+            Chat
+          </button>
+          <button class="mock-tab" [class.active]="activeTab === 'explore'" type="button"
+            (click)="selectTab('explore')">
+            Explore
+          </button>
+        </div>
+
+        <!-- CHAT PREVIEW -->
+        <div *ngIf="activeTab === 'chat'" class="mock-chat">
+          <div *ngFor="let msg of chatMessages" class="mock-message" [class.out]="msg.out" [class.in]="!msg.out">
+            <p>{{ msg.text }}</p>
+            <span>{{ msg.time }}</span>
+          </div>
+
+          <div class="mock-input">
+            <input type="text" placeholder="Type a quick hello..." [(ngModel)]="draftMessage"
+              (keyup.enter)="sendQuickMessage()" />
+            <button type="button" (click)="sendQuickMessage()">Send</button>
+          </div>
+        </div>
+
+        <!-- EXPLORE PREVIEW -->
+        <div *ngIf="activeTab === 'explore'" class="mock-explore">
+          <article class="mock-explore-card" *ngFor="let item of exploreItems">
+            <div class="mock-explore-meta">
+              <span class="mock-explore-tag">{{ item.tag }}</span>
+              <span class="mock-explore-time">{{ item.time }}</span>
+            </div>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.subtitle }}</p>
+          </article>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <div class="features-header">
+        <h2>Why Synq?</h2>
+        <p>Built for people who want quiet focus, minimalism, and speed.</p>
+      </div>
+
+      <div class="features-grid">
+        <article class="feature-card">
+          <div class="feature-icon">💬</div>
+          <h3>Focused chats</h3>
+          <p>Clean, distraction‑free chat that keeps conversations simple.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">📷</div>
+          <h3>Soft explore feed</h3>
+          <p>Explore posts with gentle visuals and a calm scrolling experience.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Instant switching</h3>
+          <p>Move between chat and explore without losing context or speed.</p>
+        </article>
+      </div>
+    </div>
+  </section>
 </div>

@@ -1,4 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+:root {
+    --synq-bg-main: #f8fafc;
+    --synq-bg-soft: #ecfdf5;
+    --synq-card: #ffffff;
+
+    --synq-primary: #00c797;
+    --synq-primary-dark: #009a74;
+    --synq-accent: #0ea5e9;
+
+    --synq-text-main: #0f172a;
+    --synq-text-muted: #64748b;
+    --synq-border: #e2e8f0;
+}
+
+$synq-primary: #00c797;
+$synq-primary-dark: #009a74;
+$synq-accent: #0ea5e9;
+$synq-text-main: #0f172a;
+$synq-text-muted: #64748b;
+$synq-border: #e2e8f0;
