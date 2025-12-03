@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit(): void {
+    localStorage.clear();
     // اگر روی سرور هستیم، اصلاً سراغ localStorage نرو
     if (!isPlatformBrowser(this.platformId)) {
       const loggedInUserStr = localStorage.getItem('loggedInUser');
