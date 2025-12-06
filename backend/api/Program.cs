@@ -1,4 +1,5 @@
 using api.Extensions;
+using api.Hub;
 using api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,8 @@ app.UseStaticFiles();
 app.UseCors();
 
 app.UseAuthentication();
+
+app.MapHub<ChatHub>("/chatHub");
 
 app.UseAuthorization();
 
