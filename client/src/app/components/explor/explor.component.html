@@ -1,4 +1,68 @@
-<div class="explore-page">
+<section class="explore-page">
+    <header class="explore-header">
+        <div class="explore-header-text">
+            <p class="eyebrow">Synq · Explore</p>
+            <h1>Explore</h1>
+            <p class="subtitle">
+                A calm feed of ideas, updates, and product notes from Synq.
+            </p>
+        </div>
+
+        <div class="explore-filters">
+            <button class="filter-chip" [class.filter-chip--active]="activeTag === 'all'" (click)="setTag('all')">
+                All
+            </button>
+            <button class="filter-chip" [class.filter-chip--active]="activeTag === 'design'" (click)="setTag('design')">
+                Design
+            </button>
+            <button class="filter-chip" [class.filter-chip--active]="activeTag === 'product'"
+                (click)="setTag('product')">
+                Product
+            </button>
+            <button class="filter-chip" [class.filter-chip--active]="activeTag === 'update'" (click)="setTag('update')">
+                Updates
+            </button>
+        </div>
+    </header>
+
+    <main class="explore-grid">
+        <article class="explore-card" *ngFor="let item of filteredItems; trackBy: trackById">
+            <div class="explore-card__pill-row">
+                <span class="tag-pill">{{ item.tag | titlecase }}</span>
+                <span class="dot"></span>
+                <span class="meta">{{ getRelativeTime(item.createdAt) }}</span>
+            </div>
+
+            <h2 class="explore-card__title">
+                {{ item.title }}
+            </h2>
+            <p class="explore-card__subtitle">
+                {{ item.subtitle }}
+            </p>
+
+            <div class="explore-card__footer">
+                <div class="author">
+                    <div class="avatar">
+                        {{ item.author[0] | titlecase }}
+                    </div>
+                    <span class="author-name">{{ item.author }}</span>
+                </div>
+
+                <div class="likes">
+                    <span class="heart">❤</span>
+                    <span class="likes-count">{{ item.likes | number }}</span>
+                </div>
+            </div>
+        </article>
+
+        <p class="empty-state" *ngIf="filteredItems.length === 0">
+            Nothing here yet. Try switching the filter.
+        </p>
+    </main>
+</section>
+
+
+<!-- <div class="explore-page">
 
     <section class="explore-header">
         <div class="explore-header-left">
@@ -59,4 +123,4 @@
         </article>
     </section> 
 
- </div>
+ </div> -->
