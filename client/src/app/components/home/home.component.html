@@ -10,10 +10,10 @@
         </p>
 
         <div class="hero-actions">
-          <button class="btn btn-primary" (click)="selectTab('chat')">
+          <button class="btn btn-primary" (click)="selectTab('chat')" routerLink="/chat" routerLinkActive="chat">
             Open Chat
           </button>
-          <button class="btn btn-ghost" (click)="selectTab('explore')">
+          <button class="btn btn-ghost" (click)="selectTab('explore')" routerLink="/explor" routerLinkActive="explore">
             Explore Feed
           </button>
         </div>

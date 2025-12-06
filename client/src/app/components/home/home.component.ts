@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 // import { ChatComponent } from '../chat/chat.component';
@@ -27,8 +27,8 @@ interface ExploreItem {
   imports: [
     RouterLink,
     MatButtonModule, MatCardModule, FormsModule,
-    NgForOf ,
-],
+    NgForOf,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -63,11 +63,6 @@ export class HomeComponent {
       subtitle: 'Build timelines that feel more like a journal than a casino.',
     },
   ];
-
-  selectTab(tab: HomeTab) {
-    this.activeTab = tab;
-  }
-
   sendQuickMessage() {
     const text = this.draftMessage.trim();
     if (!text) return;
@@ -81,4 +76,10 @@ export class HomeComponent {
     this.chatMessages.push({ text, time, out: true });
     this.draftMessage = '';
   }
+
+  selectTab(tab: HomeTab) {
+    this.activeTab = tab;
+  }
+
+
 }
