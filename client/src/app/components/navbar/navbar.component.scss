@@ -227,7 +227,7 @@
     }
 
     .synq-nav-links {
-        display: none; // می‌تونی بعداً منو موبایل بسازی
+        display: none; 
     }
 
     .synq-toolbar-right {
@@ -235,12 +235,11 @@
     }
 
     .synq-quick-action {
-        display: none; // اگر بخوای، تو موبایل حذف میشه
+        display: none;
     }
 
 }
 
-// /* Shared Synq variables (you می‌تونی ببری‌شون تو styles.scss پروژه) */
 // :root {
 //   --synq-bg-main: #f0f9ff;
 //   --synq-bg-soft: #ecfdf5;

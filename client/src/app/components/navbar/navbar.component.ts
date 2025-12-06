@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -25,6 +25,14 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
+ router = inject(Router);
+  
+  isHomeRouter(): boolean {
+    const url = this.router.url;
+    return url === '/' ||
+      url.startsWith('/home');
+  }
+
   accountService = inject(AccountService);
   apiUrl = environment.apiUrl;
 
