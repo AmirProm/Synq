@@ -7,14 +7,14 @@ namespace api.Repositories;
 
 public class ChatRepository : IChatRepository
 {
-    private  readonly IMongoCollection<ChatMessage> _collection;
+    private readonly IMongoCollection<ChatMessage> _collection;
 
-    public ChatRepository(IMongoClient client, MyMongoDbSettings dbSettings)
+    public ChatRepository(IMongoClient client, IMyMongoDbSettings dbSettings)
     {
         var dbName = client.GetDatabase(dbSettings.DatabaseName);
         _collection = dbName.GetCollection<ChatMessage>("chats");
     }
-    
+
     public async Task SavedMessageAsync(ChatMessage message)
     {
         await _collection.InsertOneAsync(message);
