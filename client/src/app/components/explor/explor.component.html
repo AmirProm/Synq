@@ -27,6 +27,7 @@
 
     <main class="explore-grid">
         <article class="explore-card" *ngFor="let item of filteredItems; trackBy: trackById">
+            <img [src]="item.imageUrl" alt="">
             <div class="explore-card__pill-row">
                 <span class="tag-pill">{{ item.tag | titlecase }}</span>
                 <span class="dot"></span>
