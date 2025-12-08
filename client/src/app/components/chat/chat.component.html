@@ -1,87 +1,59 @@
-<div class="chat-card">
-  <!-- Header -->
-  <header class="chat-header">
-    <div class="chat-title">
-      <span class="pill">Chat</span>
-      <h2>Synq-style conversation</h2>
-      <p>Talk in real time and keep everything in one clean thread.</p>
-    </div>
-
-    <div class="chat-user">
-      <label class="field-label">Display name</label>
-      <div class="name-input-wrap">
-        <input type="text" placeholder="Choose a name…" [(ngModel)]="name" (blur)="saveName()"
-          (keyup.enter)="saveName()" />
-        <button type="button" class="ghost" (click)="clearAll()">
-          Clear
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Messages -->
-  <main class="chat-main" #scroller>
-    <div class="msg-row" *ngFor="let m of messages" [class.me]="m.author === currentUsername">
-      <div class="avatar">
-        <span>{{ (m.author || 'A')[0] | uppercase }}</span>
-      </div>
-
-      <div class="bubble-wrap">
-        <div class="meta">
-          <span class="author">{{ m.author || 'Anonymous' }}</span>
-          <time>{{ m.createdAt | date: 'shortTime' }}</time>
+<div class="chat-root">
+  <div class="chat-header">
+    <div class="header-main">
+      <div class="header-info">
+        <div class="title">
+          <h3>Synq Chat</h3>
         </div>
-        <p class="bubble">
-          {{ m.text }}
-        </p>
       </div>
     </div>
+  </div>
 
-    <div class="typing-indicator" *ngIf="typing()">
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="typing-text">{{ typing() }}</span>
-    </div>
-  </main>
+  <div class="chat-body">
+    @if (messages().length > 0) {
+    @for (message of messages(); track $index) {
+    <div class="message-row" [class.mine]="isMine(message)">
+      <div class="bubble">
+        <div class="meta">
+          <span class="user">{{ message.user }}</span>
 
-  <!-- Input -->
-  <form class="chat-input" (ngSubmit)="send()">
-    <div class="input-shell">
-      <input type="text" name="text" [(ngModel)]="text" (input)="onTyping()" autocomplete="off"
-        placeholder="Write a message…" />
-      <button type="submit" [disabled]="!text.trim()">Send</button>
+          @if (message.TimeStamp) {
+          <span class="time">
+            {{ message.TimeStamp | date : 'HH:mm' }}
+          </span>
+          }
+        </div>
+        <div class="content">
+          {{ message.message }}
+        </div>
+      </div>
     </div>
-  </form>
+    }
+    } @else {
+    <div class="empty-state">
+      <div class="empty-icon">💭</div>
+      <div class="empty-title">No messages yet</div>
+      <div class="empty-subtitle">
+        Start the conversation by sending the first message.
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="chat-input">
+    <button type="button" class="emoji-btn" (click)="showEmojis = !showEmojis">
+      😊
+
+
+      <div class="emoji-box" *ngIf="showEmojis">
+        <emoji-mart title="Pick emoji" emoji="speech_balloon" (emojiSelect)="addEmoji($event)">
+        </emoji-mart>
+      </div>
+    </button>
+    <input [(ngModel)]="messageText" type="text" placeholder="Type a message..." (keyup.enter)="sendMessage()" />
+
+    <button (click)="sendMessage()">
+      Send
+    </button>
+  </div>
 </div>
-
-<!-- <div class="chat-wrap">
-  <header class="chat-header">
-    <h2>Simple Client Chat</h2>
-    <div class="right">
-      <input type="text" placeholder="Your name" [(ngModel)]="name" (change)="saveName()" (blur)="saveName()" />
-      <button type="button" (click)="clearAll()" title="Clear chat">Clear</button>
-    </div>
-  </header> 
-
-
-  <main class="chat-main" #scroller>
-    <div class="msg" *ngFor="let m of chatService.messages()">
-      <div class="meta">
-        <b>{{ m.author }}</b>
-        <time>{{ m.createdAt | date:'short' }}</time>
-      </div>
-      <p class="bubble">{{ m.text }}</p>
-    </div>
-
-
-    <div class="typing" *ngIf="typing()">{{ typing() }}</div>
-  </main>
-
-
-  <form class="chat-input" (ngSubmit)="send()">
-    <input type="text" name="text" [(ngModel)]="text" (input)="onTyping()" placeholder="Write a message..."
-      autocomplete="off" />
-    <button type="submit" [disabled]="!text.trim()">Send</button>
-  </form>
- </div>  -->
