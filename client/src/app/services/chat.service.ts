@@ -1,44 +1,64 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
-import { ChatStorageService } from './chat-storage.service';
-import { ChatMessage } from '../models/chat.model';
+import { inject, Injectable, signal } from '@angular/core';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { ChatMessage } from '../models/chat-massage.model';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs';
+import { error } from 'node:console';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChatService {
-  private _chatStorageService = inject(ChatStorageService);
+export class ChatSerivce {
+  private hubConection!: HubConnection;
+  private messagesSignal = signal<ChatMessage[]>([]);
+  private apiUrl = 'http://localhost:5000/api/chat/message';
+  messages = this.messagesSignal.asReadonly();
 
-  username = signal<string>('');
-  messages = signal<ChatMessage[]>([]);
-  typingUser = signal<string>('');
+  private _http = inject(HttpClient);
 
-  messageCount = computed(() => this.messages.length);
+  startConnection(): void {
+    if (this.hubConection) {
+      return;
+    }
 
-  setUsername(name: string): void {
-    this.username.set(name.trim());
+    this.hubConection = new HubConnectionBuilder()
+      .withUrl('http://localhost:5000/chatHub')
+      .withAutomaticReconnect()
+      .build();
 
-    this._chatStorageService.saveUsername(this.username());
+    this.hubConection
+      .start()
+      .catch(err => console.error('Error while starting connection: ', err));
+
+    // new payam as hub
+    this.hubConection.on(
+      'ReceiveMessage',
+      (user: string, message: string, sentAt?: string) => {
+        const newMessage: ChatMessage = {
+          user,
+          message,
+          TimeStamp: sentAt ?? new Date().toISOString()
+        };
+
+        this.messagesSignal.update(msgs => [...msgs, newMessage]);
+      }
+    );
   }
 
-  loadUsernameFromStorage(): void {
-    const u = this._chatStorageService.getUsername();
-
-    if (u)
-      this.username.set(u);
+  // این متد همون امضای قبل رو ن]گه می‌داره
+  sendMessage(user: string, message: string): void {
+    this.hubConection
+      .invoke('SendMessage', user, message)
+      .catch(console.error);
   }
 
-  append(text: string): void {
-    const msg: ChatMessage = {
-      id: crypto.randomUUID(),
-      author: this.username() || 'Anonymous',
-      text: text.trim(),
-      createdAt: new Date().toISOString()
-    };
-
-    this.messages.update(list => [...list, msg]);
+  loadMessage() {
+    return this._http.get<ChatMessage[]>(this.apiUrl).pipe(
+      tap(messages => {
+        // اگر از بک‌اند زمان میاد، همینجا تو مدل می‌شینه
+        this.messagesSignal.set(messages);
+      })
+    );
   }
-
-  clearChat(): void {
-    this.messages.set([]);
-  }
+  
 }
