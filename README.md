@@ -8,6 +8,10 @@ Built with Angular 19, ASP.NET Core, Microsoft identity, and SignalR.
 
 ---
 
+v0.1.0 — Initial MVP with real-time chat
+
+---
+
 :sparkles: Features
 
 :fire: Real-time Chat
