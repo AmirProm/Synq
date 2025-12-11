@@ -8,7 +8,7 @@ Built with Angular 19, ASP.NET Core, Microsoft identity, and SignalR.
 
 ---
 # synq-minimal social Chat Platform
-![version](v0.1.0 — Initial MVP with real-time chat)
+(v0.1.0 — Initial MVP with real-time chat)
 
 ---
 
