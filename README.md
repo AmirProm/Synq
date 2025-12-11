@@ -65,7 +65,7 @@ Home	Explore	Chat
 
 Frontend
 
-Angular 17
+Angular 19
 
 TypeScript
 
@@ -76,13 +76,15 @@ Angular Material / Custom Components
 
 Backend
 
-ASP.NET Core 8
+ASP.NET Core 0
 
 SignalR
 
 Entity Framework Core
 
 SQL Server / PostgreSQL
+
+Microsoft identity
 
 
 
