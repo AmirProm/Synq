@@ -1,22 +1,19 @@
+<!-- نوار بالا فقط برای برند و لاگین/رجیستر روی دسکتاپ -->
 <mat-toolbar color="transparent" class="synq-toolbar">
     <section class="synq-toolbar-left">
         <a class="synq-brand" routerLink="/">
             <span class="synq-brand-dot"></span>
             <span class="synq-brand-text">synq</span>
         </a>
-
-        <nav class="synq-nav-links">
-            @if (!isHomeRouter()) { <a mat-button routerLink="" routerLinkActive="active">Home</a>}
-        </nav>
     </section>
+</mat-toolbar>
 
-    <section class="synq-toolbar-right">
-        @if (accountService.loggedInUserSig(); as user) {
-        <button mat-stroked-button class="synq-quick-action" routerLink="/chat">
-            <span>New chat</span>
-        </button>
-
-        <button mat-mini-fab class="synq-avatar-button" [matMenuTriggerFor]="appMenu">
+<!-- سایدبار ثابت دسکتاپ / تبلت -->
+@if (accountService.loggedInUserSig(); as user) {
+<aside class="synq-sidebar">
+    <!-- بخش بالای سایدبار: پروفایل کوتاه -->
+    <div class="synq-sidebar-header">
+        <button class="synq-avatar-shell" routerLink="user/user-edit">
             @if (user.profilePhotoUrl) {
             <img [src]="apiUrl + user.profilePhotoUrl" [alt]="user.userName" />
             }
@@ -26,65 +23,109 @@
             </span>
             }
         </button>
-        }
-        @else {
-        <button mat-stroked-button class="synq-auth-btn" routerLink="/account/login">
-            Log in
-        </button>
-
-        <button mat-flat-button color="primary" class="synq-auth-btn primary" routerLink="/account/register">
-            Sign up
-        </button>
-        }
-    </section>
-</mat-toolbar>
-
-<mat-menu #appMenu="matMenu" class="synq-user-menu">
-    @if (accountService.loggedInUserSig(); as user) {
-    <div class="synq-user-menu-header">
-        <div class="synq-user-avatar">
-            @if (user.profilePhotoUrl) {
-            <img [src]="apiUrl + user.profilePhotoUrl" [alt]="user.userName" />
-            }
-            @else {
-            <span>{{ user.userName[0] | titlecase }}</span>
-            }
-        </div>
-        <div class="synq-user-meta">
+        <div class="synq-user-info">
             <p class="synq-user-name">{{ user.userName }}</p>
             <p class="synq-user-email">{{ user.email }}</p>
         </div>
     </div>
+
+    <!-- لینک‌های اصلی -->
+    <nav class="synq-sidebar-nav">
+        <a routerLink="/dashboard" routerLinkActive="active">
+            <mat-icon>space_dashboard</mat-icon>
+            <span>Dashboard</span>
+        </a>
+
+        <a routerLink="/explor" routerLinkActive="active">
+            <mat-icon>explore</mat-icon>
+            <span>Explore</span>
+        </a>
+
+        <a routerLink="/chat" routerLinkActive="active">
+            <mat-icon>chat_bubble</mat-icon>
+            <span>Chat</span>
+        </a>
+
+        <a routerLink="user/user-edit" routerLinkActive="active">
+            <mat-icon>person</mat-icon>
+            <span>Profile</span>
+        </a>
+
+        <a routerLink="/settings" routerLinkActive="active">
+            <mat-icon>settings</mat-icon>
+            <span>Settings</span>
+        </a>
+    </nav>
+</aside>
+}
+@else {
+<!-- مهمان روی دسکتاپ: سایدبار کوچک فقط برای auth (اختیاری، می‌تونی حذفش کنی) -->
+<aside class="synq-sidebar synq-sidebar-guest">
+    <div class="synq-sidebar-header">
+        <div class="synq-avatar-shell guest">
+            <span class="synq-avatar-initial">S</span>
+        </div>
+        <div class="synq-user-info">
+            <p class="synq-user-name">Welcome</p>
+            <p class="synq-user-email">Sign in to Synq</p>
+        </div>
+    </div>
+
+    <nav class="synq-sidebar-nav guest-links">
+        <a routerLink="/account/login">
+            <mat-icon>login</mat-icon>
+            <span>Log in</span>
+        </a>
+        <a routerLink="/account/register">
+            <mat-icon>person_add</mat-icon>
+            <span>Sign up</span>
+        </a>
+    </nav>
+</aside>
+}
+
+<!-- نوار پایین موبایل (مثل قبل، فقط Dashboard جای Home) -->
+<nav class="synq-bottom-nav">
+    @if (accountService.loggedInUserSig(); as user) {
+    <a routerLink="/dashboard" routerLinkActive="active">
+        <mat-icon>space_dashboard</mat-icon>
+        <span>Dashboard</span>
+    </a>
+
+    <a routerLink="/explor" routerLinkActive="active">
+        <mat-icon>explore</mat-icon>
+        <span>Explore</span>
+    </a>
+
+    <a routerLink="/chat" routerLinkActive="active">
+        <mat-icon>chat_bubble</mat-icon>
+        <span>Chat</span>
+    </a>
+
+    <a routerLink="user/user-edit" routerLinkActive="active">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+    </a>
+
+    <a routerLink="/settings" routerLinkActive="active">
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+    </a>
     }
+    @else {
+    <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">
+        <mat-icon>home</mat-icon>
+        <span>Landing</span>
+    </a>
 
-    <mat-divider></mat-divider>
+    <a routerLink="/account/login">
+        <mat-icon>login</mat-icon>
+        <span>Log in</span>
+    </a>
 
-    <mat-nav-list class="synq-user-menu-list">
-        <a mat-list-item routerLink="user/user-edit">
-            <mat-icon matListIcon>tune</mat-icon>
-            <span matLine>Profile</span>
-        </a>
-
-        <a mat-list-item routerLink="/settings">
-            <mat-icon matListIcon>tune</mat-icon>
-            <span matLine>Settings</span>
-        </a>
-
-        <a mat-list-item routerLink="/chat">
-            <mat-icon matListIcon>chat_bubble</mat-icon>
-            <span matLine>Messages</span>
-        </a>
-
-        <a mat-list-item routerLink="/explor">
-            <!-- <mat-icon matListIcon></mat-icon> -->
-            <span matLine>Explor</span>
-        </a>
-    </mat-nav-list>
-
-    <mat-divider></mat-divider>
-
-    <button mat-button class="synq-logout" (click)="logout()">
-        <mat-icon>logout</mat-icon>
-        <span>Log out</span>
-    </button>
-</mat-menu>
+    <a routerLink="/account/register">
+        <mat-icon>person_add</mat-icon>
+        <span>Sign up</span>
+    </a>
+    }
+</nav>
