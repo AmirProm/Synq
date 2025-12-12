@@ -9,12 +9,12 @@ import { authGuard } from './guards/auth.guard';
 import { authLoggedInGuard } from './guards/auth-logged-in.guard';
 import { UserEditComponent } from './components/user/user-edit/user-edit.component';
 import { NoAccessComponent } from './components/errors/no-access/no-access.component';
-import { MemberCardComponent } from './components/member-card/member-card.component';
 import { ServerErrorComponent } from './components/errors/server-error/server-error.component';
 import { Chat } from './components/chat/chat.component';
 import { ExploreComponent } from './components/explor/explor.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { MemberProfileComponent } from './components/member-profile/member-profile.component';
 
 export const routes: Routes = [
     { path: '', component: HomeGuestComponent },
@@ -24,9 +24,9 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             { path: 'dashboard', component: DashboardComponent },
+            { path: 'members/:username', component: MemberProfileComponent },
             { path: 'user/user-edit', component: UserEditComponent },
             { path: 'no-access', component: NoAccessComponent },
-            { path: 'membercard', component: MemberCardComponent },
             { path: 'settings', component: SettingComponent },
             { path: 'explor', component: ExploreComponent },
             { path: 'chat', component: Chat },
@@ -39,6 +39,7 @@ export const routes: Routes = [
         children: [
             { path: 'account/login', component: LoginComponent },
             { path: 'account/register', component: RegisterComponent },
+            { path: '', component: HomeGuestComponent }
         ]
     },
     { path: 'navbar', component: NavbarComponent },
