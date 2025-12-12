@@ -176,8 +176,7 @@ export class DashboardComponent {
 
   openMember(m: Member) {
     // اگر صفحه پروفایل داری:
-    // this.router.navigate(['/members', m.userName]);
-    this.router.navigateByUrl('members/member-list');
+    this.router.navigate(['/members', m.userName]);
   }
 
   // ---- Pagination ----
