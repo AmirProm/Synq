@@ -1,7 +1,10 @@
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AccountService } from '../../services/account.service';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { environment } from '../../../environments/environment.development';
 
 type LanguageCode = 'en' | 'fa';
 
@@ -19,11 +22,19 @@ interface UserSettings {
 
 @Component({
   selector: 'app-setting',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, MatIconModule, FormsModule],
   templateUrl: './setting.component.html',
   styleUrl: './setting.component.scss'
 })
 export class SettingComponent {
+
+  accountService = inject(AccountService);
+  apiUrl = environment.apiUrl;
+
+  logout(): void {
+    this.accountService.logout();
+  }
+
   readonly languages: { code: LanguageCode; label: string }[] = [
     { code: 'en', label: 'English' },
     { code: 'fa', label: 'فارسی' },

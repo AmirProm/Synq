@@ -1,4 +1,3 @@
-
 :host {
   --synq-bg-main: #f8fafc;
   --synq-bg-soft: #ecfdf5;
@@ -13,6 +12,38 @@
   --synq-border: #e2e8f0;
 
   display: block;
+}
+
+//logout
+.synq-sidebar-logout {
+  margin-top: auto;
+  margin-inline: 0.25rem;
+
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.6rem;
+
+  background: transparent;
+  color: #b91c1c;
+  font-size: 0.85rem;
+  cursor: pointer;
+
+  transition: background 0.12s ease, transform 0.08s ease;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    background: rgba(248, 113, 113, 0.16);
+    transform: translateX(2px);
+  }
 }
 
 .user-settings {
@@ -221,11 +252,11 @@
   transition: 0.2s;
 }
 
-.switch input:checked + .slider {
+.switch input:checked+.slider {
   background-color: var(--synq-primary);
 }
 
-.switch input:checked + .slider::before {
+.switch input:checked+.slider::before {
   transform: translateX(18px);
 }
 
