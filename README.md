@@ -59,10 +59,6 @@ Responsive layout for all devices
 
 Home	Explore	Chat
 
-		
-
-
-
 ---
 
 🧩 Tech Stack
