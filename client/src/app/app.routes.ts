@@ -1,5 +1,5 @@
-import { provideRouter, Routes, withHashLocation } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
+import { provideRouter, Routes } from '@angular/router';
+import { HomeGuestComponent } from './components/home-guest/home-guest.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegisterComponent } from './components/account/register/register.component';
 import { LoginComponent } from './components/account/login/login.component';
@@ -14,15 +14,22 @@ import { ServerErrorComponent } from './components/errors/server-error/server-er
 import { Chat } from './components/chat/chat.component';
 import { ExploreComponent } from './components/explor/explor.component';
 import { SettingComponent } from './components/setting/setting.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+
 export const routes: Routes = [
-    { path: '', component: HomeComponent },
+    { path: '', component: HomeGuestComponent },
     {
         path: '',
         runGuardsAndResolvers: 'always',
         canActivate: [authGuard],
         children: [
+            { path: 'dashboard', component: DashboardComponent },
             { path: 'user/user-edit', component: UserEditComponent },
             { path: 'no-access', component: NoAccessComponent },
+            { path: 'membercard', component: MemberCardComponent },
+            { path: 'settings', component: SettingComponent },
+            { path: 'explor', component: ExploreComponent },
+            { path: 'chat', component: Chat },
         ]
     },
     {
@@ -34,10 +41,6 @@ export const routes: Routes = [
             { path: 'account/register', component: RegisterComponent },
         ]
     },
-    { path: 'membercard', component: MemberCardComponent },
-    { path: 'settings', component: SettingComponent },
-    { path: 'explor', component: ExploreComponent },
-    { path: 'chat', component: Chat },
     { path: 'navbar', component: NavbarComponent },
     { path: 'footer', component: FooterComponent },
     { path: 'server-error', component: ServerErrorComponent },
