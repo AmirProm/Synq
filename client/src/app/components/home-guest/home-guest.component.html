@@ -1,0 +1,208 @@
+<main class="guestHome">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="heroText">
+      <div class="badge">
+        <span class="dot"></span>
+        <span>Synq • Social chat + Explore</span>
+      </div>
+
+      <h1>
+        One place to <span class="accent">chat</span> and <span class="accent">discover</span>.
+      </h1>
+
+      <p class="sub">
+        Preview Synq as a guest. Create an account when you’re ready to post, message, and personalize your profile.
+      </p>
+
+      <div class="trust">
+        <div class="trustItem">
+          <mat-icon>lock</mat-icon>
+          <span>Private by default</span>
+        </div>
+        <div class="trustItem">
+          <mat-icon>bolt</mat-icon>
+          <span>Fast, lightweight UI</span>
+        </div>
+        <div class="trustItem">
+          <mat-icon>palette</mat-icon>
+          <span>Modern profiles</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIVE PREVIEW -->
+    <section class="previewShell" aria-label="Synq preview">
+      <header class="previewTop">
+        <div class="previewTitle">
+          <mat-icon>visibility</mat-icon>
+          <span>Live Preview</span>
+        </div>
+
+        <div class="toggle">
+          <button class="toggleBtn" [class.active]="previewMode === 'explore'" (click)="setPreview('explore')">
+            Explore
+          </button>
+
+          <button class="toggleBtn" [class.active]="previewMode === 'chat'" (click)="setPreview('chat')">
+            Chat
+          </button>
+        </div>
+      </header>
+
+      <div class="previewBody">
+        @if (previewMode === 'explore') {
+        <!-- Explore Mini Gallery -->
+        <div class="exploreMini">
+
+          <div class="grid4">
+            @for (img of exploreImages; track $index) {
+            <button type="button" class="imgCard" (click)="selectExplore($index)">
+              <img [src]="img" alt="Explore preview image" />
+
+              <div class="overlay">
+                <div class="overlayTop">
+                  <span class="pill">
+                    <mat-icon>comments</mat-icon>
+                    {{ exploreStats[$index].comments}}
+                  </span>
+
+                  <span class="miniStats">
+                    <mat-icon>favorite_border</mat-icon>
+                    {{ exploreStats[$index].likes }}
+                  </span>
+                </div>
+
+                <div class="overlayBottom">
+                  <div class="cap">{{ exploreStats[$index].caption }}</div>
+                  <div class="by">
+                    <span class="av">{{ exploreStats[$index].initial }}</span>
+                    <span>{{ exploreStats[$index].name }}</span>
+                  </div>
+                </div>
+              </div>
+            </button>
+            }
+          </div>
+
+          <div class="selectedCard">
+            <div class="selectedLeft">
+              <div class="bigAv">{{ selectedExplore.initial }}</div>
+              <div>
+                <div class="selectedName">{{ selectedExplore.name }}</div>
+                <div class="selectedCap">{{ selectedExplore.caption }}</div>
+              </div>
+            </div>
+
+            <div class="selectedRight">
+              <span class="stat">
+                <mat-icon>favorite</mat-icon>{{ selectedExplore.likes }}
+              </span>
+              <span class="stat">
+                <mat-icon>chat_bubble_outline</mat-icon>{{ selectedExplore.comments }}
+              </span>
+            </div>
+          </div>
+
+        </div>
+        } @else {
+        <!-- Chat Preview -->
+        <div class="chatMini">
+
+          <div class="searchFake">
+            <mat-icon>search</mat-icon>
+            <span>Search chats…</span>
+          </div>
+
+          <div class="chatList">
+            @for (c of chatPreview; track $index) {
+            <div class="chatRow">
+              <div class="chatAv">{{ c.initial }}</div>
+              <div class="chatMeta">
+                <div class="chatTop">
+                  <span class="chatName">{{ c.name }}</span>
+                  <span class="chatTime">{{ c.time }}</span>
+                </div>
+                <div class="chatMsg">{{ c.last }}</div>
+              </div>
+            </div>
+            }
+          </div>
+
+          <div class="composerFake">
+            <span>Write a message…</span>
+            <button mat-mini-fab color="primary" class="sendFab" type="button" disabled>
+              <mat-icon>send</mat-icon>
+            </button>
+          </div>
+
+        </div>
+        }
+      </div>
+
+      <footer class="previewFoot">
+        <mat-icon>info</mat-icon>
+        <span>Create an account to post, like, and message.</span>
+      </footer>
+    </section>
+  </section>
+
+  <!-- WHY SYNQ -->
+  <section class="why">
+    <h2>Why Synq</h2>
+    <p class="whySub">Designed to keep things simple, fast, and familiar.</p>
+
+    <div class="whyGrid">
+      <div class="whyCard">
+        <mat-icon>forum</mat-icon>
+        <h3>Real-time chat</h3>
+        <p>Message friends and groups with a clean interface.</p>
+      </div>
+
+      <div class="whyCard">
+        <mat-icon>explore</mat-icon>
+        <h3>Explore feed</h3>
+        <p>Discover posts and creators—fast, scrollable, and modern.</p>
+      </div>
+
+      <div class="whyCard">
+        <mat-icon>person</mat-icon>
+        <h3>Modern profiles</h3>
+        <p>Show your identity with photos, bio, and personalization.</p>
+      </div>
+
+      <div class="whyCard">
+        <mat-icon>security</mat-icon>
+        <h3>Built for control</h3>
+        <p>Simple UX that scales into advanced features later.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROFILE PREVIEW -->
+  <section class="profilePreview">
+    <div class="profileCard">
+      <div class="cover"></div>
+
+      <div class="profileTop">
+        <div class="pAvatar">S</div>
+        <div class="pMeta">
+          <div class="pName">Synq Member</div>
+          <div class="pUser">guest_preview</div>
+        </div>
+      </div>
+
+      <p class="pBio">
+        Create your profile once—then chat, explore, and share updates with a clean, modern UI.
+      </p>
+
+      <div class="pStats">
+        <div><b>—</b><span>Followers</span></div>
+        <div><b>—</b><span>Following</span></div>
+        <div><b>—</b><span>Posts</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
