@@ -1,5 +1,3 @@
-
-
 using MongoDB.Driver.Linq;
 
 namespace api.Repositories;
