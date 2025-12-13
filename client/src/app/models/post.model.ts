@@ -3,6 +3,5 @@ export interface Post {
     userName: string;
     caption: string;
     photoUrl: string;
-    token: string;
     createdAt: string;
 }
