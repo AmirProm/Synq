@@ -1,0 +1,35 @@
+.createPost {
+  background: var(--synq-card);
+  border: 1px solid var(--synq-border);
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  textarea, input {
+    border: 1px solid var(--synq-border);
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 14px;
+    outline: none;
+  }
+
+  textarea { min-height: 90px; resize: vertical; }
+
+  button {
+    align-self: flex-end;
+    background: var(--synq-primary);
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+  }
+}

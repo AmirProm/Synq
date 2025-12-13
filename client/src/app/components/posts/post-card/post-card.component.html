@@ -1,0 +1,16 @@
+<article class="postCard">
+    <header>
+        <strong>{{ post.userName }}</strong>
+        <span>{{ post.createdAt | date:'short' }}</span>
+    </header>
+
+    @if (post.photoUrl) {
+    <img [src]="post.photoUrl" alt="post image" />
+    }
+
+    <p class="caption">{{ post.caption }}</p>
+
+    <button class="danger" (click)="delete.emit(post.id)">
+        Delete
+    </button>
+</article>

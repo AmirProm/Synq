@@ -1,0 +1,8 @@
+<section class="feed">
+    <app-post-create (created)="load()"></app-post-create>
+
+    @for (p of posts(); track p.id) {
+    <app-post-card [post]="p" (delete)="deletePost($event)">
+    </app-post-card>
+    }
+</section>
