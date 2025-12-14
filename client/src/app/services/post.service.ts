@@ -38,8 +38,11 @@ export class PostService {
     return this.http.post<Post>(this.apiUrl, dto);
   }
 
-  update(id: string, dto: UpdatePostDto): Observable<void> {
-    return this.http.put<void>(this.apiUrl + id, dto);
+  /** ✅ این همون چیزیه که کامپوننت انتظارشو داره */
+  updateCaption(id: string, caption: string): Observable<void> {
+    return this.http.put<void>(this.apiUrl + id, {
+      caption
+    });
   }
 
   delete(id: string): Observable<void> {

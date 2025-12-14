@@ -1,0 +1,107 @@
+<section class="postPanel">
+
+    <header class="panelTop">
+        <div class="title">
+            <h2>Posts</h2>
+            <p class="muted">Create, edit and manage your posts. Explore new content anytime.</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab" [class.active]="tabSig()==='posts'" (click)="tabSig.set('posts')">My feed</button>
+            <button class="tab" [class.active]="tabSig()==='explore'" (click)="tabSig.set('explore')">Explore</button>
+        </div>
+    </header>
+
+    @if (tabSig() === 'explore') {
+    <div class="exploreBox">
+        <h3>Explore</h3>
+        <p class="muted">Explore is a separate page in Synq for now.</p>
+        <button class="primaryBtn" (click)="goExplore()">Open Explore</button>
+    </div>
+    } @else {
+
+    <!-- Create -->
+    <div class="createCard">
+        <div class="row">
+            <textarea placeholder="Write a caption…" [value]="captionSig()"
+                (input)="captionSig.set($any($event.target).value)"></textarea>
+        </div>
+
+        <div class="row two">
+            <input type="text" placeholder="Image URL (optional)" [value]="photoUrlSig()"
+                (input)="photoUrlSig.set($any($event.target).value)">
+
+            <button class="primaryBtn" (click)="createPost()" [disabled]="creatingSig()">
+                {{ creatingSig() ? 'Posting…' : 'Post' }}
+            </button>
+        </div>
+    </div>
+
+    <!-- Feed -->
+    <div class="feedHead">
+        <h3>Latest</h3>
+        <div class="feedActions">
+            <button class="ghostBtn" (click)="refresh()">Refresh</button>
+
+            <select class="select" [value]="pageSizeSig()"
+                (change)="pageSizeSig.set(+$any($event.target).value); refresh()">
+                <option [value]="6">6</option>
+                <option [value]="8">8</option>
+                <option [value]="12">12</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="feedGrid">
+        @for (p of postsSig(); track p.id) {
+        <article class="postCard">
+            <header class="cardTop">
+                <div class="who">
+                    <span class="avatar">{{ p.userName?.[0] | titlecase }}</span>
+                    <div class="meta">
+                        <strong>{{ p.userName }}</strong>
+                        <span class="muted">{{ p.createdAt | date:'short' }}</span>
+                    </div>
+                </div>
+
+                @if (canManage(p)) {
+                <div class="miniActions">
+                    @if (editingIdSig() !== p.id) {
+                    <button class="miniBtn" (click)="startEdit(p)">Edit</button>
+                    }
+                    <button class="miniBtn danger" (click)="deletePost(p)">Delete</button>
+                </div>
+                }
+            </header>
+
+            @if (p.photoUrl) {
+            <img class="img" [src]="p.photoUrl" alt="post image">
+            }
+
+            @if (editingIdSig() === p.id) {
+            <textarea class="editArea" [value]="editCaptionSig()"
+                (input)="editCaptionSig.set($any($event.target).value)"></textarea>
+
+            <div class="editActions">
+                <button class="ghostBtn" (click)="cancelEdit()">Cancel</button>
+                <button class="primaryBtn" (click)="saveEdit(p)">Save</button>
+            </div>
+            } @else {
+            <p class="cap">{{ p.caption }}</p>
+            }
+        </article>
+        }
+    </div>
+
+    <div class="loadMore">
+        @if (loadingSig()) {
+        <span class="muted">Loading…</span>
+        } @else if (canLoadMoreSig()) {
+        <button class="ghostBtn big" (click)="loadMore()">Load more</button>
+        } @else {
+        <span class="muted">You reached the end.</span>
+        }
+    </div>
+
+    }
+</section>
