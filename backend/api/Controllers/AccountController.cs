@@ -6,7 +6,7 @@ namespace api.Controllers;
 
 public class AccountController(IAccountRepository accountRepository) : BaseApiController
 {
-    // CRUD => Create, Read, Update, Delete
+    
     
     [HttpPost("register")] // List<AppUser> appUsers = await _collection.Find(new BsonDocument()).ToListAsync(cancellationToken);
     public async Task<ActionResult<LoggedInDto>> Register(RegisterDto userInput, CancellationToken cancellationToken)
