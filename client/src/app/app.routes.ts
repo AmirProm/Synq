@@ -15,9 +15,7 @@ import { ExploreComponent } from './components/explor/explor.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MemberProfileComponent } from './components/member-profile/member-profile.component';
-import { PostCardComponent } from './components/posts/post-card/post-card.component';
-import { PostCreateComponent } from './components/posts/post-create/post-create.component';
-import { PostFeedComponent } from './components/posts/post-feed/post-feed.component';
+import { PostPanelComponent } from './components/post-panel/post-panel.component';
 
 export const routes: Routes = [
     { path: '', component: HomeGuestComponent },
@@ -26,7 +24,7 @@ export const routes: Routes = [
         runGuardsAndResolvers: 'always',
         canActivate: [authGuard],
         children: [
-            { path: 'postcreate', component: PostCreateComponent },
+            { path: 'postpanl', component: PostPanelComponent },
             { path: 'dashboard', component: DashboardComponent },
             { path: 'members/:username', component: MemberProfileComponent },
             { path: 'user/user-edit', component: UserEditComponent },
@@ -46,8 +44,6 @@ export const routes: Routes = [
             { path: '', component: HomeGuestComponent }
         ]
     },
-    { path: 'postcard', component: PostCardComponent },
-    { path: 'postfeed', component: PostFeedComponent },
     { path: 'navbar', component: NavbarComponent },
     { path: 'footer', component: FooterComponent },
     { path: 'server-error', component: ServerErrorComponent },
