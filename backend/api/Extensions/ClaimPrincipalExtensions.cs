@@ -8,6 +8,9 @@ public static class ClaimPrincipalExtensions
     {
         return user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
     }
+    public static string? GetUserName(this ClaimsPrincipal user)
+       => user.FindFirstValue(ClaimTypes.Name) ?? user.FindFirstValue("unique_name");
+
 }
 
 // Type: Email
