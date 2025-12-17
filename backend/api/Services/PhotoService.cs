@@ -69,6 +69,28 @@ public class PhotoService(
         return null;
     }
 
+    //test
+    private readonly IWebHostEnvironment _env;
+
+    public async Task<string> SavePostPhotoAsync(IFormFile file, string userName, CancellationToken ct = default)
+    {
+        if (file is null || file.Length == 0) throw new ArgumentException("File is empty");
+
+        // مسیر ذخیره داخل wwwroot
+        var folder = Path.Combine(_env.WebRootPath, "storage", "posts", userName);
+        Directory.CreateDirectory(folder);
+
+        var ext = Path.GetExtension(file.FileName);
+        var name = $"{Guid.NewGuid():N}{ext}";
+        var path = Path.Combine(folder, name);
+
+        await using var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 81920, useAsync: true);
+        await file.CopyToAsync(fs, ct);
+
+        // URL قابل نمایش برای کلاینت (با UseStaticFiles)
+        return $"/storage/posts/{userName}/{name}";
+    }
+
     /// <summary>
     /// Delete all files of the requested photo to be deleted.
     /// </summary>
