@@ -15,16 +15,13 @@ import { ExploreComponent } from './components/explor/explor.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MemberProfileComponent } from './components/member-profile/member-profile.component';
-import { PostPanelComponent } from './components/post-panel/post-panel.component';
 
 export const routes: Routes = [
-    { path: '', component: HomeGuestComponent },
     {
         path: '',
         runGuardsAndResolvers: 'always',
         canActivate: [authGuard],
         children: [
-            { path: 'postpanl', component: PostPanelComponent },
             { path: 'dashboard', component: DashboardComponent },
             { path: 'members/:username', component: MemberProfileComponent },
             { path: 'user/user-edit', component: UserEditComponent },
