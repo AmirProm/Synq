@@ -1,51 +1,65 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.development';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment.development';
 import { Post } from '../models/post.model';
-
-export interface CreatePostDto {
-  caption: string;
-  photoUrl: string;
-}
-
-export interface UpdatePostDto {
-  caption: string;
-}
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
   private http = inject(HttpClient);
-  private apiUrl = environment.apiUrl + 'api/posts/';
+  private base = environment.apiUrl + 'api/posts/';
 
-  getFeed(pageNumber = 1, pageSize = 10): Observable<Post[]> {
+  // ---------- GET FEED ----------
+  getFeed(pageNumber = 1, pageSize = 12): Observable<Post[]> {
     const params = new HttpParams()
       .set('pageNumber', pageNumber)
       .set('pageSize', pageSize);
 
-    return this.http.get<Post[]>(this.apiUrl + 'feed', { params });
+    return this.http.get<Post[]>(this.base + 'feed', { params });
   }
 
-  getByUser(userName: string, pageNumber = 1, pageSize = 10): Observable<Post[]> {
+  // ---------- GET BY USER ----------
+  getByUser(userName: string, pageNumber = 1, pageSize = 12): Observable<Post[]> {
     const params = new HttpParams()
       .set('pageNumber', pageNumber)
       .set('pageSize', pageSize);
 
-    return this.http.get<Post[]>(this.apiUrl + 'user/' + userName, { params });
+    return this.http.get<Post[]>(this.base + `user/${encodeURIComponent(userName)}`, { params });
   }
 
-  create(dto: CreatePostDto): Observable<Post> {
-    return this.http.post<Post>(this.apiUrl, dto);
+  // ---------- COUNTS ----------
+  // ✅ [Authorize] GET /api/posts/my/count
+  getMyCount(): Observable<number> {
+    return this.http.get<number>(this.base + 'my/count');
   }
 
-  /** ✅ این همون چیزیه که کامپوننت انتظارشو داره */
+  // GET /api/posts/user/{userName}/count
+  getUserCount(userName: string): Observable<number> {
+    return this.http.get<number>(this.base + `user/${encodeURIComponent(userName)}/count`);
+  }
+
+  // ---------- UPDATE / DELETE ----------
+  // ✅ [Authorize] PUT /api/posts/{id}
   updateCaption(id: string, caption: string): Observable<void> {
-    return this.http.put<void>(this.apiUrl + id, {
-      caption
-    });
+    return this.http.put<void>(this.base + encodeURIComponent(id), { caption });
   }
 
+  // ✅ [Authorize] DELETE /api/posts/{id}
   delete(id: string): Observable<void> {
-    return this.http.delete<void>(this.apiUrl + id);
+    return this.http.delete<void>(this.base + encodeURIComponent(id));
+  }
+
+  // اگر multipart داری (create-with-photo):
+  // endpoint رو اگر اسمش فرق داره عوض کن
+  createWithPhoto(caption: string, file: File): Observable<Post> {
+    const fd = new FormData();
+    fd.append('caption', caption ?? '');
+    fd.append('File', file);
+    return this.http.post<Post>(this.base + 'create-with-photo', fd);
   }
 }
+
+
+// createJson(caption: string, photoUrl: string): Observable<Post> {
+//   return this.http.post<Post>(this.base, { caption, photoUrl });
+// }
