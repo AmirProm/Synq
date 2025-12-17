@@ -35,8 +35,5 @@ export class NavbarComponent {
 
   accountService = inject(AccountService);
   apiUrl = environment.apiUrl;
-
-  logout(): void {
-    this.accountService.logout();
-  }
+  
 }
