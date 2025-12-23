@@ -79,7 +79,6 @@ export class DashboardComponent {
       !!m.city?.trim(),
       !!m.country?.trim(),
       (m.photos?.length ?? 0) > 0,
-      !!m.gender?.trim(),
     ];
     const score = Math.round((checks.filter(Boolean).length / checks.length) * 100);
     return Math.max(5, score);
@@ -172,7 +171,7 @@ export class DashboardComponent {
   goEditProfile() { this.router.navigateByUrl('user/user-edit'); }
   goPhotos() { this.router.navigateByUrl('user/user-edit'); }
   goChat() { this.router.navigateByUrl('/chat'); }
-  goExplore() { this.router.navigateByUrl('/explor'); }
+  goExplore() { this.router.navigateByUrl('/explor'); }                                 
 
   openMember(m: Member) {
     // اگر صفحه پروفایل داری:
