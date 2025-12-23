@@ -38,9 +38,10 @@ export const routes: Routes = [
         children: [
             { path: 'account/login', component: LoginComponent },
             { path: 'account/register', component: RegisterComponent },
-            { path: '', component: HomeGuestComponent }
+
         ]
     },
+    { path: 'home', component: HomeGuestComponent },
     { path: 'navbar', component: NavbarComponent },
     { path: 'footer', component: FooterComponent },
     { path: 'server-error', component: ServerErrorComponent },
