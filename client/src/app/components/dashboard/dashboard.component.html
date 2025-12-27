@@ -121,7 +121,7 @@
                 <h2>Members</h2>
 
                 <div class="searchWrap">
-                    <input class="search" type="text" placeholder="Search username (server)…" [value]="querySig()"
+                    <input class="search" type="text" placeholder="Search username" [value]="querySig()"
                         (input)="onQuery(($any($event.target)).value)" />
                     <button class="btnSm" type="button" (click)="searchNow()">Search</button>
                     <button class="btnSm ghost" type="button" (click)="querySig.set(''); clearSearch()">Clear</button>
@@ -135,7 +135,7 @@
                 @if (searchStateSig() === 'error') { <span class="warn">Search failed.</span> }
                 @if (searchStateSig() === 'done') { <span class="muted">Result</span> }
                 } @else {
-                <span class="muted">Showing real members from database</span>
+               
                 }
             </div>
 

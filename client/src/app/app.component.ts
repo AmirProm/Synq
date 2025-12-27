@@ -26,37 +26,23 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 export class AppComponent implements OnInit {
   accountService = inject(AccountService);
   private platformId = inject(PLATFORM_ID);
-   constructor(private spinner: NgxSpinnerService) {}
+  private _spinner = inject(NgxSpinnerService)
  
   ngOnInit(): void {
-    let loggedInUserStr: string | null  = localStorage.getItem('loggedInUser');
-      console.log(loggedInUserStr);
-    
-    if (loggedInUserStr != null) {
-      this.accountService.authorizeLoggedInUser();
-
-      this.accountService.setCurrentUser(JSON.parse(loggedInUserStr))
-    }
-    
-    // اگر روی سرور هستیم، اصلاً سراغ localStorage نرو
-    if (!isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId)) {
       const loggedInUserStr = localStorage.getItem('loggedInUser');
 
     if (loggedInUserStr) {
       this.accountService.authorizeLoggedInUser();
       this.accountService.setCurrentUser(JSON.parse(loggedInUserStr));
     }
-      return;
-    }
 
-    this.spinner.show();
+    this._spinner.show();
     setTimeout(() => {
-      this.spinner.hide();
+      this._spinner.hide();
     }, 1200);
-
-    return
   }
-}
+}}
 
   
   // ngOnInit(): void { // initialize user on page refresh
