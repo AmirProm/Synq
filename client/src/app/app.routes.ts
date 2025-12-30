@@ -43,7 +43,7 @@ export const routes: Routes = [
 
         ]
     },
-    { path: '', component: HomeGuestComponent },
+    { path: 'home', component: HomeGuestComponent },
     { path: 'navbar', component: NavbarComponent },
     { path: 'footer', component: FooterComponent },
     { path: 'server-error', component: ServerErrorComponent },
