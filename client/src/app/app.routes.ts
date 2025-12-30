@@ -18,6 +18,7 @@ import { MemberProfileComponent } from './components/member-profile/member-profi
 
 export const routes: Routes = [
     {
+        
         path: '',
         runGuardsAndResolvers: 'always',
         canActivate: [authGuard],
@@ -39,9 +40,10 @@ export const routes: Routes = [
             { path: 'account/login', component: LoginComponent },
             { path: 'account/register', component: RegisterComponent },
 
+
         ]
     },
-    { path: 'home', component: HomeGuestComponent },
+    { path: '', component: HomeGuestComponent },
     { path: 'navbar', component: NavbarComponent },
     { path: 'footer', component: FooterComponent },
     { path: 'server-error', component: ServerErrorComponent },
