@@ -2,8 +2,9 @@
 
 ![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white)
 ![.Net](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=.net&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+![SCSS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=sass&logoColor=white)
 ![SignalR](https://img.shields.io/badge/SignalR-orange?style=for-the-badge&logo=signalr&logoColor=white)
-![MongoDB](https://img.shields.io/badge/mongo-0.1.0--MVP-blue?style=for-the-badge)
 
 **Synq** is a clean, modern, and high-performance social platform designed for seamless real-time interaction. Built with a focus on minimalism and speed, it provides a distraction-free environment for communication.
 
