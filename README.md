@@ -40,8 +40,8 @@
 ## 🖼 Screenshots
 
 <div align="center">
-  <img src="https://via.placeholder.com/800x400?text=Synq+Dashboard+Preview" alt="Dashboard" width="800">
-  <p><i>(Upload your screenshots to /screenshots and update this link)</i></p>
+  <img src="https://github.com/AmirProm/Synq/tree/main/screanshot" alt="Dashboard" width="800">
+
 </div>
 
 ---
