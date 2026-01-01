@@ -40,7 +40,7 @@
 ## 🖼 Screenshots
 
 <div align="center">
-  <img src="https://github.com/AmirProm/Synq/tree/main/screanshot" alt="Dashboard" width="800">
+  <img src="https://github.com/AmirProm/Synq/blob/main/screanshot/Dashboard.png" alt="Dashboard" width="800">
 
 </div>
 
@@ -100,4 +100,4 @@ Contributions make the open-source community an amazing place to learn and creat
 
 This project is licensed under the MIT License.
 
-<div align="center"> Developed with ❤️ by <a href="https://www.google.com/search?q=https://github.com/AmirProm">Amirali Safaee</a> </div>
+<div align="center"> Developed with ❤️ by Amirali Safaee </div>
