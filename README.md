@@ -32,7 +32,7 @@
 | :--- | :--- |
 | **Frontend** | Angular 19, TypeScript, SCSS, Angular Material |
 | **Backend** | ASP.NET Core, SignalR, Entity Framework Core |
-| **Database** | SQL Server / PostgreSQL |
+| **Database** | MongoDB |
 | **Security** | Microsoft Identity, JWT Authentication |
 
 ---
