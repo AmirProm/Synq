@@ -11,7 +11,7 @@ public class PostRepository : IPostRepository
     public PostRepository(IMongoClient client, IMyMongoDbSettings dbSettings)
     {
         var dbName = client.GetDatabase(dbSettings.DatabaseName);
-        _posts = dbName.GetCollection<Post>("chats");
+        _posts = dbName.GetCollection<Post>("posts");
     }
 
     public async Task<IReadOnlyList<Post>> GetFeedAsync(int pageNumber, int pageSize, CancellationToken ct = default)
