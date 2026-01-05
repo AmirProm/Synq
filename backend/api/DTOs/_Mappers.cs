@@ -51,7 +51,7 @@ public static class Mappers
         return new(
             Email: appUser.Email!,
             UserName: appUser.UserName!,
-            Age: DateTimeExtensions.CalculateAge(appUser.DateOfBirth),
+            Age: Extensions.DateTimeExtensions.CalculateAge(appUser.DateOfBirth),
             LastActive: appUser.LastActive,
             Introduction: appUser.Introduction,
             LookingFor: appUser.LookingFor,
