@@ -5,10 +5,10 @@ using MongoDbGenericRepository.Attributes;
 namespace api.Models;
 
 [CollectionName("users")]
-public class AppUser : MongoIdentityUser<ObjectId> 
+public class AppUser : MongoIdentityUser<ObjectId>
 {
     public DateOnly DateOfBirth { get; init; }
-        public DateTime LastActive { get; init; }
+    public DateTime LastActive { get; init; }
     public string Gender { get; init; } = string.Empty;
     public string Introduction { get; init; } = string.Empty;
     public string LookingFor { get; init; } = string.Empty;
