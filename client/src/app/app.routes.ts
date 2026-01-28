@@ -15,19 +15,21 @@ import { ExploreComponent } from './components/explor/explor.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MemberProfileComponent } from './components/member-profile/member-profile.component';
+import { AdminPanelComponent } from './components/admin/admin-panel/admin-panel.component';
 
 export const routes: Routes = [
     {
-        
+
         path: '',
         runGuardsAndResolvers: 'always',
         canActivate: [authGuard],
         children: [
-            { path: 'dashboard', component: DashboardComponent },
+            { path: '', component: DashboardComponent },
             { path: 'members/:username', component: MemberProfileComponent },
             { path: 'user/user-edit', component: UserEditComponent },
             { path: 'no-access', component: NoAccessComponent },
             { path: 'settings', component: SettingComponent },
+            { path: 'admin', component: AdminPanelComponent },
             { path: 'explor', component: ExploreComponent },
             { path: 'chat', component: Chat },
         ]
