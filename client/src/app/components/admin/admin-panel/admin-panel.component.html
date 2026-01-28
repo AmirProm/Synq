@@ -1,0 +1,191 @@
+<div class="admin-panel">
+    <!-- هدر پنل -->
+    <header class="panel-header">
+        <div class="header-content">
+            <h1 class="panel-title">
+                <svg class="admin-icon" viewBox="0 0 24 24">
+                    <path
+                        d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                    <circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
+                </svg>
+                User Management
+            </h1>
+            <p class="panel-subtitle">Manage all registered users and their roles</p>
+        </div>
+
+        <!-- دکمه‌های عملیاتی -->
+        <!-- <div class="action-tools">
+            <button class="tool-btn" (click)="spread()" title="Spread operator demo">
+                <svg class="btn-icon" viewBox="0 0 24 24">
+                    <path
+                        d="M12 5.83L15.17 9l1.41-1.41L12 3 7.41 7.59 8.83 9 12 5.83zm0 12.34L8.83 15l-1.41 1.41L12 21l4.59-4.59L15.17 15 12 18.17z" />
+                </svg>
+                <span>Spread</span>
+            </button>
+
+            <button class="tool-btn" (click)="removeItem()" title="Remove item demo">
+                <svg class="btn-icon" viewBox="0 0 24 24">
+                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                </svg>
+                <span>Remove</span>
+            </button>
+
+            <button class="tool-btn" (click)="slice()" title="Slice method demo">
+                <svg class="btn-icon" viewBox="0 0 24 24">
+                    <path
+                        d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-3zm14 2l-5-5v3h-3v3h3v3l5-5zm-9 3h-3v3H7l5 5 5-5h-3v-3z" />
+                </svg>
+                <span>Slice</span>
+            </button>
+        </div> -->
+    </header>
+
+    <!-- بخش اصلی محتوا -->
+    <main class="panel-content">
+        <!-- آمار کاربران -->
+        <div class="stats-bar" *ngIf="usersWithRoles.length > 0">
+            <div class="stat-card">
+                <span class="stat-number">{{usersWithRoles.length}}</span>
+                <span class="stat-label">Total Users</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{getAdminCount()}}</span>
+                <span class="stat-label">Admin Users</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{getMemberCount()}}</span>
+                <span class="stat-label">Regular Users</span>
+            </div>
+        </div>
+
+        <!-- جدول کاربران -->
+        <div class="table-wrapper">
+            <div *ngIf="usersWithRoles.length > 0; else emptyState">
+                <div class="table-container">
+                    <table class="users-table">
+                        <thead>
+                            <tr class="table-header">
+                                <th class="col-no">#</th>
+                                <th class="col-username">Username</th>
+                                <th class="col-roles">Roles</th>
+                                <th class="col-actions">Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let user of usersWithRoles; let i = index" class="user-row">
+
+                                <!-- شماره ردیف -->
+                                <td class="col-no">
+                                    <span class="row-number">{{i + 1}}</span>
+                                </td>
+
+                                <!-- اطلاعات کاربر -->
+                                <td class="col-username">
+                                    <div class="user-info">
+                                        <div class="user-avatar">
+                                            {{user.userName.charAt(0).toUpperCase()}}
+                                        </div>
+                                        <div class="user-details">
+                                            <span class="user-name">{{user.userName}}</span>
+                                            <!-- <span class="user-email" *ngIf="user.email">{{user.email}}</span>
+                                            <span class="user-email" *ngIf="!user.email">No email provided</span> -->
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <!-- نقش‌ها -->
+                                <td class="col-roles">
+                                    <div class="roles-container">
+                                        <span *ngFor="let role of user.roles" class="role-badge"
+                                            [class.role-admin]="role === 'Admin'"
+                                            [class.role-member]="role === 'Member'">
+                                            {{role}}
+                                        </span>
+                                    </div>
+                                </td>
+
+                                <!-- اقدامات -->
+                                <td class="col-actions">
+                                    <div class="action-buttons">
+                                        <button class="action-btn delete-btn" (click)="deleteUser(i, user.userName)"
+                                            title="Delete this user">
+                                            <svg class="action-icon" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                                            </svg>
+                                            <span>Delete</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- پاورقی جدول -->
+                <div class="table-footer">
+                    <div class="footer-info">
+                        <svg class="info-icon" viewBox="0 0 24 24" width="16" height="16">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+                        </svg>
+                        <span>Click on action buttons to manage users</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- حالت خالی -->
+            <ng-template #emptyState>
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <svg viewBox="0 0 24 24" width="64" height="64">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                        </svg>
+                    </div>
+                    <h3 class="empty-title">No Users Found</h3>
+                    <p class="empty-message">There are no registered users in the system yet.</p>
+                </div>
+            </ng-template>
+        </div>
+    </main>
+</div>
+
+<!-- <section class="content">
+    <button (click)="spread()">spread</button>
+    <button (click)="removeItem()">remove</button>
+    <button (click)="slice()">slice</button>
+    <div class="table">
+        @if(usersWithRoles) {
+        <table mat-table [dataSource]="usersWithRoles" class="mat-elevation-z8">
+            <ng-container matColumnDef="no">
+                <th mat-header-cell *matHeaderCellDef> # </th>
+                <td mat-cell *matCellDef="let i = index"> {{i + 1}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="username">
+                <th mat-header-cell *matHeaderCellDef> Username </th>
+                <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="active-roles">
+                <th mat-header-cell *matHeaderCellDef> Active Role/s </th>
+                <td mat-cell *matCellDef="let element"> {{element.roles}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="delete-user">
+                <th mat-header-cell *matHeaderCellDef> Delete User </th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                    <button mat-mini-fab (click)="deleteUser(i, element.userName)">
+                        <mat-icon color="warn">delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        }
+    </div>
+</section> -->

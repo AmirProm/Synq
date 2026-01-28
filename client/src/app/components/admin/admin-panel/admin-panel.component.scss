@@ -1,0 +1,435 @@
+// .content {
+//     display: flex;
+//     justify-content: center;
+//     margin-top: 1rem;
+
+//     .table {
+//         width: 40rem;
+//     }
+// }
+// Variables - Synq Design System
+$synq-blue: #00c797;
+$synq-blue-light: #e8f0fe;
+$synq-blue-dark: #00af86;
+$synq-gray-50: #f8f9fa;
+$synq-gray-100: #f1f3f4;
+$synq-gray-200: #e8eaed;
+$synq-gray-300: #dadce0;
+$synq-gray-400: #bdc1c6;
+$synq-gray-500: #9aa0a6;
+$synq-gray-700: #5f6368;
+$synq-gray-900: #202124;
+$synq-red: #d93025;
+$synq-red-light: #fce8e6;
+$synq-green: #137333;
+$synq-shadow-sm: 0 1px 2px rgba(60, 64, 67, 0.3);
+$synq-shadow-md: 0 2px 6px 2px rgba(60, 64, 67, 0.15);
+$synq-radius: 8px;
+$synq-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+// Base Styles
+.admin-panel {
+    margin: 30px;
+    font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: white;
+    border-radius: $synq-radius;
+    box-shadow: $synq-shadow-md;
+    overflow: hidden;
+    min-height: 600px;
+}
+
+// Header
+.panel-header {
+    padding: 24px 32px;
+    background: linear-gradient(135deg, $synq-blue 0%, $synq-blue-dark 100%);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .header-content {
+        .panel-title {
+            margin: 0 0 8px;
+            font-size: 24px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            .admin-icon {
+                width: 28px;
+                height: 28px;
+                fill: currentColor;
+                opacity: 0.9;
+            }
+        }
+
+        .panel-subtitle {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.85;
+            font-weight: 400;
+        }
+    }
+
+    .action-tools {
+        display: flex;
+        gap: 12px;
+
+        .tool-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: $synq-transition;
+            backdrop-filter: blur(10px);
+
+            .btn-icon {
+                width: 18px;
+                height: 18px;
+                fill: currentColor;
+            }
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.25);
+                transform: translateY(-1px);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+    }
+}
+
+// Content Area
+.panel-content {
+    padding: 32px;
+
+    .stats-bar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 16px;
+        margin-bottom: 32px;
+
+        .stat-card {
+            background: $synq-gray-50;
+            border: 1px solid $synq-gray-200;
+            border-radius: $synq-radius;
+            padding: 20px;
+            text-align: center;
+
+            .stat-number {
+                display: block;
+                font-size: 32px;
+                font-weight: 600;
+                color: $synq-blue;
+                margin-bottom: 4px;
+            }
+
+            .stat-label {
+                font-size: 14px;
+                color: $synq-gray-700;
+            }
+        }
+    }
+}
+
+// Table Container
+.table-wrapper {
+    background: white;
+    border-radius: $synq-radius;
+    border: 1px solid $synq-gray-200;
+    overflow: hidden;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+// Table Styles
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+
+    .table-header {
+        background: $synq-gray-50;
+        border-bottom: 2px solid $synq-gray-300;
+
+        th {
+            padding: 18px 16px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 500;
+            color: $synq-gray-700;
+            white-space: nowrap;
+
+            &.col-no {
+                width: 60px;
+            }
+
+            &.col-username {
+                min-width: 250px;
+            }
+
+            &.col-roles {
+                min-width: 200px;
+            }
+
+            &.col-actions {
+                width: 120px;
+            }
+        }
+    }
+
+    .user-row {
+        border-bottom: 1px solid $synq-gray-100;
+        transition: $synq-transition;
+
+        &:hover {
+            background: $synq-gray-50;
+        }
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        td {
+            padding: 16px;
+            vertical-align: middle;
+        }
+    }
+}
+
+// User Info Cell
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, $synq-blue 0%, $synq-blue-dark 100%);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 16px;
+        flex-shrink: 0;
+    }
+
+    .user-details {
+        display: flex;
+        flex-direction: column;
+
+        .user-name {
+            font-weight: 500;
+            color: $synq-gray-900;
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+
+        .user-email {
+            font-size: 13px;
+            color: $synq-gray-700;
+        }
+    }
+}
+
+// Roles
+.roles-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    .role-badge {
+        padding: 4px 12px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-block;
+
+        &.role-admin {
+            background: $synq-blue-light;
+            color: $synq-blue;
+            border: 1px solid rgba($synq-blue, 0.3);
+        }
+
+        &.role-member {
+            background: $synq-gray-100;
+            color: $synq-gray-700;
+            border: 1px solid $synq-gray-200;
+        }
+    }
+}
+
+// Action Buttons
+.action-buttons {
+    .action-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: $synq-transition;
+        border: none;
+
+        .action-icon {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        &.delete-btn {
+            background: $synq-red-light;
+            color: $synq-red;
+            border: 1px solid rgba($synq-red, 0.3);
+
+            &:hover {
+                background: lighten($synq-red-light, 2%);
+                box-shadow: 0 2px 4px rgba($synq-red, 0.1);
+            }
+
+            &:active {
+                background: darken($synq-red-light, 2%);
+            }
+        }
+    }
+}
+
+// Row Number
+.row-number {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background: $synq-gray-100;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-size: 13px;
+    font-weight: 500;
+    color: $synq-gray-700;
+}
+
+// Table Footer
+.table-footer {
+    padding: 16px;
+    background: $synq-gray-50;
+    border-top: 1px solid $synq-gray-200;
+
+    .footer-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: $synq-gray-700;
+
+        .info-icon {
+            fill: $synq-gray-500;
+        }
+    }
+}
+
+// Empty State
+.empty-state {
+    padding: 80px 32px;
+    text-align: center;
+
+    .empty-icon {
+        margin-bottom: 24px;
+        opacity: 0.4;
+
+        svg {
+            fill: $synq-gray-400;
+        }
+    }
+
+    .empty-title {
+        margin: 0 0 8px;
+        font-size: 20px;
+        font-weight: 500;
+        color: $synq-gray-700;
+    }
+
+    .empty-message {
+        margin: 0;
+        font-size: 14px;
+        color: $synq-gray-500;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+    .panel-header {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+
+        .action-tools {
+            width: 100%;
+            justify-content: flex-start;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+    }
+
+    .panel-content {
+        padding: 20px;
+    }
+
+    .stats-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .users-table {
+        font-size: 14px;
+
+        .table-header th,
+        .user-row td {
+            padding: 12px 8px;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .user-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+
+        .user-details {
+            .user-name {
+                font-size: 14px;
+            }
+
+            .user-email {
+                font-size: 12px;
+            }
+        }
+    }
+
+    .action-btn span {
+        display: none;
+    }
+
+    .action-btn {
+        padding: 8px !important;
+        justify-content: center;
+    }
+}
