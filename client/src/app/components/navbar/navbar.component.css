@@ -1,0 +1,305 @@
+@charset "UTF-8";
+:root {
+  --synq-bg-main: #f8fafc;
+  --synq-bg-soft: #ecfdf5;
+  --synq-card: #ffffff;
+  --synq-primary: #00c797;
+  --synq-primary-dark: #009a74;
+  --synq-accent: #0ea5e9;
+  --synq-text-main: #0f172a;
+  --synq-text-muted: #64748b;
+  --synq-border: #e2e8f0;
+}
+
+/* ===== نوار بالا (فقط دسکتاپ / تبلت) ===== */
+.synq-toolbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 1000;
+  height: 64px;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  -webkit-backdrop-filter: blur(16px);
+          backdrop-filter: blur(16px);
+  background: rgba(248, 250, 252, 0.96);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+.synq-toolbar-left {
+  display: flex;
+  align-items: center;
+}
+
+/* برند synq */
+.synq-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--synq-text-main);
+}
+
+.synq-brand-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--synq-primary), var(--synq-accent));
+  box-shadow: 0 6px 16px rgba(56, 189, 248, 0.4);
+}
+
+.synq-brand-text {
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.synq-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* دکمه‌های لاگین / رجیستر */
+.synq-auth-btn {
+  text-transform: none;
+  font-size: 0.9rem;
+  border-radius: 999px;
+  padding-inline: 1.1rem;
+}
+.synq-auth-btn.primary {
+  background: var(--synq-primary);
+  color: #ffffff;
+}
+.synq-auth-btn.primary:hover {
+  background: var(--synq-primary-dark);
+}
+
+/* ===== سایدبار عمودی (دسکتاپ) ===== */
+.synq-sidebar {
+  position: fixed;
+  top: 64px;
+  /* زیر toolbar */
+  left: 0;
+  bottom: 0;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0.75rem 1.25rem;
+  background: linear-gradient(180deg, #f9fafb 0%, #f1f5f9 100%);
+  border-right: 1px solid rgba(226, 232, 240, 0.96);
+  box-shadow: 4px 0 18px rgba(15, 23, 42, 0.06);
+  z-index: 950;
+}
+
+.synq-sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.5rem 1rem;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+  margin-bottom: 0.75rem;
+}
+
+/* آواتار در سایدبار */
+.synq-avatar-shell {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 2px solid rgba(0, 199, 151, 0.4);
+  background: #ffffff;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.18);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+.synq-avatar-shell img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.synq-avatar-shell .synq-avatar-initial {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  background: var(--synq-primary);
+  color: #ffffff;
+}
+.synq-avatar-shell:hover {
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.25);
+  border-color: rgba(0, 199, 151, 0.8);
+}
+.synq-avatar-shell.guest {
+  border-color: rgba(148, 163, 184, 0.5);
+  box-shadow: none;
+}
+
+.synq-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.synq-user-name {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--synq-text-main);
+}
+
+.synq-user-email {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--synq-text-muted);
+}
+
+/* لینک‌های سایدبار */
+.synq-sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.25rem 0.25rem 0.75rem;
+}
+
+.synq-sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.6rem;
+  border-radius: 0.75rem;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: var(--synq-text-muted);
+  transition: background 0.12s ease, color 0.12s ease, transform 0.08s ease;
+}
+
+.synq-sidebar-nav a mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.synq-sidebar-nav a:hover {
+  background: rgba(148, 163, 184, 0.14);
+  color: var(--synq-text-main);
+  transform: translateX(2px);
+}
+
+.synq-sidebar-nav a.active {
+  background: rgba(0, 199, 151, 0.16);
+  color: var(--synq-primary-dark);
+}
+
+.synq-sidebar-nav a.active mat-icon {
+  color: var(--synq-primary);
+}
+
+/* مهمان */
+.synq-sidebar-guest .synq-user-name {
+  font-weight: 600;
+}
+.synq-sidebar-guest .guest-links a {
+  font-weight: 500;
+}
+
+/* دکمه لاگ‌اوت پایین سایدبار */
+.synq-sidebar-logout {
+  margin-top: auto;
+  margin-inline: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.6rem;
+  background: transparent;
+  color: #b91c1c;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.12s ease, transform 0.08s ease;
+}
+.synq-sidebar-logout mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+.synq-sidebar-logout:hover {
+  background: rgba(248, 113, 113, 0.16);
+  transform: translateX(2px);
+}
+
+/* ===== نوار پایین موبایل ===== */
+.synq-bottom-nav {
+  display: none;
+}
+
+/* ===== Breakpoints ===== */
+@media (max-width: 768px) {
+  /* روی موبایل: toolbar و sidebar مخفی، فقط bottom nav */
+  .synq-toolbar {
+    display: none;
+  }
+  .synq-sidebar {
+    display: none;
+  }
+  .synq-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    padding: 0 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(248, 250, 252, 0.98);
+    border-top: 1px solid rgba(226, 232, 240, 0.95);
+    box-shadow: 0 -6px 18px rgba(15, 23, 42, 0.08);
+    z-index: 1000;
+  }
+  .synq-bottom-nav a {
+    flex: 1;
+    height: 100%;
+    text-decoration: none;
+    color: var(--synq-text-muted);
+    font-size: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+  .synq-bottom-nav mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+  .synq-bottom-nav a.active {
+    color: var(--synq-primary-dark);
+  }
+  .synq-bottom-nav a.active mat-icon {
+    color: var(--synq-primary);
+  }
+  body {
+    padding-bottom: 60px;
+  }
+}
+/* دسکتاپ: اگر خواستی محتوا زیر سایدبار نره، می‌تونی اینو در styles.scss سراسری اضافه کنی:
+   body { margin-left: 240px; }
+   اینجا نمی‌ذارم چون global هست، ولی بدون اگر روی فرم‌ها overlap دیدی، این راه‌حلشه. *//*# sourceMappingURL=navbar.component.css.map */
