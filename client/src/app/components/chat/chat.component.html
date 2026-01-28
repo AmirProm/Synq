@@ -1,4 +1,117 @@
-<div class="chat-root">
+<div class="chat-container">
+  <!-- هدر چت -->
+  <div class="chat-header">
+    <div class="header-content">
+      <div class="chat-info">
+        <div class="chat-avatar">
+          <svg class="chat-icon" viewBox="0 0 24 24">
+            <path
+              d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z" />
+            <path d="M6 12h8v2H6zm0-3h12v2H6zm0-3h12v2H6z" />
+          </svg>
+        </div>
+        <div class="chat-details">
+          <h2 class="chat-title">Synq Chat</h2>
+          <p class="chat-status">Messaging</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- بدنه چت -->
+  <div class="chat-body">
+    @if (messages().length === 0) {
+    <!-- حالت خالی -->
+    <div class="empty-chat">
+      <div class="empty-illustration">
+        <svg viewBox="0 0 200 120">
+          <path d="M40,50 Q100,20 160,50 L160,80 Q100,110 40,80 Z" fill="#e8f0fe" stroke="#1a73e8" stroke-width="1" />
+          <circle cx="60" cy="60" r="8" fill="#1a73e8" />
+          <circle cx="140" cy="60" r="8" fill="#1a73e8" />
+          <path d="M80,60 Q100,80 120,60" fill="none" stroke="#1a73e8" stroke-width="2" />
+        </svg>
+      </div>
+      <h3 class="empty-title">No messages yet</h3>
+      <p class="empty-subtitle">Start the conversation by sending the first message</p>
+    </div>
+    } @else {
+    <!-- لیست پیام‌ها -->
+    <div class="messages-list">
+      @for (message of messages(); track $index; let last = $last) {
+      <div class="message-wrapper" [class.message-mine]="isMine(message)">
+        <div class="message-bubble">
+          <!-- هدر پیام -->
+          <div class="message-header">
+            <span class="message-sender">{{ message.user }}</span>
+            @if (message.TimeStamp) {
+            <span class="message-time">
+              {{ message.TimeStamp | date : 'HH:mm' }}
+            </span>
+            }
+          </div>
+
+          <!-- محتوای پیام -->
+          <div class="message-content">
+            {{ message.message }}
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+    }
+  </div>
+
+  <!-- نوار ورود پیام -->
+  <div class="chat-input-area">
+    <div class="input-wrapper">
+      <!-- دکمه ایموجی -->
+      <div class="emoji-section">
+        <button class="emoji-toggle" type="button" (click)="showEmojis" [class.active]="showEmojis">
+          <svg class="emoji-icon" viewBox="0 0 24 24">
+            <path
+              d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- فیلد متن -->
+      <div class="text-input">
+        <input type="text" [(ngModel)]="messageText" placeholder="Type your message here..."
+          (keyup.enter)="sendMessage()" class="message-input" />
+      </div>
+
+      <!-- دکمه ارسال -->
+      <div class="send-section">
+        <button class="send-button" (click)="sendMessage()" [disabled]="!messageText.trim()">
+          <svg class="send-icon" viewBox="0 0 24 24">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+          </svg>
+          <span class="send-label">Send</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- پیکر ایموجی -->
+    @if (showEmojis) {
+    <div class="emoji-picker-container">
+      <emoji-mart title="Pick an emoji" emoji="speech_balloon" (emojiSelect)="addEmoji($event)">
+      </emoji-mart>
+    </div>
+    }
+  </div>
+</div>
+
+ <div class="chat-input">
+    <button type="button"  (click)="showEmojis = !showEmojis">
+      😊
+
+
+      <div class="emoji-box" *ngIf="showEmojis">
+        <emoji-mart title="Pick emoji" emoji="speech_balloon" (emojiSelect)="addEmoji($event)">
+        </emoji-mart>
+      </div>
+
+<!-- <div class="chat-root">
   <div class="chat-header">
     <div class="header-main">
       <div class="header-info">
@@ -56,4 +169,4 @@
       Send
     </button>
   </div>
-</div>
+</div> -->

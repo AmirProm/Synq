@@ -6,6 +6,7 @@ import { ChatMessage } from '../../models/chat-massage.model';
 import { DatePipe } from '@angular/common';
 import { NgClass, NgIf, NgFor } from '@angular/common';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -26,7 +27,7 @@ export class Chat implements OnInit {
     this.currentUser = this.getCurrentUser();
 
     this.chatService.startConnection();
-    this.chatService.loadMessage().subscribe();
+    this.chatService.loadMessage().pipe(take(1)).subscribe();
   }
 
   getCurrentUser(): LoggedIn | null {
@@ -52,5 +53,4 @@ export class Chat implements OnInit {
     this.messageText += event.emoji.native;
     this.showEmojis = false;
   }
-
 }
