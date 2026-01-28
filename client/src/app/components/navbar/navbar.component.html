@@ -31,12 +31,25 @@
 
     <!-- لینک‌های اصلی -->
     <nav class="synq-sidebar-nav">
-        <a routerLink="/dashboard" routerLinkActive="active">
+        @if (user.roles.includes('admin')) {
+        <a routerLink="/admin" routerLinkActive="active">
+            <mat-icon>User</mat-icon>
+            <span>AdminUser</span>
+        </a>
+
+         <a routerLink="/postmaneger" routerLinkActive="active">
+            <mat-icon>Post</mat-icon>
+            <span>Postmaneger</span>
+        </a>
+
+        }
+
+        <a routerLink="" routerLinkActive="active">
             <mat-icon>space_dashboard</mat-icon>
             <span>Dashboard</span>
         </a>
 
-        <a routerLink="/feed" routerLinkActive="active">
+        <a routerLink="/explor" routerLinkActive="active">
             <mat-icon>explore</mat-icon>
             <span>Explore</span>
         </a>
@@ -60,8 +73,10 @@
             <mat-icon>settings</mat-icon>
             <span>Settings</span>
         </a>
+
     </nav>
 </aside>
+
 }
 @else {
 <!-- مهمان روی دسکتاپ: سایدبار کوچک فقط برای auth (اختیاری، می‌تونی حذفش کنی) -->
@@ -89,15 +104,20 @@
 </aside>
 }
 
-<!-- نوار پایین موبایل (مثل قبل، فقط Dashboard جای Home) -->
 <nav class="synq-bottom-nav">
     @if (accountService.loggedInUserSig(); as user) {
-    <a routerLink="/dashboard" routerLinkActive="active">
+    <a routerLink="/" routerLinkActive="active">
         <mat-icon>space_dashboard</mat-icon>
         <span>Dashboard</span>
     </a>
+    @if (user.roles.includes('admin')) {
+        <a routerLink="/admin" routerLinkActive="active">
+            <mat-icon>User</mat-icon>
+            <span>AdminUser</span>
+        </a>
+    }
 
-    <a routerLink="/feed" routerLinkActive="active">
+    <a routerLink="/explore" routerLinkActive="active">
         <mat-icon>explore</mat-icon>
         <span>Explore</span>
     </a>

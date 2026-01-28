@@ -26,6 +26,8 @@ import { environment } from '../../../environments/environment.development';
 })
 export class NavbarComponent {
  router = inject(Router);
+userService: any;
+user: any;
   
   isHomeRouter(): boolean {
     const url = this.router.url;
