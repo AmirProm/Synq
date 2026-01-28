@@ -18,6 +18,6 @@ describe('MemberProfileComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeTruthy();2025
   });
 });

@@ -11,10 +11,4 @@ import { NgForOf } from '@angular/common';
 })
 export class FooterComponent {
   currentYear = new Date().getFullYear();
-
-  links = [
-    { label: 'Home', url: '/' },
-    { label: 'Chat', url: '/chat' },
-    { label: 'Explore', url: '/explore' },
-  ];
 }
