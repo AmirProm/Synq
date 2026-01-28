@@ -1,65 +1,55 @@
+// // src/app/services/post.service.ts
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CreatePostWithPhotoDto, PostDto, UpdatePostDto } from '../models/post.model';
 import { environment } from '../../environments/environment.development';
-import { Post } from '../models/post.model';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class PostService {
-  private http = inject(HttpClient);
-  private base = environment.apiUrl + 'api/posts/';
+  private baseUrl = environment + 'api/posts';
 
-  // ---------- GET FEED ----------
-  getFeed(pageNumber = 1, pageSize = 12): Observable<Post[]> {
-    const params = new HttpParams()
-      .set('pageNumber', pageNumber)
-      .set('pageSize', pageSize);
+  constructor(private http: HttpClient) { }
 
-    return this.http.get<Post[]>(this.base + 'feed', { params });
+  createWithPhoto(dto: CreatePostWithPhotoDto): Observable<PostDto> {
+    const formData = new FormData();
+    if (dto.caption) formData.append('Caption', dto.caption);
+    formData.append('File', dto.file);
+
+    return this.http.post<PostDto>(`${this.baseUrl}/create-with-photo`, formData);
   }
 
-  // ---------- GET BY USER ----------
-  getByUser(userName: string, pageNumber = 1, pageSize = 12): Observable<Post[]> {
+  getFeed(pageNumber: number = 1, pageSize: number = 10): Observable<PostDto[]> {
     const params = new HttpParams()
-      .set('pageNumber', pageNumber)
-      .set('pageSize', pageSize);
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
 
-    return this.http.get<Post[]>(this.base + `user/${encodeURIComponent(userName)}`, { params });
+    return this.http.get<PostDto[]>(`${this.baseUrl}/feed`, { params });
   }
 
-  // ---------- COUNTS ----------
-  // ✅ [Authorize] GET /api/posts/my/count
+  getByUser(userName: string, pageNumber: number = 1, pageSize: number = 10): Observable<PostDto[]> {
+    const params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+
+    return this.http.get<PostDto[]>(`${this.baseUrl}/user/${userName}`, { params });
+  }
+
   getMyCount(): Observable<number> {
-    return this.http.get<number>(this.base + 'my/count');
+    return this.http.get<number>(`${this.baseUrl}/my/count`);
   }
 
-  // GET /api/posts/user/{userName}/count
   getUserCount(userName: string): Observable<number> {
-    return this.http.get<number>(this.base + `user/${encodeURIComponent(userName)}/count`);
+    return this.http.get<number>(`${this.baseUrl}/user/${userName}/count`);
   }
 
-  // ---------- UPDATE / DELETE ----------
-  // ✅ [Authorize] PUT /api/posts/{id}
-  updateCaption(id: string, caption: string): Observable<void> {
-    return this.http.put<void>(this.base + encodeURIComponent(id), { caption });
+  update(id: string, dto: UpdatePostDto): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/${id}`, dto);
   }
 
-  // ✅ [Authorize] DELETE /api/posts/{id}
   delete(id: string): Observable<void> {
-    return this.http.delete<void>(this.base + encodeURIComponent(id));
-  }
-
-  // اگر multipart داری (create-with-photo):
-  // endpoint رو اگر اسمش فرق داره عوض کن
-  createWithPhoto(caption: string, file: File): Observable<Post> {
-    const fd = new FormData();
-    fd.append('caption', caption ?? '');
-    fd.append('File', file);
-    return this.http.post<Post>(this.base + 'create-with-photo', fd);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }
-
-
-// createJson(caption: string, photoUrl: string): Observable<Post> {
-//   return this.http.post<Post>(this.base, { caption, photoUrl });
-// }

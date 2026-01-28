@@ -55,7 +55,12 @@ export class AccountService {
         if (res) {
           this.setCurrentUser(res);
 
-          this.router.navigateByUrl('dashboard');
+          if (res.roles.includes('admin')) {
+            this.router.navigateByUrl('admin');
+          }
+          else {
+            this.router.navigateByUrl('dashboard');
+          }
 
           return res;
         }
@@ -94,10 +99,22 @@ export class AccountService {
   }
 
   setCurrentUser(loggedIn: LoggedIn): void {
+    this.setLoggedInUserRoles(loggedIn);
+
     this.loggedInUserSig.set(loggedIn);
+    
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem('loggedInUser', JSON.stringify(loggedIn));
     }
+  }
+
+
+  setLoggedInUserRoles(loggedInUser: LoggedIn): void {
+    loggedInUser.roles = [];
+
+    const roles: string | string[] = JSON.parse(atob(loggedInUser.token.split('.')[1])).role;
+
+    Array.isArray(roles) ? loggedInUser.roles = roles : loggedInUser.roles.push(roles);
   }
 
   logout(): void {
