@@ -1,33 +1,64 @@
-<<<<<<< HEAD
-=======
-<div class="nf-wrapper">
-  <div class="nf-card">
-    <div class="nf-pill">Synq • social hub</div>
+<div class="error-container">
+  <!-- Glowing Background Accent (Amber/Cyan tech tone) -->
+  <div class="ambient-glow glow-amber"></div>
 
-    <div class="nf-code">500</div>
-
-    <h1 class="nf-title">Oops! nothing server error!!</h1>
-
-    <p class="nf-text">
-     server rerorr 
-    </p>
-
-    <div class="nf-actions">
-      <a routerLink="/" class="nf-btn nf-btn-primary">
-        Back to Home
-      </a>
-
-      <a routerLink="/explore" class="nf-btn nf-btn-ghost">
-        Go to Explore
-      </a>
+  <div class="error-card">
+    <div class="badge-status">
+      <mat-icon>cloud_off</mat-icon>
+      <span>HTTP 503 &bull; Backend Unreachable</span>
     </div>
 
-    <p class="nf-sub">
-      If you think this is a bug, we’ll probably fix it… eventually 😄
-    </p>
-  </div>
+    <!-- Animated Server Tower Graphic -->
+    <div class="server-status-visual">
+      <div class="server-rack">
+        <div class="rack-unit">
+          <span class="status-led led-green"></span>
+          <div class="unit-bars"><span></span><span></span></div>
+        </div>
+        <div class="rack-unit">
+          <span class="status-led led-green"></span>
+          <div class="unit-bars"><span></span><span></span></div>
+        </div>
+        <div class="rack-unit error-unit">
+          <span class="status-led led-red blink"></span>
+          <div class="unit-bars"><span></span></div>
+          <mat-icon class="disconnect-icon">wifi_off</mat-icon>
+        </div>
+      </div>
+    </div>
 
-  <div class="nf-bg-bubble nf-bg-bubble-1"></div>
-  <div class="nf-bg-bubble nf-bg-bubble-2"></div>
+    <h1 class="error-title">Synq Core is Offline</h1>
+    <p class="error-desc">
+      We are having trouble communicating with the API Gateway &amp; Database cluster.
+      Services may be undergoing maintenance or the daemon is rebooting.
+    </p>
+
+    <!-- Health Diagnostics Diagnostic Grid -->
+    <div class="diagnostic-grid">
+      <div class="diag-card">
+        <span class="diag-label">SignalR Hub</span>
+        <strong class="diag-state state-disconnected">Disconnected</strong>
+      </div>
+      <div class="diag-card">
+        <span class="diag-label">Database</span>
+        <strong class="diag-state state-pending">Pending Sync</strong>
+      </div>
+      <div class="diag-card">
+        <span class="diag-label">API Gateway</span>
+        <strong class="diag-state state-offline">Offline</strong>
+      </div>
+    </div>
+
+    <!-- Actions (Retry Ping) -->
+    <div class="actions-group">
+      <button type="button" class="btn-primary" (click)="retryConnection()">
+        <mat-icon [class.spin]="isRetrying">autorenew</mat-icon>
+        <span>{{ isRetrying ? 'Pinging Gateway...' : 'Retry Connection' }}</span>
+      </button>
+      <a routerLink="/" class="btn-secondary">
+        <mat-icon>home</mat-icon>
+        <span>Home</span>
+      </a>
+    </div>
+  </div>
 </div>
->>>>>>> a86f0bb (clean():cod clean components)

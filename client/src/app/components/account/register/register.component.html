@@ -1,233 +1,111 @@
 <div class="auth-shell">
-    <div class="auth-card">
-        <header class="auth-header">
-            <span class="auth-logo-dot"></span>
-            <h2 class="auth-title">Create account</h2>
-            <p class="auth-subtitle">Start syncing your world today.</p>
-        </header>
+    <div class="auth-card auth-card-wide">
+        <div class="auth-header">
+            <div class="auth-logo-dot"></div>
+            <h1 class="auth-title">Create Account</h1>
+            <p class="auth-subtitle">Join Synq and discover people with shared passions</p>
+        </div>
 
-        <form class="auth-form" [formGroup]="registerFg">
-            <!-- Gender -->
-            <div class="gender">
-                <strong>I am a</strong>
-                <mat-radio-group [formControl]="GenderCtrl" aria-label="Select your gender" color="primary">
+        <form class="auth-form" [formGroup]="registerFg" autocomplete="off">
+            <!-- Gender Selection -->
+            <div class="auth-gender-box">
+                <label class="auth-gender-label">I identify as:</label>
+                <mat-radio-group [formControl]="GenderCtrl" class="auth-gender-group">
                     <mat-radio-button value="female">Female</mat-radio-button>
                     <mat-radio-button value="male">Male</mat-radio-button>
                     <mat-radio-button value="other">Other</mat-radio-button>
                 </mat-radio-group>
             </div>
 
-            <!-- Email -->
+            <!-- Email Field -->
             <mat-form-field appearance="outline" class="auth-field">
-                <mat-label>Email address</mat-label>
+                <mat-label>Email Address</mat-label>
+                <mat-icon matPrefix>alternate_email</mat-icon>
                 <input matInput type="email" [formControl]="EmailCtrl" placeholder="you@example.com" />
                 @if (EmailCtrl.hasError('required')) {
-                <mat-error>This field is required.</mat-error>
-                }
-                @else if (EmailCtrl.hasError('pattern')) {
-                <mat-error>Enter a valid email.</mat-error>
+                <mat-error>Email is required</mat-error>
+                } @else if (EmailCtrl.hasError('pattern')) {
+                <mat-error>Please enter a valid email address</mat-error>
                 }
             </mat-form-field>
 
+            <!-- Username Field -->
             <mat-form-field appearance="outline" class="auth-field">
-                <mat-label>UserName</mat-label>
-                <input matInput type="text" [formControl]="UserNameCtrl" placeholder="synq" />
+                <mat-label>Username</mat-label>
+                <mat-icon matPrefix>person_outline</mat-icon>
+                <input matInput type="text" [formControl]="UserNameCtrl" placeholder="your_handle" />
                 @if (UserNameCtrl.hasError('required')) {
-                <mat-error>This field is required.</mat-error>
-                }
-                @else if (UserNameCtrl.hasError("maxlength")) {
-                <mat-error>Min 30 characters</mat-error>
+                <mat-error>Username is required</mat-error>
+                } @else if (UserNameCtrl.hasError('maxlength')) {
+                <mat-error>Maximum 30 characters allowed</mat-error>
                 }
             </mat-form-field>
 
-            <!-- Password -->
+            <!-- Date of Birth Field -->
+            <mat-form-field appearance="outline" class="auth-field">
+                <mat-label>Date of Birth</mat-label>
+                <mat-icon matPrefix>cake</mat-icon>
+                <input matInput [matDatepicker]="dp3" [min]="minDate" [max]="maxDate" [formControl]="DateOfBirthCtrl"
+                    placeholder="MM/DD/YYYY" />
+                <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
+                <mat-datepicker #dp3 touchUi></mat-datepicker>
+                @if (DateOfBirthCtrl.hasError('required')) {
+                <mat-error>Date of birth is required</mat-error>
+                }
+            </mat-form-field>
+
+            <!-- Password Field with Toggle -->
             <mat-form-field appearance="outline" class="auth-field">
                 <mat-label>Password</mat-label>
-                <input matInput type="password" [formControl]="PasswordCtrl" placeholder="••••••••" />
-                <mat-hint>Between 8 to 30 characters.</mat-hint>
+                <mat-icon matPrefix>lock_outline</mat-icon>
+                <input matInput #regPw type="password" [formControl]="PasswordCtrl" placeholder="••••••••" />
+                <button type="button" mat-icon-button matSuffix
+                    (click)="regPw.type = regPw.type === 'password' ? 'text' : 'password'" tabindex="-1">
+                    <mat-icon>{{ regPw.type === 'password' ? 'visibility' : 'visibility_off' }}</mat-icon>
+                </button>
                 @if (PasswordCtrl.hasError('required')) {
-                <mat-error>This field is required.</mat-error>
-                }
-                @else if (PasswordCtrl.errors && PasswordCtrl.hasError('minlength')) {
-                <mat-error>It's too short. Min: 8 is required.</mat-error>
-                }
-                @else if(PasswordCtrl.errors && PasswordCtrl.hasError('maxlength')) {
-                <mat-error>It's too long. Max: 20 characters.</mat-error>
+                <mat-error>Password is required</mat-error>
+                } @else if (PasswordCtrl.hasError('minlength')) {
+                <mat-error>Minimum 8 characters</mat-error>
+                } @else if (PasswordCtrl.hasError('maxlength')) {
+                <mat-error>Maximum 20 characters</mat-error>
                 }
             </mat-form-field>
 
-            <!-- Confirm Password -->
+            <!-- Confirm Password Field with Toggle -->
             <mat-form-field appearance="outline" class="auth-field">
-                <mat-label>Confirm password</mat-label>
-                <input matInput type="password" [formControl]="ConfirmPasswordCtrl" placeholder="••••••••" />
+                <mat-label>Confirm Password</mat-label>
+                <mat-icon matPrefix>lock_reset</mat-icon>
+                <input matInput #regConfirmPw type="password" [formControl]="ConfirmPasswordCtrl"
+                    placeholder="••••••••" />
+                <button type="button" mat-icon-button matSuffix
+                    (click)="regConfirmPw.type = regConfirmPw.type === 'password' ? 'text' : 'password'" tabindex="-1">
+                    <mat-icon>{{ regConfirmPw.type === 'password' ? 'visibility' : 'visibility_off' }}</mat-icon>
+                </button>
                 @if (ConfirmPasswordCtrl.hasError('required')) {
-                <mat-error>This field is required.</mat-error>
-                }
-                @else if (ConfirmPasswordCtrl.errors && ConfirmPasswordCtrl.hasError('minlength')) {
-                <mat-error>It's too short. Min: {{ConfirmPasswordCtrl.errors['minlength'].requiredLength}} is
-                    required.</mat-error>
-                }
-                @else if(ConfirmPasswordCtrl.errors && ConfirmPasswordCtrl.hasError('maxlength')) {
-                <mat-error>It's too long. Max: {{ConfirmPasswordCtrl.errors['maxlength'].requiredLength}}
-                    characters.</mat-error>
+                <mat-error>Please confirm your password</mat-error>
                 }
             </mat-form-field>
 
-            <!-- Date of birth -->
-            <mat-form-field appearance="outline" class="auth-field">
-                <mat-label>Date of birth</mat-label>
-                <input [formControl]="DateOfBirthCtrl" [min]="minDate" [max]="maxDate" matInput [matDatepicker]="dp3"
-                    placeholder="Enter your date of birth">
-                <mat-hint>Between {{minDate.getFullYear()}} to {{maxDate.getFullYear()}}</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
-                <mat-datepicker #dp3 touchUi disabled="false"></mat-datepicker>
-                @if (DateOfBirthCtrl.hasError('required')) {
-                <mat-error>This field is required.</mat-error>
-                }
-            </mat-form-field>
-
-            <button (click)="register()" mat-flat-button color="parimary" [disabled]="registerFg.invalid">
-                Sign up
-            </button>
-
+            <!-- Passwords Mismatch Alert -->
             @if (passwordsNotMatch) {
-            <p>Passwords don't match!</p>
+            <div class="auth-alert-danger">
+                <mat-icon>warning_amber</mat-icon>
+                <span>Passwords do not match. Please verify and try again.</span>
+            </div>
             }
 
-            <p class="auth-switch">
-                Already have an account?
-                <a routerLink="/account/login">Log in</a>
-            </p>
+            <!-- Submit Button -->
+            <button mat-flat-button type="button" class="auth-submit-btn" (click)="register()"
+                [disabled]="registerFg.invalid">
+                <span>Sign up</span>
+                <mat-icon iconPositionEnd>person_add_alt</mat-icon>
+            </button>
         </form>
+
+        <div class="auth-switch">
+            <span>Already have an account?</span>
+            <a routerLink="/account/login">Log in</a>
+        </div>
     </div>
 </div>
-
-
-
-
-<!-- <div class="auth-page">
-    <div class="auth-header">
-        <div class="auth-logo">bambam</div>
-        <p class="auth-subtitle">Join the community</p>
-    </div>
-
-    <main class="auth-card">
-        <h1 class="auth-title">Create account</h1>
-
-        <form class="auth-form">
-            <div class="auth-field">
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Email</mat-label>
-                    <input type="email" [formControl]="EmailCtrl" matInput>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Name</mat-label>
-                    <input type="text" [formControl]="UserNameCtrl" matInput>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Password</mat-label>
-                    <input type="password" [formControl]="PasswordCtrl" matInput>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Confirm Password</mat-label>
-                    <input type="password" [formControl]="ConfirmPasswordCtrl" matInput>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Date of Birth</mat-label>
-                    <input [formControl]="DateOfBirthCtrl" [min]="minDate" [max]="maxDate" matInput
-                        [matDatepicker]="dp3" placeholder="Enter your date off birth">
-                    <mat-hint>Between {{minDate.getFullYear()}} to {{maxDate.getFullYear()}}</mat-hint>
-                    <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
-                    <mat-datepicker #dp3 touchUi disabled="false"></mat-datepicker>
-                    @if (DateOfBirthCtrl.hasError('required')) {
-                    <mat-error>This field is required.</mat-error>
-                    }
-                </mat-form-field>
-            </div>
-            
-            
-            <label class="auth-checkbox">
-                <input type="checkbox" />
-                <span class="auth-checkbox__box"></span>
-                <span>I agree to the <a href="#" class="auth-link">Terms of Service</a></span>
-            </label>
-
-       
-            <button type="submit" class="auth-btn auth-btn--primary" (click)="register()"
-                [disabled]="registerFg.invalid">
-                <span>Create account</span>
-            </button>
-
-          
-            <p class="auth-footer-text">
-                Already have an account?
-                <a routerLink="/account/login" class="auth-link">Log in</a>
-            </p>
-
-            @if (passwordsNotMatch) {
-            <p>Passwords don't match!</p>
-            }
-
-        </form>
-    </main>
-</div> -->
-
-<!-- <section> -->
-<!-- Signal basic 
-        <p>Value: {{accountService.responseUser}}</p> 
-    -->
-
-<!-- <div class="item-1">
-        <form>
-            <mat-form-field appearance="outline">
-                <mat-label>Email</mat-label>
-                <input type="email" [formControl]="EmailCtrl" matInput>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-                <mat-label>Name</mat-label>
-                <input type="text" [formControl]="UserNameCtrl" matInput>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-                <mat-label>Password</mat-label>
-                <input type="password" [formControl]="PasswordCtrl" matInput>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-                <mat-label>Confirm Password</mat-label>
-                <input type="password" [formControl]="ConfirmPasswordCtrl" matInput>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-                <mat-label>Date of Birth</mat-label>
-                <input [formControl]="DateOfBirthCtrl" [min]="minDate" [max]="maxDate" matInput [matDatepicker]="dp3"
-                    placeholder="Enter your date off birth">
-                <mat-hint>Between {{minDate.getFullYear()}} to {{maxDate.getFullYear()}}</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
-                <mat-datepicker #dp3 touchUi disabled="false"></mat-datepicker>
-                @if (DateOfBirthCtrl.hasError('required')) {
-                <mat-error>This field is required.</mat-error>
-                }
-            </mat-form-field>
-
-            <button (click)="register()" mat-flat-button color="parimary" [disabled]="registerFg.invalid">
-                Register
-            </button>
-
-            @if (passwordsNotMatch) {
-            <p>Passwords don't match!</p>
-            }
-        </form> 
-    </div>
-</section> -->
-
-<!-- <button (click)="login()" mat-stroked-button color="parimary">Login</button> -->
-
-<!-- <p>register works!</p>
-<button routerLink="/account/login">login</button> -->

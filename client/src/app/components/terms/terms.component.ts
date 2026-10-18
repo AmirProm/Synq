@@ -1,23 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-rules',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, MatIconModule],
   templateUrl: './terms.component.html',
-  styleUrl: './terms.component.scss'
+  styleUrls: ['./terms.component.scss']
 })
 export class termsComponent implements OnInit {
-  accepted = false;
-
-  constructor(private router: Router) { }
+  private router = inject(Router);
+  accepted: boolean = false;
 
   ngOnInit(): void {
-    const alreadyAccepted = localStorage.getItem('termsAccepted');
-    if (alreadyAccepted === 'true') {
-      this.router.navigateByUrl('/');
+    if (localStorage.getItem('termsAccepted') === 'true') {
+      this.router.navigate(['/']);
     }
+  }
+
+  toggleAccepted(): void {
+    this.accepted = !this.accepted;
   }
 
   onAcceptChange(event: Event): void {
@@ -26,8 +30,7 @@ export class termsComponent implements OnInit {
 
   acceptTerms(): void {
     if (!this.accepted) return;
-
     localStorage.setItem('termsAccepted', 'true');
-    this.router.navigateByUrl('/');
+    this.router.navigate(['/']);
   }
 }

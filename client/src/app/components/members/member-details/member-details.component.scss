@@ -1,280 +1,296 @@
-// متغیرهای رنگی مینیمال
-$primary: #0f172a; // تیره و مدرن برای المان‌های اصلی
-$primary-light: #334155;
-$bg-body: #f8fafc;
-$bg-card: #ffffff;
-$border-light: #e2e8f0;
-$text-main: #1e293b;
-$text-muted: #64748b;
-$offline-color: #94a3b8;
+$synq-primary: #00c797;
+$synq-primary-dark: #009a74;
+$slate-900: #0f172a;
+$slate-700: #334155;
+$slate-500: #64748b;
+$slate-200: #e2e8f0;
+$slate-50: #f8fafc;
 
 .profile-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 32px 16px;
-}
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 36px 20px 60px;
+  box-sizing: border-box;
 
-// چیدمان اصلی (Grid)
-.profile-layout {
+  .profile-layout {
     display: grid;
-    grid-template-columns: 320px 1fr;
+    grid-template-columns: 310px 1fr;
     gap: 32px;
     align-items: start;
 
-    // ریسپانسیو برای موبایل و تبلت
     @media (max-width: 868px) {
-        grid-template-columns: 1fr; // ستون‌ها زیر هم می‌روند
+      grid-template-columns: 1fr;
     }
+  }
 }
 
-// استایل مشترک کارت‌ها (Card)
 .card {
-    background: $bg-card;
-    border-radius: 24px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba($border-light, 0.5);
-    overflow: hidden;
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid #edf2f7;
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.04);
 }
 
-// ==========================================
-// استایل سایدبار چپ (Left Side)
-// ==========================================
+// ---------------------------
+// LEFT SIDE CARD
+// ---------------------------
 .left-side {
-    padding: 32px 24px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 
-    .photo-wrapper {
-        position: relative;
-        display: inline-block;
-        margin: 0 auto;
-    }
+  .avatar-wrap {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 16px;
 
     .profile-photo {
-        width: 180px;
-        height: 180px;
-        border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #ffffff;
+      box-shadow: 0 8px 22px rgba(0, 199, 151, 0.2);
+    }
+
+    .status-indicator {
+      position: absolute;
+      bottom: 6px;
+      right: 8px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 3px solid #ffffff;
+
+      &.offline {
+        background: #94a3b8;
+      }
+
+      &.online {
+        background: $synq-primary;
+      }
+    }
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: $slate-50;
+    border: 1px solid $slate-200;
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 0.8rem;
+    color: $slate-700;
+    margin-bottom: 20px;
+
+    .gender-icon {
+      font-size: 0.95rem;
+    }
+
+    .status-text {
+      font-weight: 600;
+    }
+  }
+
+  .user-details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 0;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 20px;
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+
+      .label {
+        color: $slate-500;
+      }
+
+      .value {
+        font-weight: 600;
+        color: $slate-700;
+      }
+    }
+  }
+
+  .btn-chat-trigger {
+    width: 100%;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, $synq-primary 0%, $synq-primary-dark 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 199, 151, 0.28);
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 199, 151, 0.38);
+    }
+  }
+}
+
+// ---------------------------
+// RIGHT SIDE CARD & TABS
+// ---------------------------
+.right-side {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .custom-tabs {
+    display: flex;
+    gap: 8px;
+    background: $slate-50;
+    padding: 6px;
+    border-radius: 16px;
+    border: 1px solid $slate-200;
+    overflow-x: auto;
+
+    .tab-btn {
+      flex: 1;
+      padding: 9px 16px;
+      background: transparent;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: $slate-500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+
+      .badge-count {
+        background: $slate-200;
+        color: $slate-700;
+        font-size: 0.72rem;
+        padding: 2px 7px;
+        border-radius: 99px;
+      }
+
+      &.active {
+        background: #ffffff;
+        color: $synq-primary-dark;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+        .badge-count {
+          background: rgba(0, 199, 151, 0.15);
+          color: $synq-primary-dark;
+        }
+      }
+    }
+  }
+
+  .tab-contents {
+    min-height: 280px;
+
+    .photo-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+
+      .gallery-img {
+        width: 100%;
+        aspect-ratio: 1;
+        border-radius: 16px;
         object-fit: cover;
-        border: 4px solid $bg-card;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        cursor: pointer;
         transition: transform 0.3s ease;
 
         &:hover {
-            transform: scale(1.02);
+          transform: scale(1.04);
         }
-    }
-
-    // نشانگر وضعیت
-    .status-badge {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        background-color: $bg-body;
-        padding: 8px 16px;
-        border-radius: 30px;
-        margin: 0 auto;
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: $text-muted;
-
-        .gender-icon {
-            font-size: 1.2rem;
-        }
-
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-
-            &.offline {
-                background-color: $offline-color;
-            }
-
-            &.online {
-                background-color: #22c55e;
-            }
-
-            // در صورت نیاز برای آنلاین
-        }
-    }
-
-    // لیست مشخصات
-    .user-details {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        text-align: left;
-        margin-top: 8px;
-
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 12px;
-            border-bottom: 1px solid $border-light;
-
-            &:last-child {
-                border-bottom: none;
-                padding-bottom: 0;
-            }
-
-            .label {
-                color: $text-muted;
-                font-size: 0.9rem;
-                font-weight: 500;
-            }
-
-            .value {
-                color: $text-main;
-                font-weight: 600;
-                font-size: 0.95rem;
-            }
-        }
-    }
-}
-
-// ==========================================
-// استایل بخش راست و تب‌ها (Right Side)
-// ==========================================
-.right-side {
-    min-height: 500px;
-    display: flex;
-    flex-direction: column;
-
-    // هدر تب‌ها
-    .custom-tabs {
-        display: flex;
-        border-bottom: 1px solid $border-light;
-        padding: 0 16px;
-        overflow-x: auto; // اسکرول افقی در موبایل برای تب‌ها
-        scrollbar-width: none;
-
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    }
-
-    .tab-btn {
-        background: transparent;
-        border: none;
-        padding: 20px 24px;
-        font-size: 1rem;
-        font-weight: 600;
-        color: $text-muted;
-        cursor: pointer;
-        position: relative;
-        white-space: nowrap;
-        transition: all 0.3s ease;
-
-        // افکت خط زیر تب فعال
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: $primary;
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-            border-radius: 3px 3px 0 0;
-        }
-
-        &:hover {
-            color: $text-main;
-        }
-
-        &.active {
-            color: $primary;
-
-            &::after {
-                transform: scaleX(1);
-            }
-        }
-    }
-
-    // محتوای تب‌ها
-    .tab-contents {
-        padding: 32px;
-        flex: 1;
-
-        @media (max-width: 600px) {
-            padding: 24px 16px;
-        }
+      }
     }
 
     .content-block {
-        margin-bottom: 32px;
+      background: $slate-50;
+      border: 1px solid $slate-200;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
 
-        &:last-child {
-            margin-bottom: 0;
-        }
+      h2 {
+        margin: 0 0 8px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: $slate-900;
+      }
 
-        h2 {
-            font-size: 1.25rem;
-            color: $text-main;
-            margin-top: 0;
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
-
-        p {
-            color: $text-muted;
-            line-height: 1.7;
-            font-size: 1rem;
-            margin: 0;
-        }
+      p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: $slate-700;
+      }
     }
 
-    // گالری عکس
-    .photo-gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 16px;
-
-        .gallery-img {
-            width: 100%;
-            aspect-ratio: 1;
-            object-fit: cover;
-            border-radius: 16px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-
-            &:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            }
-        }
-    }
-
-    // پیام خالی بودن تب
     .empty-state {
-        text-align: center;
-        padding: 64px 20px;
-        color: $text-muted;
-        font-size: 1.1rem;
-        background: $bg-body;
-        border-radius: 16px;
-        border: 1px dashed $border-light;
+      text-align: center;
+      padding: 40px 20px;
+      color: $slate-500;
+      border: 2px dashed $slate-200;
+      border-radius: 16px;
     }
+
+    .chat-placeholder {
+      text-align: center;
+      padding: 40px 20px;
+
+      .chat-icon {
+        font-size: 2.4rem;
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: $slate-900;
+      }
+
+      p {
+        margin: 6px 0 0;
+        color: $slate-500;
+        font-size: 0.85rem;
+      }
+    }
+  }
 }
 
-// انیمیشن محو شدن هنگام تغییر تب
 .fade-in {
-    animation: fadeIn 0.4s ease-out forwards;
+  animation: fadeIn 0.35s ease forwards;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

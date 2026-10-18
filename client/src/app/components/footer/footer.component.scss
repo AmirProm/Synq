@@ -1,73 +1,155 @@
+$synq-primary: #00c797;
+$synq-dark: #009a74;
+$glass-bg: rgba(255, 255, 255, 0.78);
+$glass-border: rgba(226, 232, 240, 0.85);
+$text-main: #0f172a;
+$text-muted: #64748b;
+
 :host {
-  --synq-bg-main: #f8fafc;
-  --synq-bg-soft: #ecfdf5;
-  --synq-card: #ffffff;
-  --synq-primary: #00c797;
-  --synq-accent: #0ea5e9;
-  --synq-text-main: #0f172a;
-  --synq-text-muted: #64748b;
-  --synq-border: #e2e8f0;
   display: block;
+  width: 100%;
 }
 
 .synq-footer {
-  border-top: 1px solid var(--synq-border);
-  background: var(--synq-card);
-  position: sticky;
-  bottom: 0;
-  z-index: 50;
-}
+  width: 100%;
+  background: $glass-bg;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid $glass-border;
+  padding: 14px 24px;
+  box-sizing: border-box;
 
-.footer-inner {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0.75rem 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.logo-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 999px;
-  background: radial-gradient(circle at 30% 20%, var(--synq-accent), var(--synq-primary));
-}
-
-.logo-text {
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  color: var(--synq-text-main);
-}
-
-.meta {
-  margin-left: auto;
-  display: flex;
-  gap: 0.6rem;
-  font-size: 0.78rem;
-  color: var(--synq-text-muted);
-}
-
-.made-by {
-  opacity: 0.85;
-}
-
-/* ریسپانسیو */
-@media (max-width: 640px) {
   .footer-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    padding-inline: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
   }
 
-  .meta {
-    margin-left: 0;
+  // Brand Capsule
+  .brand-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      .logo-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, $synq-primary, $synq-dark);
+        box-shadow: 0 0 8px rgba(0, 199, 151, 0.5);
+      }
+
+      .logo-text {
+        font-size: 0.95rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: $text-main;
+        text-transform: lowercase;
+      }
+    }
+
+    .version-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: $synq-dark;
+      background: rgba(0, 199, 151, 0.1);
+      padding: 2px 7px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 199, 151, 0.25);
+    }
+  }
+
+  // Status Beacon
+  .system-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    background: rgba(241, 245, 249, 0.8);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 9999px;
+
+    .status-beacon {
+      width: 6px;
+      height: 6px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #10b981;
+    }
+
+    .status-label {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #334155;
+    }
+  }
+
+  // Links & Meta
+  .meta-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 0.78rem;
+    color: $text-muted;
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      a {
+        color: $text-muted;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.15s ease;
+
+        &:hover {
+          color: $synq-dark;
+        }
+      }
+    }
+
+    .copyright {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .author {
+        font-weight: 600;
+        color: #334155;
+      }
+    }
+
+    .sep {
+      color: #cbd5e1;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .synq-footer {
+    padding: 16px 16px;
+
+    .footer-inner {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+    }
+
+    .meta-group {
+      flex-direction: column;
+      gap: 6px;
+    }
   }
 }

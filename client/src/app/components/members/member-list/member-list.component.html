@@ -1,18 +1,31 @@
-<section class="members-container">
-  
-  <!-- سایدبار: فرم فیلتر و جستجو -->
+<div class="members-container">
+
+  <!-- سایدبار فیلتر هوشمند Synq -->
   <aside class="sidebar-filter">
-    <h1 class="page-title">Find Your Beloved One!</h1>
-    
+    <div class="filter-header">
+      <div class="title-wrap">
+        <span class="icon-bubble">⚡</span>
+        <h2 class="page-title">Explore Members</h2>
+      </div>
+      <p class="page-subtitle">Filter community by activity and age</p>
+    </div>
+
     <form class="filter-form">
-      <!-- بخش مرتب‌سازی -->
+      <!-- مرتب سازی -->
       <div class="form-group">
-        <label for="sortMembers" class="form-label">Sort members</label>
+        <label for="sortMembers" class="form-label">Sort By</label>
         <div class="custom-select-wrapper">
-          <!-- در HTML خام به جای selectionChange از change استفاده می‌شود -->
-          <select id="sortMembers" class="custom-input" [formControl]="OrderByCtrl" (change)="updateMemberParams(); getAll();">
+          <select
+            id="sortMembers"
+            class="custom-input select-input"
+            [formControl]="OrderByCtrl"
+            (change)="updateMemberParams(); getAll();"
+          >
             @for (orderOption of orderOptions; track $index) {
-              <option [value]="orderOption" [disabled]="orderOption === memberParams?.orderBy">
+              <option
+                [value]="orderOption"
+                [disabled]="orderOption === memberParams?.orderBy"
+              >
                 {{ orderOptionsView[$index] }}
               </option>
             }
@@ -20,94 +33,131 @@
         </div>
       </div>
 
-      <!-- بخش جستجو -->
+      <!-- جستجوی متنی -->
       <div class="form-group">
-        <label for="searchQuery" class="form-label">Search members</label>
-         <mat-form-field id="searchQuery" class="custom-input" >
-        <input [formControl]="SearchCtrl" matInput placeholder="By Useraname or city" type="text">
-      </mat-form-field>
-
+        <label class="form-label">Search Query</label>
+        <div class="search-input-wrapper">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="text"
+            class="custom-input search-input"
+            placeholder="Name, city, or bio..."
+            [formControl]="SearchCtrl"
+          />
+        </div>
       </div>
 
-      <!-- بخش رنج سنی (جایگزین اسلایدر متریال با دو اینپوت تمیز) -->
+      <!-- فیلتر سن -->
       <div class="form-group">
-        <label class="form-label">By age range</label>
+        <label class="form-label">Age Range</label>
         <div class="age-range-inputs">
           <div class="input-box">
             <span class="prefix">Min</span>
-            <input type="number" class="custom-input text-center" [formControl]="MinAgeCtrl" [min]="minAge" [max]="maxAge">
+            <input
+              type="number"
+              class="custom-input text-center"
+              [min]="minAge"
+              [max]="maxAge"
+              [formControl]="MinAgeCtrl"
+            />
           </div>
-          <span class="divider">-</span>
+          <span class="divider">—</span>
           <div class="input-box">
             <span class="prefix">Max</span>
-            <input type="number" class="custom-input text-center" [formControl]="MaxAgeCtrl" [min]="minAge" [max]="maxAge">
+            <input
+              type="number"
+              class="custom-input text-center"
+              [min]="minAge"
+              [max]="maxAge"
+              [formControl]="MaxAgeCtrl"
+            />
           </div>
         </div>
       </div>
 
-      <!-- دکمه‌های اکشن -->
+      <!-- دکمه‌های فیلتر -->
       <div class="form-actions">
-        <button type="button" class="btn btn-primary" (click)="updateMemberParams(); getAll();">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="updateMemberParams(); getAll();"
+        >
           Apply Filter
         </button>
-        <button type="button" class="btn btn-warn-outline" (click)="reset()">
+        <button
+          type="button"
+          class="btn btn-warn-outline"
+          (click)="reset()"
+        >
           Reset
         </button>
       </div>
     </form>
   </aside>
 
-  <!-- بخش اصلی: لیست کاربران و صفحه‌بندی -->
+  <!-- لیست اعضا و صفحه‌بندی -->
   <main class="main-content">
-    
-    <!-- گرید کاربران -->
     <div class="members-grid">
       @if (members?.length === 0) {
         <div class="empty-state">
           <div class="icon-placeholder">🔍</div>
-          <p>No user exists with this filter.<br>Please change the filter values or Reset.</p>
+          <h3>No members found</h3>
+          <p>Try widening your age filter or clearing search keywords.</p>
+          <button class="btn btn-warn-outline" type="button" (click)="reset()">Reset Filters</button>
         </div>
-      }
-      
-      @for (member of members; track $index) {
-        <!-- کامپوننت کارت شما که قبلاً استایل دادیم -->
-        <app-member-card [memberInput]="member"></app-member-card>
+      } @else {
+        @for (member of members; track $index) {
+          <app-member-card [memberInput]="member"></app-member-card>
+        }
       }
     </div>
 
-    <!-- صفحه‌بندی اختصاصی (Custom Paginator) -->
-    @if (pagination && memberParams) {
+    <!-- پیجینیشن کاستوم Synq -->
+    @if (pagination && memberParams && pagination.totalPages > 1) {
       <div class="custom-paginator">
         <div class="page-size-selector">
-          <label for="pageSize">Items per page:</label>
-          <select id="pageSize" class="custom-input small" (change)="onCustomPageSizeChange($event)">
-            @for (size of pageSizeOptions; track $index) {
-              <option [value]="size" [selected]="size === memberParams.pageSize">{{ size }}</option>
-            }
-          </select>
+          <label for="pageSizeSelect">Show:</label>
+          <div class="custom-select-wrapper">
+            <select
+              id="pageSizeSelect"
+              class="custom-input small select-input"
+              (change)="onCustomPageSizeChange($event)"
+            >
+              @for (size of pageSizeOptions; track $index) {
+                <option [value]="size" [selected]="size === memberParams.pageSize">
+                  {{ size }} / page
+                </option>
+              }
+            </select>
+          </div>
         </div>
-        
+
         <div class="pagination-controls">
-          <!-- دکمه صفحه قبل -->
-          <button class="btn-page" 
-                  [disabled]="memberParams.pageNumber === 1" 
-                  (click)="onCustomPageChange(memberParams.pageNumber - 1)">
-            Prev
+          <button
+            class="btn-page"
+            [disabled]="memberParams.pageNumber === 1"
+            (click)="onCustomPageChange(memberParams.pageNumber - 1)"
+          >
+            ← Prev
           </button>
-          
+
           <span class="page-info">
-            Page <strong>{{ memberParams.pageNumber }}</strong> of <strong>{{ pagination.totalPages }}</strong>
+            Page <strong>{{ memberParams.pageNumber }}</strong> of {{ pagination.totalPages }}
           </span>
-          
-          <!-- دکمه صفحه بعد -->
-<button class="btn-page" 
-                  [disabled]="memberParams.pageNumber === pagination.totalPages" 
-                  (click)="onCustomPageChange(memberParams.pageNumber + 1)">
-            Next
+
+          <button
+            class="btn-page"
+            [disabled]="memberParams.pageNumber === pagination.totalPages"
+            (click)="onCustomPageChange(memberParams.pageNumber + 1)"
+          >
+            Next →
           </button>
         </div>
       </div>
     }
   </main>
-</section>
-     
+
+</div>

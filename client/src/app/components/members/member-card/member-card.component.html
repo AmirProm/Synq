@@ -1,55 +1,52 @@
-@if (memberIn) {
+نننننننننننننن@if (memberIn) {
 <article class="member-card">
-
-  <!-- بخش بالایی: تصویر و دکمه‌های اکشن -->
-  <div class="card-body" [routerLink]="['/members/' + memberIn.userName]">
-    <header class="card-header">
-      <div class="image-wrapper">
-        <!-- شرط نداشتن عکس -->
-        @if (memberIn.photos.length === 0) {
-        <img src="synq.jpeg" alt="{{ memberIn.userName }}" class="profile-img">
-        }
-        <!-- شرط داشتن عکس -->
-        @else {
-        @for (photo of memberIn.photos; track $index) {
+  <div class="card-header" [routerLink]="['/members/' + memberIn.userName]">
+    @if (memberIn.photos.length === 0) {
+      <img
+        src="synq.jpeg"
+        alt="{{ memberIn.userName }}"
+        class="profile-img fallback"
+        loading="lazy"
+      />
+    } @else {
+      @for (photo of memberIn.photos; track $index) {
         @if (photo.isMain) {
-        <img [src]="apiUrl + photo.url_165" alt=" {{ memberIn.userName }}" class="profile-img">
+          <img
+            [src]="apiUrl + photo.url_165"
+            alt="{{ memberIn.userName }}"
+            class="profile-img"
+            loading="lazy"
+          />
         }
-        }
-        }
+      }
+    }
 
-        <!-- یک لایه تاریک ملایم روی عکس برای بهتر دیده شدن دکمه‌ها -->
-        <div class="overlay"></div>
-      </div>
+    <div class="overlay"></div>
 
-      <!-- دکمه‌های شناور (اکشن‌ها) -->
-      <!-- <ul class="action-buttons">
-      <li>
-        <button class="btn-action btn-primary" aria-label="افزودن کاربر">
-          <i class="icon-person-add"></i>
-        </button>
-      </li>
-      <li>
-        <button class="btn-action btn-warn" aria-label="علاقه‌مندی">
-          <i class="icon-favorite"></i>
-        </button>
-      </li>
-      <li>
-        <button class="btn-action btn-accent" aria-label="ارسال پیام">
-          <i class="icon-mail"></i>
-        </button>
-      </li>
-    </ul> -->
-    </header>
-
-    <!-- بخش پایینی: اطلاعات کاربر (قابل کلیک برای انتقال به صفحه جزئیات) -->
-    <div class="user-info">
-      <h3 class="username">{{ memberIn.userName }}</h3>
-      <div class="meta-data">
-        <span class="age">{{ memberIn.age }} Age</span>
-      </div>
-    </div>
+    <span class="location-chip">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+        <circle cx="12" cy="10" r="3"></circle>
+      </svg>
+      {{ memberIn.city || 'Global' }}
+    </span>
   </div>
 
+  <div class="card-body" [routerLink]="['/members/' + memberIn.userName]">
+    <div class="user-row">
+      <h3 class="username" title="{{ memberIn.userName }}">
+        {{ memberIn.userName }}
+      </h3>
+      <span class="meta-data">{{ memberIn.age }} Age</span>
+    </div>
+
+    <div class="status-row">
+      <span class="online-pill">
+        <span class="dot"></span>
+        Active
+      </span>
+      <span class="arrow-hint">View →</span>
+    </div>
+  </div>
 </article>
 }

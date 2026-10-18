@@ -1,34 +1,50 @@
-<<<<<<< HEAD
-=======
-<div class="nf-wrapper">
-  <div class="nf-card">
-    <div class="nf-pill">Synq • social hub</div>
+<div class="error-container">
+  <!-- Glowing Background Accent -->
+  <div class="ambient-glow glow-emerald"></div>
 
-    <div class="nf-code">404</div>
-
-    <h1 class="nf-title">Oops! Nothing to see here 🤷‍♂️</h1>
-
-    <p class="nf-text">
-      It looks like this page doesn't exist in Synq.
-      The link might be wrong, or the page may have been moved.
-    </p>
-
-    <div class="nf-actions">
-      <a routerLink="/" class="nf-btn nf-btn-primary">
-        Back to Home
-      </a>
-
-      <a routerLink="/explore" class="nf-btn nf-btn-ghost">
-        Go to Explore
-      </a>
+  <div class="error-card">
+    <div class="badge-status">
+      <mat-icon>explore_off</mat-icon>
+      <span>Error 404 &bull; Page Out of Orbit</span>
     </div>
 
-    <p class="nf-sub">
-      If you think this is a bug, we’ll probably fix it… eventually 😄
-    </p>
-  </div>
+    <!-- Big Neon Numeric 404 -->
+    <div class="hero-number-wrap">
+      <span class="digit">4</span>
+      <div class="synq-portal-orb">
+        <mat-icon>satellite_alt</mat-icon>
+      </div>
+      <span class="digit">4</span>
+    </div>
 
-  <div class="nf-bg-bubble nf-bg-bubble-1"></div>
-  <div class="nf-bg-bubble nf-bg-bubble-2"></div>
+    <h1 class="error-title">Signal Lost in Space</h1>
+    <p class="error-desc">
+      The destination you requested has either moved, had its identifier updated,
+      or never existed in the Synq registry.
+    </p>
+
+    <!-- Quick Navigation Pills -->
+    <div class="quick-links">
+      <span class="quick-hint">Popular routes:</span>
+      <div class="pills-row">
+        <a routerLink="/" class="pill-link">
+          <mat-icon>dynamic_feed</mat-icon> Feed
+        </a>
+        <a routerLink="/explor" class="pill-link">
+          <mat-icon>search</mat-icon> Explore
+        </a>
+        <a routerLink="/chat" class="pill-link">
+          <mat-icon>chat_bubble_outline</mat-icon> Chat
+        </a>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="actions-group">
+      <a routerLink="/" class="btn-primary">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Return to Safety</span>
+      </a>
+    </div>
+  </div>
 </div>
->>>>>>> a86f0bb (clean():cod clean components)

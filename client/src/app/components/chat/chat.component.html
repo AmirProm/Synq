@@ -1,175 +1,138 @@
-<div class="chat-container">
-  <!-- هدر چت -->
-  <div class="chat-header">
-    <div class="header-content">
-      <div class="chat-info">
-        <div class="chat-avatar">
-          <svg class="chat-icon" viewBox="0 0 24 24">
-            <path
-              d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z" />
-            <path d="M6 12h8v2H6zm0-3h12v2H6zm0-3h12v2H6z" />
-          </svg>
+<main class="chat-page">
+  <div class="chat-container">
+    <!-- CHAT HEADER -->
+    <header class="chat-header">
+      <div class="header-content">
+        <div class="chat-info">
+          <div class="chat-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+          </div>
+          <div class="chat-details">
+            <h1 class="chat-title">Synq Chat</h1>
+            <div class="chat-status">
+              <span class="status-indicator"></span>
+              <span class="status-text">Connected • Realtime</span>
+            </div>
+          </div>
         </div>
-        <div class="chat-details">
-          <h2 class="chat-title">Synq Chat</h2>
-          <p class="chat-status">Messaging</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- بدنه چت -->
-  <div class="chat-body">
-    @if (messages().length === 0) {
-    <!-- حالت خالی -->
-    <div class="empty-chat">
-      <div class="empty-illustration">
-        <svg viewBox="0 0 200 120">
-          <path d="M40,50 Q100,20 160,50 L160,80 Q100,110 40,80 Z" fill="#e8f0fe" stroke="#1a73e8" stroke-width="1" />
-          <circle cx="60" cy="60" r="8" fill="#1a73e8" />
-          <circle cx="140" cy="60" r="8" fill="#1a73e8" />
-          <path d="M80,60 Q100,80 120,60" fill="none" stroke="#1a73e8" stroke-width="2" />
-        </svg>
-      </div>
-      <h3 class="empty-title">No messages yet</h3>
-      <p class="empty-subtitle">Start the conversation by sending the first message</p>
-    </div>
-    } @else {
-    <!-- لیست پیام‌ها -->
-    <div class="messages-list">
-      @for (message of messages(); track $index; let last = $last) {
-      <button *ngIf="isadmin" (click)="deleteMessage(message)">
-        🗑
-      </button>
-      <div class="message-wrapper" [class.message-mine]="isMine(message)">
-        <div class="message-bubble">
-          <!-- هدر پیام -->
-          <div class="message-header">
-            <span class="message-sender">{{ message.user }}</span>
-            @if (message.TimeStamp) {
-            <span class="message-time">
-              {{ message.TimeStamp | date : 'HH:mm' }}
-            </span>
+        @if (currentUser) {
+          <div class="user-chip">
+            <span class="chip-label">Logged in as</span>
+            <span class="chip-name">{{ currentUser.userName | titlecase }}</span>
+            @if (isadmin) {
+              <span class="admin-badge">Admin</span>
             }
           </div>
+        }
+      </div>
+    </header>
 
-          <!-- محتوای پیام -->
-          <div class="message-content">
-            {{ message.message }}
+    <!-- CHAT MESSAGES BODY -->
+    <div class="chat-body" #scrollContainer>
+      @if (messages().length === 0) {
+        <div class="empty-chat">
+          <div class="empty-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
           </div>
+          <h3>No messages yet</h3>
+          <p>Start the conversation! Say hello to the community.</p>
         </div>
-      </div>
-      }
-    </div>
-    }
-  </div>
+      } @else {
+        <div class="messages-list">
+          @for (message of messages(); track message.id ?? $index) {
+            <div
+              class="message-wrapper"
+              [class.message-mine]="isMine(message)">
+              
+              <div class="message-bubble">
+                <div class="message-header">
+                  <span class="sender-name">{{ message.user }}</span>
+                  @if (message.TimeStamp) {
+                    <span class="message-time">
+                      {{ message.TimeStamp | date : 'HH:mm' }}
+                    </span>
+                  }
+                </div>
 
-  <!-- نوار ورود پیام -->
-  <div class="chat-input-area">
-    <div class="input-wrapper">
-      <!-- دکمه ایموجی -->
-      <div class="emoji-section">
-        <button class="emoji-toggle" type="button" (click)="showEmojis" [class.active]="showEmojis">
-          <svg class="emoji-icon" viewBox="0 0 24 24">
-            <path
-              d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
-          </svg>
-        </button>
-      </div>
+                <div class="message-content">
+                  {{ message.message }}
+                </div>
 
-      <!-- فیلد متن -->
-      <div class="text-input">
-        <input type="text" [(ngModel)]="messageText" placeholder="Type your message here..."
-          (keyup.enter)="sendMessage()" class="message-input" />
-      </div>
-
-      <!-- دکمه ارسال -->
-      <div class="send-section">
-        <button class="send-button" (click)="sendMessage()" [disabled]="!messageText.trim()">
-          <svg class="send-icon" viewBox="0 0 24 24">
-            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-          </svg>
-          <span class="send-label">Send</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- پیکر ایموجی -->
-    @if (showEmojis) {
-    <div class="emoji-picker-container">
-      <emoji-mart title="Pick an emoji" emoji="speech_balloon" (emojiSelect)="addEmoji($event)">
-      </emoji-mart>
-    </div>
-    }
-  </div>
-</div>
-
-<div class="chat-input">
-  <button type="button" (click)="showEmojis = !showEmojis">
-    😊
-
-
-    <div class="emoji-box" *ngIf="showEmojis">
-      <emoji-mart title="Pick emoji" emoji="speech_balloon" (emojiSelect)="addEmoji($event)">
-      </emoji-mart>
-    </div>
-
-    <!-- <div class="chat-root">
-  <div class="chat-header">
-    <div class="header-main">
-      <div class="header-info">
-        <div class="title">
-          <h3>Synq Chat</h3>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="chat-body">
-    @if (messages().length > 0) {
-    @for (message of messages(); track $index) {
-    <div class="message-row" [class.mine]="isMine(message)">
-      <div class="bubble">
-        <div class="meta">
-          <span class="user">{{ message.user }}</span>
-
-          @if (message.TimeStamp) {
-          <span class="time">
-            {{ message.TimeStamp | date : 'HH:mm' }}
-          </span>
+                @if (isadmin) {
+                  <button
+                    type="button"
+                    class="btn-delete"
+                    (click)="deleteMessage(message)"
+                    title="Delete message">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="3 6 5 6 21 6" />
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                    </svg>
+                  </button>
+                }
+              </div>
+            </div>
           }
         </div>
-        <div class="content">
-          {{ message.message }}
-        </div>
-      </div>
+      }
     </div>
-    }
-    } @else {
-    <div class="empty-state">
-      <div class="empty-icon">💭</div>
-      <div class="empty-title">No messages yet</div>
-      <div class="empty-subtitle">
-        Start the conversation by sending the first message.
-      </div>
-    </div>
-    }
-  </div>
 
-  <div class="chat-input">
-    <button type="button"  (click)="showEmojis = !showEmojis">
-      😊
-
-
-      <div class="emoji-box" *ngIf="showEmojis">
-        <emoji-mart title="Pick emoji" emoji="speech_balloon" (emojiSelect)="addEmoji($event)">
+    <!-- EMOJI PICKER POPUP -->
+    @if (showEmojis) {
+      <div class="emoji-picker-container">
+        <emoji-mart
+          title="Pick an emoji"
+          emoji="speech_balloon"
+          [set]="'google'"
+          (emojiSelect)="addEmoji($event)">
         </emoji-mart>
       </div>
-    </button>
-    <input [(ngModel)]="messageText" type="text" placeholder="Type a message..." (keyup.enter)="sendMessage()" />
+    }
 
-    <button (click)="sendMessage()">
-      Send
-    </button>
+    <!-- CHAT INPUT AREA -->
+    <footer class="chat-input-area">
+      <div class="input-wrapper">
+        <button
+          type="button"
+          class="emoji-toggle"
+          [class.active]="showEmojis"
+          (click)="toggleEmojis()"
+          title="Insert Emoji"
+          aria-label="Toggle emoji picker">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+            <line x1="9" y1="9" x2="9.01" y2="9" />
+            <line x1="15" y1="9" x2="15.01" y2="9" />
+          </svg>
+        </button>
+
+        <input
+          type="text"
+          class="text-input"
+          placeholder="Type your message..."
+          [(ngModel)]="messageText"
+          (keyup.enter)="sendMessage()"
+          maxlength="800" />
+
+        <button
+          type="button"
+          class="send-button"
+          (click)="sendMessage()"
+          [disabled]="!messageText.trim()"
+          aria-label="Send message">
+          <span>Send</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+          </svg>
+        </button>
+      </div>
+    </footer>
   </div>
-</div> -->
+</main>

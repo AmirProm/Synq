@@ -96,6 +96,9 @@ export class UserEditComponent implements OnInit {
     this.CountryCtrl.setValue(member.country.toUpperCase());
   }
 
+  activeTab: 'profile' | 'photos' = 'profile';
+
+
   updateUser(): void {
     if (this.member) {
       let updateUser: UserUpdate = {

@@ -1,261 +1,313 @@
+$synq-primary: #00c797;
+$synq-primary-dark: #009a74;
+$slate-900: #0f172a;
+$slate-700: #334155;
+$slate-500: #64748b;
+$slate-200: #e2e8f0;
+$slate-50: #f8fafc;
 
-// متغیرهای رنگی پروژه
-$primary-color: #4f46e5; // نیلی/آبی مدرن
-$primary-hover: #4338ca;
-$warn-color: #ef4444;    // قرمز هشدار
-$bg-color: #f8fafc;
-$card-bg: #ffffff;
-$border-color: #e2e8f0;
-$text-dark: #0f172a;
-$text-muted: #64748b;
-
-// ساختار اصلی گرید صفحه
 .members-container {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 290px 1fr;
   gap: 32px;
-  padding: 32px;
-  max-width: 1400px;
+  max-width: 1320px;
   margin: 0 auto;
-  align-items: start;
+  padding: 32px 20px 60px;
+  box-sizing: border-box;
 
   @media (max-width: 992px) {
-    grid-template-columns: 1fr; // در موبایل و تبلت زیر هم قرار می‌گیرند
-    padding: 16px;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 20px 16px 40px;
   }
 }
 
-// ==========================================
-// استایل‌های سایدبار و فرم فیلتر
-// ==========================================
+// ---------------------------
+// SIDEBAR FILTER
+// ---------------------------
 .sidebar-filter {
-  background-color: $card-bg;
-  padding: 24px;
+  background: #ffffff;
   border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  border: 1px solid $border-color;
+  border: 1px solid #edf2f7;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+  padding: 24px;
+  height: fit-content;
   position: sticky;
-  top: 24px; // چسبیدن سایدبار هنگام اسکرول
+  top: 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 
-  .page-title {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: $text-dark;
-    margin-top: 0;
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 2px solid $bg-color;
+  .filter-header {
+    .title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .icon-bubble {
+        font-size: 1.15rem;
+      }
+
+      .page-title {
+        margin: 0;
+        font-size: 1.18rem;
+        font-weight: 700;
+        color: $slate-900;
+      }
+    }
+
+    .page-subtitle {
+      margin: 6px 0 0;
+      font-size: 0.82rem;
+      color: $slate-500;
+    }
   }
 
   .filter-form {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-  }
+    gap: 18px;
 
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
 
-    .form-label {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: $text-dark;
-    }
-  }
-
-  // ورودی‌های اختصاصی (Input & Select)
-  .custom-input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid $border-color;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    color: $text-dark;
-    background-color: $bg-color;
-    transition: all 0.3s ease;
-    outline: none;
-    box-sizing: border-box;
-
-    &:focus {
-      border-color: $primary-color;
-      background-color: $card-bg;
-      box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
-    }
-    
-    &.text-center { text-align: center; }
-  }
-
-  // استایل دو فیلد رنج سنی (Min/Max)
-  .age-range-inputs {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    .input-box {
-      position: relative;
-      flex: 1;
-
-      .prefix {
-        position: absolute;
-        left: 12px;
-        top: 50%;
-        transform: translateY(-50%);
+      .form-label {
         font-size: 0.8rem;
-        color: $text-muted;
         font-weight: 600;
-      }
-
-      .custom-input {
-        padding-left: 40px; // جا باز کردن برای کلمه Min/Max
-      }
-    }
-
-    .divider {
-      color: $text-muted;
-      font-weight: bold;
-    }
-  }
-
-  // دکمه‌ها
-  .form-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 8px;
-
-    .btn {
-      width: 100%;
-      padding: 14px;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: none;
-
-      &.btn-primary {
-        background-color: $primary-color;
-        color: white;
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-
-        &:hover {
-          background-color: $primary-hover;
-          transform: translateY(-2px);
-        }
-      }
-
-      &.btn-warn-outline {
-        background-color: transparent;
-        color: $warn-color;
-        border: 1px solid $warn-color;
-
-        &:hover {
-          background-color: rgba(239, 68, 68, 0.1);
-        }
+        color: $slate-700;
       }
     }
   }
 }
 
-// ==========================================
-// استایل‌های گرید کاربران و وضعیت خالی
-// ==========================================
+// Controls
+.custom-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: $slate-50;
+  border: 1px solid $slate-200;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  color: $slate-900;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+
+  &:focus {
+    background: #ffffff;
+    border-color: $synq-primary;
+    box-shadow: 0 0 0 3px rgba(0, 199, 151, 0.15);
+  }
+
+  &.text-center {
+    text-align: center;
+  }
+
+  &.small {
+    width: auto;
+    padding: 6px 10px;
+    font-size: 0.82rem;
+  }
+}
+
+.search-input-wrapper {
+  position: relative;
+
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $slate-500;
+    pointer-events: none;
+  }
+
+  .search-input {
+    padding-left: 36px;
+  }
+}
+
+.age-range-inputs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .input-box {
+    display: flex;
+    align-items: center;
+    background: $slate-50;
+    border: 1px solid $slate-200;
+    border-radius: 12px;
+    padding: 0 8px;
+    width: 100%;
+
+    .prefix {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: $slate-500;
+      text-transform: uppercase;
+    }
+
+    .custom-input {
+      border: none;
+      background: transparent;
+      padding: 10px 4px;
+      font-weight: 600;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+
+  .divider {
+    color: $slate-500;
+    font-weight: bold;
+  }
+}
+
+// Buttons
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+
+  .btn {
+    border-radius: 12px;
+    padding: 11px 16px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+
+    &.btn-primary {
+      flex: 2;
+      background: linear-gradient(135deg, $synq-primary 0%, $synq-primary-dark 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(0, 199, 151, 0.25);
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(0, 199, 151, 0.35);
+      }
+    }
+
+    &.btn-warn-outline {
+      flex: 1;
+      background: $slate-50;
+      border: 1px solid $slate-200;
+      color: $slate-700;
+
+      &:hover {
+        background: #ffffff;
+        border-color: #cbd5e1;
+      }
+    }
+  }
+}
+
+// ---------------------------
+// MAIN CONTENT & GRID
+// ---------------------------
 .main-content {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 28px;
 
   .members-grid {
     display: grid;
-    // گرید هوشمند بدون نیاز به مدیا کوئری‌های پیچیده
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 20px;
   }
 
   .empty-state {
     grid-column: 1 / -1;
-    background-color: $card-bg;
-    border-radius: 20px;
-    padding: 64px 24px;
     text-align: center;
-    border: 2px dashed $border-color;
-    
+    padding: 60px 20px;
+    background: #ffffff;
+    border: 2px dashed $slate-200;
+    border-radius: 20px;
+
     .icon-placeholder {
-      font-size: 3rem;
-      margin-bottom: 16px;
-      opacity: 0.5;
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 1.15rem;
+      color: $slate-900;
     }
 
     p {
-      color: $text-muted;
-      font-size: 1.1rem;
-      line-height: 1.6;
-      margin: 0;
+      color: $slate-500;
+      font-size: 0.9rem;
+      margin: 6px 0 18px;
     }
   }
 }
-// ==========================================
-// استایل پجینیشن اختصاصی (Paginator)
-// ==========================================
+
+// ---------------------------
+// CUSTOM PAGINATOR
+// ---------------------------
 .custom-paginator {
-  background-color: $card-bg;
-  padding: 16px 24px;
-  border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-  border: 1px solid $border-color;
+  padding: 16px 20px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #edf2f7;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    gap: 12px;
+  }
 
   .page-size-selector {
     display: flex;
     align-items: center;
-    gap: 12px;
-    color: $text-muted;
-    font-weight: 500;
-
-    .custom-input.small {
-      width: 80px;
-      padding: 8px;
-    }
+    gap: 8px;
+    font-size: 0.85rem;
+    color: $slate-500;
   }
 
   .pagination-controls {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
 
     .page-info {
-      color: $text-dark;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
+      color: $slate-700;
 
       strong {
-        color: $primary-color;
+        color: $synq-primary-dark;
       }
     }
 
     .btn-page {
-      padding: 8px 16px;
-      background-color: $bg-color;
-      border: 1px solid $border-color;
-      border-radius: 8px;
-      color: $text-dark;
+      padding: 6px 14px;
+      border-radius: 10px;
+      border: 1px solid $slate-200;
+      background: #ffffff;
+      font-size: 0.82rem;
       font-weight: 600;
+      color: $slate-700;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
 
-      &:not(:disabled):hover {
-        background-color: $primary-color;
-        color: white;
-        border-color: $primary-color;
+      &:hover:not(:disabled) {
+        border-color: $synq-primary;
+        color: $synq-primary-dark;
+        background: rgba(0, 199, 151, 0.05);
       }
 
       &:disabled {
-        opacity: 0.5;
+        opacity: 0.45;
         cursor: not-allowed;
       }
     }

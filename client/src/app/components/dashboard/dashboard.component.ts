@@ -91,8 +91,8 @@ export class DashboardComponent {
     const m = this.memberSig();
     return [
       { label: 'Add a profile photo', done: (m?.photos?.length ?? 0) > 0, action: 'photos' as const },
-      { label: 'Write an introduction', done: !!m?.introduction?.trim(), action: 'edit' as const },
-      { label: 'Add interests', done: !!m?.interests?.trim(), action: 'edit' as const },
+      { label: 'Write an Bio', done: !!m?.introduction?.trim(), action: 'edit' as const },
+      { label: 'Add Keywords', done: !!m?.interests?.trim(), action: 'edit' as const },
       { label: 'Set your location', done: !!m?.city?.trim() && !!m?.country?.trim(), action: 'edit' as const },
     ];
   });

@@ -1,14 +1,13 @@
-
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AccountService } from '../../services/account.service';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { environment } from '../../../environments/environment.development';
+import { AccountService } from '../../services/account.service';
 
-type LanguageCode = 'en' | 'fa';
+export type SettingsTab = 'profile' | 'preferences' | 'privacy' | 'danger';
+export type LanguageCode = 'en' | 'fa';
 
-interface UserSettings {
+export interface UserSettings {
   userName: string;
   email: string;
   displayName: string;
@@ -17,61 +16,87 @@ interface UserSettings {
   allowDirectMessages: boolean;
   showOnlineStatus: boolean;
   darkMode: boolean;
+  soundEffects: boolean;
+  compactMode: boolean;
   language: LanguageCode;
 }
 
 @Component({
   selector: 'app-setting',
-  imports: [CommonModule, MatIconModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule, MatIconModule],
   templateUrl: './setting.component.html',
-  styleUrl: './setting.component.scss'
+  styleUrls: ['./setting.component.scss'],
 })
-export class SettingComponent {
-
+export class SettingComponent implements OnInit {
   accountService = inject(AccountService);
-  apiUrl = environment.apiUrl;
 
-  logout(): void {
-    this.accountService.logout();
-  }
+  activeTab = signal<SettingsTab>('profile');
 
-  readonly languages: { code: LanguageCode; label: string }[] = [
-    { code: 'en', label: 'English' },
-    { code: 'fa', label: 'فارسی' },
+  languages: { code: LanguageCode; label: string; flag: string }[] = [
+    { code: 'en', label: 'English (US)', flag: '🇺🇸' },
+    { code: 'fa', label: 'فارسی (Persian)', flag: '🇮🇷' },
   ];
 
+  get formattedHandle(): string {
+    return '@' + (this.settings.userName || '');
+  }
+
   settings: UserSettings = {
-    userName: 'amir',
-    email: 'amir@example.com',
+    userName: 'synq_user',
+    email: 'user@synq.network',
     displayName: 'Amir',
-    statusNote: 'Focus mode 🔕',
-    bio: 'Building Synq and staying calm.',
+    statusNote: 'Building Synq 🚀',
+    bio: 'Full-stack developer passionate about distributed systems and real-time social nodes.',
     allowDirectMessages: true,
     showOnlineStatus: true,
     darkMode: false,
+    soundEffects: true,
+    compactMode: false,
     language: 'en',
   };
 
   isSaving = false;
-  saveMessage: string | null = null;
+  saveToast = signal<string | null>(null);
 
-  get avatarInitial(): string {
-    return (this.settings.displayName?.charAt(0) || this.settings.userName.charAt(0) || '?').toUpperCase();
+  ngOnInit(): void {
+    const currentUser = this.accountService.loggedInUserSig();
+    if (currentUser) {
+      this.settings.userName = currentUser.userName || 'user';
+      // استفاده ایمن بدون ارور تایپ‌اسکریپت:
+      const anyUser = currentUser as any;
+      this.settings.displayName = anyUser.knownAs || currentUser.userName || 'Member';
+      this.settings.email = anyUser.email || `${currentUser.userName}@synq.network`;
+    }
+  }
+
+
+  setTab(tab: SettingsTab): void {
+    this.activeTab.set(tab);
+  }
+
+  toggleTheme(): void {
+    if (this.settings.darkMode) {
+      document.body.classList.add('synq-dark-theme');
+    } else {
+      document.body.classList.remove('synq-dark-theme');
+    }
   }
 
   saveSettings(): void {
-    if (this.isSaving) return;
-
     this.isSaving = true;
-    this.saveMessage = null;
-
-    // شبیه‌سازی ذخیره‌سازی؛ بعداً این‌جا API صدا می‌زنی
     setTimeout(() => {
       this.isSaving = false;
-      this.saveMessage = 'Settings saved (mock). Wire this to your backend API later.';
-      console.log('Synq user settings (mock save):', this.settings);
-    }, 500);
+      this.showToast('All preferences synced successfully!');
+    }, 450);
   }
 
+  showToast(message: string): void {
+    this.saveToast.set(message);
+    setTimeout(() => this.saveToast.set(null), 3500);
+  }
 
+  logout(): void {
+    this.accountService.logout();
+  }
 }

@@ -11,14 +11,22 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatRadioModule } from '@angular/material/radio';
-
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
-    FormsModule, ReactiveFormsModule,
-    MatButtonModule, MatFormFieldModule, MatRadioModule, MatInputModule, MatDatepickerModule, MatStepperModule, RouterLink
+    FormsModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatRadioModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatStepperModule,
+    MatIconModule,
+    RouterLink
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -67,7 +75,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     return this.registerFg.get('genderCtrl') as FormControl;
   }
 
-
   get PasswordCtrl(): FormControl {
     return this.registerFg.get('passwordCtrl') as FormControl;
   }
@@ -92,18 +99,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
         gender: this.GenderCtrl.value,
         confirmPassword: this.ConfirmPasswordCtrl.value,
         dateOfBirth: dob,
-      }
+      };
 
       this.subscribedRegisterUser = this.accountService.register(user).subscribe({
         next: (res) => console.log(res),
         error: (err: HttpErrorResponse) => {
           if (err.error.errors) {
-            this.errors = err.error.errors
+            this.errors = err.error.errors;
           }
         }
-      })
-    }
-    else {
+      });
+    } else {
       this.passwordsNotMatch = true;
     }
   }
@@ -113,32 +119,5 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     let theDob: Date = new Date(dob);
     return new Date(theDob.setMinutes(theDob.getMinutes() - theDob.getTimezoneOffset())).toISOString().slice(0, 10);
-    // gets the first 10 chars from this date YYYY-MM-DDTHH:mm:ss.sssZ the output is YYYY-MM-DD
   }
-
-  // sliceString(): void {
-  //   let fullName: string = "Amirm safa"
-
-  //   let name: string = fullName.slice(0, 5);
-
-  //   console.log(name);
-  // }
-
-  // getYear(): void {
-  //   let dobString = this.DateOfBirthCtrl.value;
-
-  //   let dateObj = new Date(dobString);
-
-  //   let dateObjUtc = dateObj.setMinutes(dateObj.getMinutes() - dateObj.getTimezoneOffset());
-
-  //   let isoString = dateObj.toISOString();
-
-  //   let dateOnly = isoString.slice(0, 10);
-
-  //   console.log('1', dobString);
-  //   console.log('2', dateObj);
-  //   console.log('3', dateObjUtc);
-  //   console.log('4', isoString);
-  //   console.log('5', dateOnly);
-  // }
 }

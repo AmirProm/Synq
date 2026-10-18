@@ -1,13 +1,33 @@
 <footer class="synq-footer">
   <div class="footer-inner">
-    <div class="brand">
-      <span class="logo-dot"></span>
-      <span class="logo-text">Synq</span>
+
+    <!-- Brand Identity & Version -->
+    <div class="brand-group">
+      <div class="brand">
+        <span class="logo-dot"></span>
+        <span class="logo-text">synq</span>
+      </div>
+      <span class="version-tag">{{ version }}</span>
     </div>
 
-    <div class="meta">
-      <span class="year">© {{ currentYear }} Synq</span>
-      <span class="made-by">Built by Amir</span>
+    <!-- Center System Status Indicator -->
+    <div class="system-status">
+      <span class="status-beacon"></span>
+      <span class="status-label">Network Node Active</span>
     </div>
+
+    <!-- Quick Links & Copyright -->
+    <div class="meta-group">
+      <nav class="footer-links">
+        <span class="sep">·</span>
+        <a routerLink="/settings">Settings</a>
+      </nav>
+      <div class="copyright">
+        <span>&copy; {{ currentYear }} Synq</span>
+        <span class="sep">·</span>
+        <span class="author">Crafted by Amir</span>
+      </div>
+    </div>
+
   </div>
 </footer>

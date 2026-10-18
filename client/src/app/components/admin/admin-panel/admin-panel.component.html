@@ -1,191 +1,239 @@
-<div class="admin-panel">
-    <!-- هدر پنل -->
+<div class="admin-panel-container">
+    <!-- Top Glass Banner -->
     <header class="panel-header">
-        <div class="header-content">
-            <h1 class="panel-title">
-                <svg class="admin-icon" viewBox="0 0 24 24">
-                    <path
-                        d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                    <circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
-                </svg>
-                User Management
-            </h1>
-            <p class="panel-subtitle">Manage all registered users and their roles</p>
+        <div class="header-main">
+            <div class="header-badge">
+                <mat-icon>shield</mat-icon>
+                <span>Administration Console</span>
+            </div>
+            <h1 class="panel-title">User &amp; Role Analytics</h1>
+            <p class="panel-subtitle">Real-time distribution, system authorities, and access permissions</p>
         </div>
 
-        <!-- دکمه‌های عملیاتی -->
-        <!-- <div class="action-tools">
-            <button class="tool-btn" (click)="spread()" title="Spread operator demo">
-                <svg class="btn-icon" viewBox="0 0 24 24">
-                    <path
-                        d="M12 5.83L15.17 9l1.41-1.41L12 3 7.41 7.59 8.83 9 12 5.83zm0 12.34L8.83 15l-1.41 1.41L12 21l4.59-4.59L15.17 15 12 18.17z" />
-                </svg>
-                <span>Spread</span>
+        <div class="header-actions">
+            <button mat-flat-button class="refresh-btn" (click)="showAllUsersWithRoles()" [disabled]="isLoading">
+                <mat-icon [class.spin]="isLoading">sync</mat-icon>
+                <span>{{ isLoading ? 'Refreshing...' : 'Refresh Data' }}</span>
             </button>
-
-            <button class="tool-btn" (click)="removeItem()" title="Remove item demo">
-                <svg class="btn-icon" viewBox="0 0 24 24">
-                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                </svg>
-                <span>Remove</span>
-            </button>
-
-            <button class="tool-btn" (click)="slice()" title="Slice method demo">
-                <svg class="btn-icon" viewBox="0 0 24 24">
-                    <path
-                        d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-3zm14 2l-5-5v3h-3v3h3v3l5-5zm-9 3h-3v3H7l5 5 5-5h-3v-3z" />
-                </svg>
-                <span>Slice</span>
-            </button>
-        </div> -->
+        </div>
     </header>
 
-    <!-- بخش اصلی محتوا -->
-    <main class="panel-content">
-        <!-- آمار کاربران -->
-        <div class="stats-bar" *ngIf="usersWithRoles.length > 0">
-            <div class="stat-card">
-                <span class="stat-number">{{usersWithRoles.length}}</span>
-                <span class="stat-label">Total Users</span>
+    <!-- Interactive Chart & Metrics Section -->
+    <section class="analytics-showcase">
+        <!-- Donut Ring Visual Card -->
+        <div class="chart-hero-card">
+            <div class="chart-wrapper">
+                <svg viewBox="0 0 42 42" class="donut-chart">
+                    <!-- Background track -->
+                    <circle class="donut-track" cx="21" cy="21" r="15.91549430918954" fill="transparent"
+                        stroke="#e2e8f0" stroke-width="4.5"></circle>
+
+                    <!-- Admins Slice (Synq Emerald #00c797) -->
+                    <circle class="donut-segment segment-admin" cx="21" cy="21" r="15.91549430918954" fill="transparent"
+                        stroke="#00c797" stroke-width="5"
+                        [attr.stroke-dasharray]="getAdminPercentage() + ' ' + (100 - getAdminPercentage())"
+                        [attr.stroke-dashoffset]="getAdminOffset()">
+                    </circle>
+
+                    <!-- Moderators Slice (Purple/Violet) -->
+                    <circle class="donut-segment segment-mod" cx="21" cy="21" r="15.91549430918954" fill="transparent"
+                        stroke="#8b5cf6" stroke-width="5"
+                        [attr.stroke-dasharray]="getModeratorPercentage() + ' ' + (100 - getModeratorPercentage())"
+                        [attr.stroke-dashoffset]="getModeratorOffset()">
+                    </circle>
+
+                    <!-- Members Slice (Slate/Blue) -->
+                    <circle class="donut-segment segment-member" cx="21" cy="21" r="15.91549430918954"
+                        fill="transparent" stroke="#64748b" stroke-width="5"
+                        [attr.stroke-dasharray]="getMemberPercentage() + ' ' + (100 - getMemberPercentage())"
+                        [attr.stroke-dashoffset]="getMemberOffset()">
+                    </circle>
+                </svg>
+
+                <!-- Donut Center Label -->
+                <div class="chart-center-content">
+                    <span class="center-count">{{ usersWithRoles.length }}</span>
+                    <span class="center-sub">TOTAL</span>
+                </div>
             </div>
-            <div class="stat-card">
-                <span class="stat-number">{{getAdminCount()}}</span>
-                <span class="stat-label">Admin Users</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">{{getMemberCount()}}</span>
-                <span class="stat-label">Regular Users</span>
+
+            <div class="chart-hero-legend">
+                <div class="legend-header">
+                    <h3>Role Distribution</h3>
+                    <span class="live-pill">Live Synq Status</span>
+                </div>
+                <p class="legend-desc">Visual breakdown of privilege levels across registered accounts.</p>
+
+                <div class="legend-tags">
+                    <span class="legend-item"><i class="dot dot-admin"></i> Admin ({{ getAdminPercentage() }}%)</span>
+                    <span class="legend-item"><i class="dot dot-mod"></i> Moderator ({{ getModeratorPercentage()
+                        }}%)</span>
+                    <span class="legend-item"><i class="dot dot-member"></i> Member ({{ getMemberPercentage()
+                        }}%)</span>
+                </div>
             </div>
         </div>
 
-        <!-- جدول کاربران -->
-        <div class="table-wrapper">
-            <div *ngIf="usersWithRoles.length > 0; else emptyState">
-                <div class="table-container">
-                    <table class="users-table">
-                        <thead>
-                            <tr class="table-header">
-                                <th class="col-no">#</th>
-                                <th class="col-username">Username</th>
-                                <th class="col-roles">Roles</th>
-                                <th class="col-actions">Actions</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr *ngFor="let user of usersWithRoles; let i = index" class="user-row">
-
-                                <!-- شماره ردیف -->
-                                <td class="col-no">
-                                    <span class="row-number">{{i + 1}}</span>
-                                </td>
-
-                                <!-- اطلاعات کاربر -->
-                                <td class="col-username">
-                                    <div class="user-info">
-                                        <div class="user-avatar">
-                                            {{user.userName.charAt(0).toUpperCase()}}
-                                        </div>
-                                        <div class="user-details">
-                                            <span class="user-name">{{user.userName}}</span>
-                                            <!-- <span class="user-email" *ngIf="user.email">{{user.email}}</span>
-                                            <span class="user-email" *ngIf="!user.email">No email provided</span> -->
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <!-- نقش‌ها -->
-                                <td class="col-roles">
-                                    <div class="roles-container">
-                                        <span *ngFor="let role of user.roles" class="role-badge"
-                                            [class.role-admin]="role === 'Admin'"
-                                            [class.role-member]="role === 'Member'">
-                                            {{role}}
-                                        </span>
-                                    </div>
-                                </td>
-
-                                <!-- اقدامات -->
-                                <td class="col-actions">
-                                    <div class="action-buttons">
-                                        <button class="action-btn delete-btn" (click)="deleteUser(i, user.userName)"
-                                            title="Delete this user">
-                                            <svg class="action-icon" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                                            </svg>
-                                            <span>Delete</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- پاورقی جدول -->
-                <div class="table-footer">
-                    <div class="footer-info">
-                        <svg class="info-icon" viewBox="0 0 24 24" width="16" height="16">
-                            <path
-                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
-                        </svg>
-                        <span>Click on action buttons to manage users</span>
+        <!-- Metric Progress Cards -->
+        <div class="metrics-column">
+            <!-- Admin Metric -->
+            <div class="metric-progress-card">
+                <div class="card-top">
+                    <div class="metric-title-group">
+                        <span class="dot-indicator admin-dot"></span>
+                        <span class="metric-title">Administrators</span>
                     </div>
+                    <div class="metric-counts">
+                        <strong>{{ getAdminCount() }}</strong>
+                        <span class="percent-tag admin-tag">{{ getAdminPercentage() }}%</span>
+                    </div>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-fill fill-admin" [style.width.%]="getAdminPercentage()"></div>
                 </div>
             </div>
 
-            <!-- حالت خالی -->
-            <ng-template #emptyState>
-                <div class="empty-state">
-                    <div class="empty-icon">
-                        <svg viewBox="0 0 24 24" width="64" height="64">
-                            <path
-                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                        </svg>
+            <!-- Moderator Metric -->
+            <div class="metric-progress-card">
+                <div class="card-top">
+                    <div class="metric-title-group">
+                        <span class="dot-indicator mod-dot"></span>
+                        <span class="metric-title">Moderators</span>
                     </div>
-                    <h3 class="empty-title">No Users Found</h3>
-                    <p class="empty-message">There are no registered users in the system yet.</p>
+                    <div class="metric-counts">
+                        <strong>{{ getModeratorCount() }}</strong>
+                        <span class="percent-tag mod-tag">{{ getModeratorPercentage() }}%</span>
+                    </div>
                 </div>
-            </ng-template>
+                <div class="progress-bar-bg">
+                    <div class="progress-fill fill-mod" [style.width.%]="getModeratorPercentage()"></div>
+                </div>
+            </div>
+
+            <!-- Member Metric -->
+            <div class="metric-progress-card">
+                <div class="card-top">
+                    <div class="metric-title-group">
+                        <span class="dot-indicator member-dot"></span>
+                        <span class="metric-title">Standard Members</span>
+                    </div>
+                    <div class="metric-counts">
+                        <strong>{{ getMemberCount() }}</strong>
+                        <span class="percent-tag member-tag">{{ getMemberPercentage() }}%</span>
+                    </div>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-fill fill-member" [style.width.%]="getMemberPercentage()"></div>
+                </div>
+            </div>
         </div>
-    </main>
-</div>
+    </section>
 
-<!-- <section class="content">
-    <button (click)="spread()">spread</button>
-    <button (click)="removeItem()">remove</button>
-    <button (click)="slice()">slice</button>
-    <div class="table">
-        @if(usersWithRoles) {
-        <table mat-table [dataSource]="usersWithRoles" class="mat-elevation-z8">
-            <ng-container matColumnDef="no">
-                <th mat-header-cell *matHeaderCellDef> # </th>
-                <td mat-cell *matCellDef="let i = index"> {{i + 1}} </td>
-            </ng-container>
+    <!-- Table Card & Tool Bar -->
+    <section class="table-card">
+        <div class="table-toolbar">
+            <div class="search-box">
+                <mat-icon>search</mat-icon>
+                <input type="text" [(ngModel)]="searchQuery" placeholder="Filter by username..." />
+                <button *ngIf="searchQuery" type="button" class="clear-search" (click)="searchQuery = ''">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
 
-            <ng-container matColumnDef="username">
-                <th mat-header-cell *matHeaderCellDef> Username </th>
-                <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
-            </ng-container>
+            <div class="table-summary-info">
+                Showing <strong>{{ filteredUsers.length }}</strong> of {{ usersWithRoles.length }} registered
+            </div>
+        </div>
 
-            <ng-container matColumnDef="active-roles">
-                <th mat-header-cell *matHeaderCellDef> Active Role/s </th>
-                <td mat-cell *matCellDef="let element"> {{element.roles}} </td>
-            </ng-container>
+        <!-- Users Table -->
+        <div *ngIf="filteredUsers.length > 0; else emptyState" class="table-responsive">
+            <table class="synq-table">
+                <thead>
+                    <tr>
+                        <th class="col-num">#</th>
+                        <th>User Account</th>
+                        <th>Assigned Roles</th>
+                        <th class="col-actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of filteredUsers; let i = index" class="table-row">
+                        <td class="col-num">
+                            <span class="index-pill">{{ i + 1 }}</span>
+                        </td>
 
-            <ng-container matColumnDef="delete-user">
-                <th mat-header-cell *matHeaderCellDef> Delete User </th>
-                <td mat-cell *matCellDef="let element; let i = index">
-                    <button mat-mini-fab (click)="deleteUser(i, element.userName)">
-                        <mat-icon color="warn">delete</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar">
+                                    {{ user.userName ? user.userName.charAt(0).toUpperCase() : '?' }}
+                                </div>
+                                <div class="user-meta">
+                                    <span class="username">{{ user.userName }}</span>
+                                    <span class="synq-tag">&#64;{{ user.userName }}</span>
+                                </div>
+                            </div>
+                        </td>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-        }
+                        <td>
+                            <div class="roles-wrap">
+                                <span *ngFor="let role of user.roles" class="role-badge"
+                                    [class.role-admin]="hasRole([role], 'admin')"
+                                    [class.role-mod]="hasRole([role], 'moderator')"
+                                    [class.role-member]="hasRole([role], 'member')">
+
+                                    <mat-icon *ngIf="hasRole([role], 'admin')" class="badge-icon">security</mat-icon>
+                                    <mat-icon *ngIf="hasRole([role], 'moderator')" class="badge-icon">gavel</mat-icon>
+                                    <mat-icon *ngIf="!hasRole([role], 'admin') && !hasRole([role], 'moderator')"
+                                        class="badge-icon">badge</mat-icon>
+
+                                    <span>{{ role }}</span>
+                                </span>
+                            </div>
+                        </td>
+
+                        <td class="col-actions">
+                            <button type="button" class="action-btn-delete" (click)="promptDelete(i, user.userName)"
+                                title="Remove user">
+                                <mat-icon>delete_outline</mat-icon>
+                                <span>Delete</span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Empty State Template -->
+        <ng-template #emptyState>
+            <div class="empty-state">
+                <div class="empty-icon-wrap">
+                    <mat-icon>person_search</mat-icon>
+                </div>
+                <h3>No matching users found</h3>
+                <p>No account matches your search query. Try typing another username.</p>
+                <button *ngIf="searchQuery" mat-stroked-button (click)="searchQuery = ''">Clear Filter</button>
+            </div>
+        </ng-template>
+    </section>
+
+    <!-- Delete Confirmation Modal (In-place Backdrop) -->
+    <div *ngIf="userToDelete" class="modal-backdrop" (click)="cancelDelete()">
+        <div class="modal-card" (click)="$event.stopPropagation()">
+            <div class="modal-icon-danger">
+                <mat-icon>warning_amber</mat-icon>
+            </div>
+            <h2>Delete User Account?</h2>
+            <p>
+                Are you sure you want to permanently delete user <strong>"{{ userToDelete.userName }}"</strong>? This
+                action cannot be undone.
+            </p>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" (click)="cancelDelete()">Cancel</button>
+                <button type="button" class="btn-confirm-delete" (click)="confirmDelete()">
+                    <mat-icon>delete_forever</mat-icon>
+                    <span>Confirm Delete</span>
+                </button>
+            </div>
+        </div>
     </div>
-</section> -->
+</div>

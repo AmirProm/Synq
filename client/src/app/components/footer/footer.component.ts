@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgForOf } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [RouterLink, NgForOf],
+  imports: [RouterLink, MatIconModule],
   templateUrl: './footer.component.html',
-  styleUrl: './footer.component.scss',
+  styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent {
-  currentYear = new Date().getFullYear();
+  readonly currentYear = new Date().getFullYear();
+  readonly version = 'v.1';
 }

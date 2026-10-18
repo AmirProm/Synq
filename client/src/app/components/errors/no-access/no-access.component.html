@@ -1,33 +1,51 @@
-<<<<<<< HEAD
-=======
-<div class="nf-wrapper">
-  <div class="nf-card">
-    <div class="nf-pill">Synq • social hub</div>
+<div class="error-container">
+  <!-- Glowing Background Accent -->
+  <div class="ambient-glow glow-access"></div>
 
-    <div class="nf-code">500</div>
-
-    <h1 class="nf-title">Oops! nothing server error!!</h1>
-
-    <p class="nf-text">
-      server rerorr
-    </p>
-
-    <div class="nf-actions">
-      <a routerLink="/" class="nf-btn nf-btn-primary">
-        Back to Home
-      </a>
-
-      <a routerLink="/explore" class="nf-btn nf-btn-ghost">
-        Go to Explore
-      </a>
+  <div class="error-card">
+    <div class="badge-status">
+      <mat-icon>lock</mat-icon>
+      <span>HTTP 403 &bull; Restricted Zone</span>
     </div>
 
-    <p class="nf-sub">
-      If you think this is a bug, we’ll probably fix it… eventually 😄
-    </p>
-  </div>
+    <!-- Illustrated Cyber Shield Graphic -->
+    <div class="visual-wrapper">
+      <div class="pulse-ring"></div>
+      <div class="icon-orb orb-danger">
+        <mat-icon>admin_panel_settings</mat-icon>
+      </div>
+    </div>
 
-  <div class="nf-bg-bubble nf-bg-bubble-1"></div>
-  <div class="nf-bg-bubble nf-bg-bubble-2"></div>
+    <h1 class="error-code">Access Denied</h1>
+    <h2 class="error-title">You don't have permission to view this console</h2>
+    <p class="error-desc">
+      Your current account privileges do not grant clearance for this Synq module.
+      If you believe this is an error, please request administrative clearance.
+    </p>
+
+    <!-- Meta Details Box -->
+    <div class="info-pill-box">
+      <div class="info-item">
+        <span class="label">Protocol</span>
+        <span class="value">Role-Based Guard</span>
+      </div>
+      <div class="divider"></div>
+      <div class="info-item">
+        <span class="label">Required Level</span>
+        <span class="value highlight">Admin / Moderator</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="actions-group">
+      <a routerLink="/" class="btn-primary">
+        <mat-icon>home</mat-icon>
+        <span>Back to Synq Feed</span>
+      </a>
+      <a routerLink="/login" class="btn-secondary">
+        <mat-icon>swap_horiz</mat-icon>
+        <span>Switch Account</span>
+      </a>
+    </div>
+  </div>
 </div>
->>>>>>> a86f0bb (clean():cod clean components)

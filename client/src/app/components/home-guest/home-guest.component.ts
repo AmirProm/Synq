@@ -1,56 +1,58 @@
 import { Component } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 type PreviewMode = 'explore' | 'chat';
 
 @Component({
   selector: 'app-home-guest',
   standalone: true,
-  imports: [MatIcon],
+  imports: [CommonModule, RouterLink, MatIconModule],
   templateUrl: './home-guest.component.html',
-  styleUrls: ['./home-guest.component.scss']
-
+  styleUrls: ['./home-guest.component.scss'],
 })
 export class HomeGuestComponent {
   previewMode: PreviewMode = 'explore';
 
-  exploreImages: string[] = [
+  exploreImages = [
     'image-1.jpg',
     'image-2.jpg',
+    'image-4.jpg',
     'image-6.jpg',
     'image-8.jpg',
-    'image-4.jpg',
     'client-image1.png',
   ];
 
   exploreStats = [
-    { initial: 'A', name: 'Alex', caption: 'A clean UI concept drop — minimal & bold.', likes: 234, comments: 45 },
-    { initial: 'S', name: 'Sarah', caption: 'New community post: ideas that ship fast.', likes: 512, comments: 89 },
-    { initial: 'D', name: 'Design Team', caption: 'Small changes, huge UX wins.', likes: 128, comments: 22 },
-    { initial: 'M', name: 'Mina', caption: 'Exploring new layouts for social + chat.', likes: 301, comments: 54 },
-    { initial: 'S', name: 'Synq', caption: 'A clean UI concept drop — minimal & bold.', likes: '2M', comments: '900k' },
-    { initial: 'A', name: 'Amir', caption: 'Small changes, huge UX wins', likes: '38M', comments: '5M' },
+    { initial: 'S', name: 'Sara', caption: 'Night lights in Tehran ✨', likes: 240, comments: 18 },
+    { initial: 'A', name: 'Ali', caption: 'Code, coffee, repeat ☕', likes: 182, comments: 24 },
+    { initial: 'N', name: 'Nima', caption: 'Minimal workspace setup 🖥️', likes: 310, comments: 45 },
+    { initial: 'R', name: 'Reza', caption: 'Exploring UI/UX systems 🚀', likes: 145, comments: 12 },
+    { initial: 'M', name: 'Maryam', caption: 'Quiet evening thoughts 🌙', likes: 219, comments: 31 },
+    { initial: 'Z', name: 'Zahra', caption: 'Synq testnet node verified 🛡️', likes: 520, comments: 64 },
   ];
 
   selectedIndex = 0;
+
   get selectedExplore() {
-    return this.exploreStats[this.selectedIndex];
+    return this.exploreStats[this.selectedIndex] ?? this.exploreStats[0];
   }
 
   chatPreview = [
-    { initial: 'D', name: 'Design Team', last: 'Let’s sync tomorrow — shipping UI updates.', time: '2m' },
-    { initial: 'S', name: 'Sarah Chen', last: 'That looks great. Push the navbar change.', time: '1h' },
-    { initial: 'P', name: 'Product Crew', last: 'Explore feed v1 is ready for backend.', time: '3h' },
-    { initial: 'A', name: 'Alex Johnson', last: 'Can we make the profile card cleaner?', time: '5h' },
-    { initial: 'S', name: 'Synq', last: 'Can youe massege in Synq', time: '1d' },
-    { initial: 'G', name: 'Gender', last: 'yes is very God Synq is best social media', time: '1d' },
+    { initial: 'M', name: 'Maryam', last: 'Did you review the new SignalR hub specs?', time: '2m' },
+    { initial: 'A', name: 'Amir', last: 'Backend deployment is complete and live.', time: '12m' },
+    { initial: 'N', name: 'Nima', last: 'The glassmorphic dashboard looks sharp!', time: '1h' },
+    { initial: 'S', name: 'Sara', last: 'Can you invite the other nodes to group chat?', time: '3h' },
+    { initial: 'R', name: 'Reza', last: 'Great performance with MongoDB indexes.', time: 'Yesterday' },
+    { initial: 'Z', name: 'Zahra', last: 'Node identity confirmed.', time: '2d' },
   ];
 
-  setPreview(mode: PreviewMode) {
+  setPreview(mode: PreviewMode): void {
     this.previewMode = mode;
   }
 
-  selectExplore(i: number) {
+  selectExplore(i: number): void {
     this.selectedIndex = i;
   }
 }

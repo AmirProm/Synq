@@ -1,161 +1,143 @@
-// متغیرهای رنگی (می‌توانید با رنگ‌های پروژه خود جایگزین کنید)
-$color-primary: #3b82f6; // آبی
-$color-warn: #ef4444;    // قرمز
-$color-accent: #10b981;  // سبز
-$text-dark: #1f2937;
-$text-muted: #6b7280;
+$synq-primary: #00c797;
+$synq-primary-dark: #009a74;
+$slate-900: #0f172a;
+$slate-700: #334155;
+$slate-500: #64748b;
+$slate-100: #f1f5f9;
 
 .member-card {
+  position: relative;
   width: 100%;
   max-width: 280px;
-  background-color: #ffffff;
-  border-radius: 16px;
-  overflow: hidden; // جلوگیری از بیرون زدن عکس از لبه‌های گرد
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
-  
-  // افکت هاور کل کارت
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #edf2f7;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px -4px rgba(0, 199, 151, 0.14), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 199, 151, 0.35);
 
-    .profile-img {
-      transform: scale(1.08); // زوم ملایم عکس
+    .card-header .profile-img {
+      transform: scale(1.06);
     }
 
-    .overlay {
-      opacity: 1; // نمایش لایه تاریک روی عکس
-    }
-
-    .action-buttons {
-      opacity: 1;
-      transform: translateY(0); // بالا آمدن دکمه‌ها
+    .card-body .status-row .arrow-hint {
+      color: $synq-primary-dark;
+      transform: translateX(3px);
     }
   }
-}
 
-// ----------------------------------------
-// بخش هدر (شامل تصویر و دکمه‌ها)
-// ----------------------------------------
-.card-header {
-  position: relative;
-  width: 100%;
-  // استفاده از فرمول ریاضی برای حفظ نسبت ابعاد عکس
-  // فرمول: Aspect Ratio = Width / Height
-  aspect-ratio: 1 / 1; 
-  overflow: hidden;
-
-  .image-wrapper {
+  .card-header {
+    position: relative;
     width: 100%;
-    height: 100%;
-    
+    aspect-ratio: 1 / 1.05;
+    background: #f8fafc;
+    overflow: hidden;
+
     .profile-img {
       width: 100%;
       height: 100%;
-      object-fit: cover; // جلوگیری از دفرمه شدن عکس
-      transition: transform 0.5s ease;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+
+      &.fallback {
+        opacity: 0.85;
+      }
     }
 
-    // گرادیانت تیره که روی عکس می‌افتد تا دکمه‌ها خوانا شوند
     .overlay {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 50%;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 40%, rgba(15, 23, 42, 0.45) 100%);
+      pointer-events: none;
+    }
+
+    .location-chip {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 99px;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(8px);
+      color: #ffffff;
+      font-size: 0.74rem;
+      font-weight: 500;
+      letter-spacing: 0.2px;
     }
   }
 
-  // استایل دکمه‌های شناور
-  .action-buttons {
-    position: absolute;
-    bottom: 16px;
-    left: 0;
-    width: 100%;
+  .card-body {
+    padding: 16px;
     display: flex;
-    justify-content: center;
-    gap: 12px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    
-    // وضعیت پیش‌فرض انیمیشن (مخفی و کمی پایین‌تر)
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); // افکت پرش ملایم
+    flex-direction: column;
+    gap: 8px;
 
-    .btn-action {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: none;
+    .user-row {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: white;
-      font-size: 1.1rem;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease, filter 0.2s ease;
 
-      &:hover {
-        transform: scale(1.15);
-        filter: brightness(1.1);
+      .username {
+        margin: 0;
+        font-size: 1.02rem;
+        font-weight: 700;
+        color: $slate-900;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
-      // اختصاص رنگ به هر دکمه
-      &.btn-primary { background-color: $color-primary; }
-      &.btn-warn { background-color: $color-warn; }
-      &.btn-accent { background-color: $color-accent; }
-    }
-  }
-}
-
-// ----------------------------------------
-// بخش اطلاعات کاربر (پایین کارت)
-// ----------------------------------------
-.card-body {
-  padding: 16px;
-  cursor: pointer; // نشان دادن اینکه این بخش قابل کلیک است
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: #f9fafb;
-  }
-
-  .user-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .username {
-      margin: 0;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: $text-dark;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis; // سه نقطه شدن متن طولانی
+      .meta-data {
+        font-size: 0.76rem;
+        font-weight: 600;
+        color: $synq-primary-dark;
+        background: rgba(0, 199, 151, 0.12);
+        padding: 3px 8px;
+        border-radius: 12px;
+        white-space: nowrap;
+      }
     }
 
-    .meta-data {
+    .status-row {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 6px;
-      font-size: 0.9rem;
-      color: $text-muted;
-      background-color: #f3f4f6;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-weight: 500;
+      padding-top: 4px;
+      border-top: 1px solid #f8fafc;
 
-      i {
-        color: $color-primary;
-        font-size: 1.1rem;
+      .online-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.78rem;
+        color: $slate-500;
+
+        .dot {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: $synq-primary;
+          box-shadow: 0 0 0 3px rgba(0, 199, 151, 0.2);
+        }
+      }
+
+      .arrow-hint {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: $slate-500;
+        transition: all 0.2s ease;
       }
     }
   }

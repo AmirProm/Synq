@@ -1,30 +1,36 @@
-import { Component } from '@angular/core';
-import { PostService } from '../../../services/post.service';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { PostService } from '../../../services/post.service';
 
 @Component({
-    imports: [FormsModule],
-    selector: 'app-create-post',
-    templateUrl: './post-create.component.html',
-    styleUrl: './post-create.component.scss'
+  selector: 'app-create-post',
+  standalone: true,
+  imports: [FormsModule],
+  templateUrl: './post-create.component.html',
+  styleUrl: './post-create.component.scss'
 })
 export class PostCreateComponent {
+  @Output() postCreated = new EventEmitter<void>();
 
-    caption = '';
+  caption = '';
+  isSubmitting = false;
 
-    constructor(private postService: PostService) { }
+  constructor(private postService: PostService) {}
 
-    create() {
+  create(): void {
+    const trimmed = this.caption.trim();
+    if (!trimmed || this.isSubmitting) return;
 
-        if (!this.caption.trim()) return;
-
-        this.postService.createPost(this.caption).subscribe({
-            next: () => {
-                this.caption = '';
-                location.reload();
-            }
-        });
-
-    }
-
+    this.isSubmitting = true;
+    this.postService.createPost(trimmed).subscribe({
+      next: () => {
+        this.caption = '';
+        this.isSubmitting = false;
+        this.postCreated.emit();
+      },
+      error: () => {
+        this.isSubmitting = false;
+      }
+    });
+  }
 }

@@ -1,7 +1,7 @@
 <main class="synqProfile">
-
+  <!-- LOADING SKELETON -->
   @if (stateSig() === 'loading') {
-    <section class="loading">
+    <section class="loading" aria-label="Loading profile">
       <div class="skCover"></div>
       <div class="skCard"></div>
       <div class="skGrid">
@@ -12,88 +12,149 @@
     </section>
   }
 
+  <!-- ERROR STATE -->
   @if (stateSig() === 'error') {
-    <section class="error">
+    <section class="error" aria-label="Error loading profile">
       <div class="errorCard">
-        <h2>Couldn’t load this profile</h2>
-        <p>Try again, or go back to members.</p>
+        <div class="errorIcon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+        </div>
+        <h2>Couldn't load this profile</h2>
+        <p>The profile may have been removed or there was a network glitch.</p>
         <div class="row">
-          <button class="btn primary" (click)="retry()">Retry</button>
-          <button class="btn ghost" (click)="back()">Back</button>
+          <button class="btn primary" (click)="retry()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btnIcon">
+              <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" />
+            </svg>
+            Try again
+          </button>
+          <button class="btn ghost" (click)="back()">Go back</button>
         </div>
       </div>
     </section>
   }
 
+  <!-- READY STATE -->
   @if (stateSig() === 'ready' && memberSig(); as m) {
-    <!-- COVER -->
-    <section class="cover">
+    <!-- HERO COVER -->
+    <header class="cover">
       @if (coverUrlSig(); as c) {
-        <img class="coverImg" [src]="c" alt="Cover" (error)="onImgError($event)" />
+        <img class="coverImg" [src]="c" [alt]="m.userName + ' cover'" (error)="onImgError($event)" />
+      } @else {
+        <div class="coverDefault"></div>
       }
       <div class="coverOverlay"></div>
 
-      <div class="topBar">
-        <button class="iconBtn" (click)="back()">←</button>
-        <div class="topTitle">Profile</div>
-        <button class="iconBtn ghost" (click)="message()">💬</button>
+      <nav class="topBar">
+        <button class="iconBtn ghost" (click)="back()" aria-label="Go back" title="Back to Dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <h1 class="topTitle">Profile</h1>
+
+        <button class="iconBtn ghost" (click)="message()" aria-label="Send direct message" title="Open Chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+        </button>
+      </nav>
+    </header>
+
+    <!-- HERO CARD -->
+    <section class="heroCard">
+      <div class="avatarWrap">
+        @if (avatarUrlSig(); as av) {
+          <img class="avatar" [src]="av" [alt]="m.userName" (error)="onImgError($event)" />
+        } @else {
+          <div class="avatar fallback">
+            {{ m.userName[0] | titlecase }}
+          </div>
+        }
+        <span class="statusDot" title="Active"></span>
       </div>
 
-      <div class="heroCard">
-        <div class="avatarWrap">
-          @if (avatarUrlSig(); as av) {
-            <img class="avatar" [src]="av" alt="Avatar" (error)="onImgError($event)" />
-          } @else {
-            <div class="avatar fallback">{{ m.userName[0] | titlecase }}</div>
-          }
-          <span class="statusDot"></span>
-        </div>
-
-        <div class="meta">
-          <h1 class="name">
-            {{ m.userName }}
+      <div class="meta">
+        <div class="nameRow">
+          <h2 class="name">{{ m.userName }}</h2>
+          @if (m.age) {
             <span class="age">{{ m.age }}</span>
-          </h1>
+          }
+        </div>
 
-          <div class="sub">
-            <span>{{ m.city | titlecase }}, {{ m.country | titlecase }}</span>
-            <span class="dot">•</span>
-            <span>Last active: {{ m.lastActive | intlRelativeTime }}</span>
+        <div class="sub">
+          <span class="location">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="miniIcon">
+              <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            {{ m.city | titlecase }}, {{ m.country | titlecase }}
+          </span>
+          <span class="dot">•</span>
+          <span class="activity">
+            Last active: <strong>{{ m.lastActive | intlRelativeTime }}</strong>
+          </span>
+        </div>
+
+        @if (m.lookingFor?.trim()) {
+          <div class="badge">
+            <span class="badgeLabel">Focus:</span>
+            <span class="badgeValue">{{ m.lookingFor }}</span>
           </div>
+        }
+      </div>
 
-          @if (m.lookingFor?.trim()) {
-            <div class="badge">Looking for: {{ m.lookingFor }}</div>
-          }
-        </div>
+      <div class="cta">
+        <button class="btn primary" (click)="message()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btnIcon">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+          Message
+        </button>
 
-        <div class="cta">
-          <button class="btn primary" (click)="message()">Message</button>
-
-          @if (!isSelfProfileSig()) {
-            <button class="btn" [class.active]="isFollowingSig()" (click)="toggleFollow()">
-              @if (isFollowingSig()) { Following } @else { Follow }
-            </button>
-          }
-        </div>
+        @if (!isSelfProfileSig()) {
+          <button
+            class="btn outline"
+            [class.active]="isFollowingSig()"
+            (click)="toggleFollow()">
+            @if (isFollowingSig()) {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="btnIcon">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              Following
+            } @else {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btnIcon">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Follow
+            }
+          </button>
+        }
       </div>
     </section>
 
-    <!-- CONTENT -->
-    <section class="content">
+    <!-- CONTENT GRID -->
+    <div class="content">
       <div class="grid">
-
-        <article class="panel">
+        <!-- ABOUT PANEL -->
+        <section class="panel">
           <header class="panelHead">
-            <h2>About</h2>
+            <h3>About</h3>
           </header>
 
           <div class="block">
-            <div class="label">Introduction</div>
-            <div class="text">{{ m.introduction || '—' }}</div>
+            <div class="label">Bio</div>
+            <p class="text">{{ m.introduction || 'No introduction provided yet.' }}</p>
           </div>
 
           <div class="block">
-            <div class="label">Interests</div>
+            <div class="label">Keywords </div>
             @if (m.interests?.trim()) {
               <div class="tags">
                 @for (t of m.interests.split(','); track $index) {
@@ -101,14 +162,15 @@
                 }
               </div>
             } @else {
-              <div class="text">—</div>
+              <p class="text muted">No Keywords listed.</p>
             }
           </div>
-        </article>
+        </section>
 
-        <article class="panel">
+        <!-- DETAILS & STATS PANEL -->
+        <section class="panel">
           <header class="panelHead">
-            <h2>Details</h2>
+            <h3>Details</h3>
           </header>
 
           <div class="stats">
@@ -117,58 +179,81 @@
               <div class="sVal">{{ m.city | titlecase }}</div>
               <div class="sHint">{{ m.country | titlecase }}</div>
             </div>
+
             <div class="stat">
               <div class="sTop">Age</div>
               <div class="sVal">{{ m.age }}</div>
-              <div class="sHint">years</div>
+              <div class="sHint">Years old</div>
             </div>
+
             <div class="stat">
               <div class="sTop">Photos</div>
               <div class="sVal">{{ m.photos?.length ?? 0 }}</div>
-              <div class="sHint">items</div>
+              <div class="sHint">Uploaded</div>
             </div>
           </div>
-
-          <!-- <div class="note">
-            Follow & posts will be enabled soon. This page is MVPready.
-          </div> -->
-        </article>
-
+        </section>
       </div>
 
+      <!-- PHOTOS SECTION -->
       <section class="photos">
         <div class="photosHead">
-          <h2>Photos</h2>
-          <span class="muted">{{ m.photos?.length ?? 0 }} items</span>
+          <h3>Photos</h3>
+          <span class="muted">({{ m.photos?.length ?? 0 }})</span>
         </div>
 
         @if ((m.photos?.length ?? 0) === 0) {
           <div class="empty">
-            <div class="emoji">🖼️</div>
+            <div class="emptyIcon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+            </div>
             <div class="t1">No photos yet</div>
-            <div class="t2">This user hasn’t uploaded photos.</div>
+            <div class="t2">This member hasn't added any photos to their profile.</div>
           </div>
         } @else {
           <div class="photoGrid">
             @for (p of m.photos; track $index) {
               @if (photoThumb(p); as src) {
-                <button class="ph" type="button" (click)="openPhoto(photoBig(p) || src)">
-                  <img [src]="src" alt="Photo" />
-                  @if (p.isMain) { <span class="main">Main</span> }
+                <button
+                  type="button"
+                  class="ph"
+                  (click)="openPhoto(photoBig(p) || src)"
+                  [attr.aria-label]="'View photo ' + ($index + 1)">
+                  <img [src]="src" [alt]="m.userName + ' photo'" loading="lazy" (error)="onImgError($event)" />
+                  @if (p.isMain) {
+                    <span class="main">Main</span>
+                  }
+                  <div class="phOverlay">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="11" cy="11" r="8" />
+                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                      <line x1="11" y1="8" x2="11" y2="14" />
+                      <line x1="8" y1="11" x2="14" y2="11" />
+                    </svg>
+                  </div>
                 </button>
               }
             }
           </div>
         }
       </section>
-    </section>
+    </div>
 
-    <!-- MODAL -->
+    <!-- MODAL / LIGHTBOX -->
     @if (isModalOpenSig() && selectedUrlSig(); as u) {
-      <div class="modal" (click)="closeModal()">
+      <div class="modal" (click)="closeModal()" role="dialog" aria-modal="true">
         <div class="modalInner" (click)="$event.stopPropagation()">
-          <button class="close" (click)="closeModal()">✕</button>
-          <img class="modalImg" [src]="u" alt="Preview" />
+          <button class="close" (click)="closeModal()" aria-label="Close dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+          <img class="modalImg" [src]="u" [alt]="m.userName + ' photo full'" />
         </div>
       </div>
     }

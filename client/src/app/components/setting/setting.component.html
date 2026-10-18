@@ -1,135 +1,281 @@
 <div class="user-settings">
 
-    <header class="settings-header">
-        <div class="titles">
-            <p class="eyebrow">SYNQ · SETTINGS</p>
-            <h1>Account & preferences</h1>
-            <p class="subtitle">
-                Adjust how you look and feel across Synq. This view is UI-only for now; later you can connect it to your
-                APIs.
-            </p>
+  <!-- Header Section -->
+  <header class="settings-header">
+    <div class="header-text">
+      <span class="eyebrow">SYNQ · SYSTEM PREFERENCES</span>
+      <h1>Settings &amp; Governance</h1>
+      <p class="subtitle">Customize your identity, interface telemetry, and node security.</p>
+    </div>
+
+    <!-- Active User Capsule -->
+    @if (accountService.loggedInUserSig(); as user) {
+    <div class="user-capsule">
+      <div class="capsule-avatar">
+        <span>{{ (user.userName || 'U')[0].toUpperCase() }}</span>
+        <span class="capsule-status"></span>
+      </div>
+      <div class="capsule-meta">
+        <span class="capsule-name">{{ user.userName }}</span>
+        <span class="capsule-badge">{{ user.roles?.includes('admin') ? 'Admin Node' : 'Member' }}</span>
+      </div>
+    </div>
+    }
+  </header>
+
+  <!-- Settings Navigation Tabs -->
+  <nav class="settings-tabs">
+    <button type="button" [class.active]="activeTab() === 'profile'" (click)="setTab('profile')">
+      <mat-icon>person_outline</mat-icon>
+      <span>Profile &amp; Bio</span>
+    </button>
+    <button type="button" [class.active]="activeTab() === 'preferences'" (click)="setTab('preferences')">
+      <mat-icon>tune</mat-icon>
+      <span>Interface &amp; Sound</span>
+    </button>
+    <button type="button" [class.active]="activeTab() === 'privacy'" (click)="setTab('privacy')">
+      <mat-icon>security</mat-icon>
+      <span>Privacy &amp; Safety</span>
+    </button>
+    <button type="button" [class.active]="activeTab() === 'danger'" (click)="setTab('danger')" class="tab-danger">
+      <mat-icon>power_settings_new</mat-icon>
+      <span>Session &amp; Account</span>
+    </button>
+  </nav>
+
+  <!-- Toast Notification -->
+  @if (saveToast()) {
+  <div class="save-toast-banner">
+    <mat-icon>check_circle</mat-icon>
+    <span>{{ saveToast() }}</span>
+  </div>
+  }
+
+  <!-- TAB CONTENT -->
+  <div class="settings-container">
+
+    <!-- 1. Profile Tab -->
+    @if (activeTab() === 'profile') {
+    <div class="tab-pane animate-fade-in">
+      <section class="settings-card">
+        <div class="card-title">
+          <mat-icon>badge</mat-icon>
+          <div>
+            <h3>Public Identity</h3>
+            <p>How members view and mention you across the network.</p>
+          </div>
         </div>
 
-        <!-- <div class="user-pill">
-            <div class="avatar">
-                {{ avatarInitial }}
-            </div>
-            <div class="info">
-                <span class="name">{{ settings.displayName }}</span>
-                <span class="username">{{"@" + settings.userName }}</span>
-            </div>
-        </div> -->
-    </header>
+        <div class="grid-fields">
+          <div class="field">
+            <label for="displayName">Display name</label>
+            <input id="displayName" [(ngModel)]="settings.displayName" placeholder="e.g. Amir" />
+            <span class="helper">Shown across feed cards and direct conversations.</span>
+          </div>
 
-    <section class="settings-main">
-        <div class="block">
-            <h2>Profile</h2>
-            <p class="block-sub">These details are visible to other people in Synq.</p>
-
-            <div class="field">
-                <label>Display name</label>
-                <input type="text" [(ngModel)]="settings.displayName" placeholder="Your name" />
-            </div>
-
-            <div class="field">
-                <label>Status note</label>
-                <input type="text" [(ngModel)]="settings.statusNote" placeholder="e.g. Focus mode 🔕" />
-                <p class="helper">
-                    Short line shown under your name in chat.
-                </p>
-            </div>
-
-            <div class="field">
-                <label>Bio</label>
-                <textarea rows="3" [(ngModel)]="settings.bio" placeholder="Tell people a bit about you..."></textarea>
-            </div>
-
-            <div class="field read-only">
-                <label>Username</label>
-                <div class="readonly-box">{{"@" + settings.userName }}</div>
-            </div>
-
-            <div class="field read-only">
-                <label>Email</label>
-                <div class="readonly-box">{{ settings.email }}</div>
-                <p class="helper">
-                    Email changes are handled separately for security.
-                </p>
-            </div>
+          <div class="field">
+            <label for="statusNote">Status phrase</label>
+            <input id="statusNote" [(ngModel)]="settings.statusNote" placeholder="What are you hacking on?" />
+            <span class="helper">Broadcasted on your profile indicator pill.</span>
+          </div>
         </div>
 
-        <div class="block">
-            <h2>Preferences</h2>
-            <p class="block-sub">How Synq behaves and looks just for you.</p>
-
-            <div class="field">
-                <label>Language</label>
-                <select [(ngModel)]="settings.language">
-                    @for (lang of languages; track lang.code) {
-                    <option [ngValue]="lang.code">{{ lang.label }}</option>
-                    }
-                </select>
-            </div>
-
-            <div class="toggle-row">
-                <div>
-                    <p class="toggle-label">Allow direct messages</p>
-                    <p class="toggle-sub">People can start a chat with you.</p>
-                </div>
-                <label class="switch">
-                    <input type="checkbox" [(ngModel)]="settings.allowDirectMessages" />
-                    <span class="slider"></span>
-                </label>
-            </div>
-
-            <div class="toggle-row">
-                <div>
-                    <p class="toggle-label">Show online status</p>
-                    <p class="toggle-sub">Let others know when you’re active.</p>
-                </div>
-                <label class="switch">
-                    <input type="checkbox" [(ngModel)]="settings.showOnlineStatus" />
-                    <span class="slider"></span>
-                </label>
-            </div>
-
-            <div class="toggle-row">
-                <div>
-                    <p class="toggle-label">Dark mode</p>
-                    <p class="toggle-sub">Use a darker theme for low light.</p>
-                </div>
-                <label class="switch">
-                    <input type="checkbox" [(ngModel)]="settings.darkMode" />
-                    <span class="slider"></span>
-                </label>
-            </div>
-
-            <div class="actions">
-                <button class="save-btn" (click)="saveSettings()" [disabled]="isSaving">
-                    {{ isSaving ? 'Saving…' : 'Save changes' }}
-                </button>
-
-                @if (saveMessage) {
-                <p class="save-message">
-                    {{ saveMessage }}
-                </p>
-                }
-            </div>
-
-            <div class="danger-zone">
-                <p class="danger-title">Danger zone</p>
-                <p class="danger-sub">
-                    Disabling or deleting your account will be implemented on the backend side.
-                    This is only a placeholder section.
-                </p>
-                <button class="synq-sidebar-logout" (click)="logout()">
-                    <mat-icon>logout</mat-icon>
-                    <span>Log out</span>
-                </button>
-                <button class="danger-btn" disabled>
-                    Disable account (coming soon)
-                </button>
-            </div>
+        <div class="field mt-3">
+          <label for="bio">Biography</label>
+          <textarea id="bio" rows="3" [(ngModel)]="settings.bio"
+            placeholder="Write something about your tech interests..."></textarea>
         </div>
-    </section>
+
+        <div class="grid-fields mt-3">
+          <div class="field">
+            <label>Synced Handle</label>
+            <div class="readonly-box">{{ formattedHandle }}</div>
+          </div>
+          <div class="field">
+            <label>Node Address</label>
+            <div class="readonly-box">{{ settings.email }}</div>
+          </div>
+        </div>
+      </section>
+    </div>
+    }
+
+    <!-- 2. Interface Preferences Tab -->
+    @if (activeTab() === 'preferences') {
+    <div class="tab-pane animate-fade-in">
+      <section class="settings-card">
+        <div class="card-title">
+          <mat-icon>palette</mat-icon>
+          <div>
+            <h3>Appearance &amp; Localization</h3>
+            <p>Tune UI responsiveness, dark contrast, and language packs.</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="langSelect">Platform Language</label>
+          <select id="langSelect" [(ngModel)]="settings.language">
+            <option value="en">English (US)</option>
+            <option value="fa">فارسی (Persian)</option>
+          </select>
+        </div>
+
+        <div class="toggle-group mt-4">
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <span class="label">Dark Workspace Mode</span>
+              <span class="desc">High-contrast slate dark theme for low-light coding sessions.</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" [(ngModel)]="settings.darkMode" (change)="toggleTheme()" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <span class="label">Compact Mode</span>
+              <span class="desc">Reduces padding on feeds to fit 30% more posts per viewport.</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" [(ngModel)]="settings.compactMode" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <span class="label">Signal Audio Chimes</span>
+              <span class="desc">Play soft acoustic pulses on incoming SignalR messages.</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" [(ngModel)]="settings.soundEffects" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </section>
+    </div>
+    }
+
+    <!-- 3. Privacy & Network Tab -->
+    @if (activeTab() === 'privacy') {
+    <div class="tab-pane animate-fade-in">
+      <section class="settings-card">
+        <div class="card-title">
+          <mat-icon>shield</mat-icon>
+          <div>
+            <h3>Network Telemetry &amp; Privacy</h3>
+            <p>Control incoming discovery channels and peer visibility.</p>
+          </div>
+        </div>
+
+        <div class="toggle-group">
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <span class="label">Allow Direct Messages</span>
+              <span class="desc">Permit discovered members to initiate private peer chats.</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" [(ngModel)]="settings.allowDirectMessages" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <span class="label">Broadcast Online Status</span>
+              <span class="desc">Display a green active beacon on your avatar when connected.</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" [(ngModel)]="settings.showOnlineStatus" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </section>
+    </div>
+    }
+
+    <!-- 4. Danger Zone & Session Tab -->
+    @if (activeTab() === 'danger') {
+    <div class="tab-pane animate-fade-in">
+
+      <section class="settings-card session-card">
+        <div class="card-title">
+          <mat-icon>devices</mat-icon>
+          <div>
+            <h3>Active Node Session</h3>
+            <p>Hardware and client environment authenticating your JWT token.</p>
+          </div>
+        </div>
+
+        <div class="session-info-pill">
+          <div class="session-icon">
+            <mat-icon>laptop_chromebook</mat-icon>
+          </div>
+          <div class="session-details">
+            <div class="session-name">Mozilla Firefox on Linux (X11)</div>
+            <div class="session-meta">Current session · 127.0.0.1 (Localhost Node)</div>
+          </div>
+          <span class="session-status-badge">Online</span>
+        </div>
+      </section>
+
+      <section class="settings-card danger-card">
+        <div class="card-title">
+          <mat-icon class="danger-icon">warning_amber</mat-icon>
+          <div>
+            <h3 class="danger-header">Session Termination</h3>
+            <p>Terminate current token session or disable network node.</p>
+          </div>
+        </div>
+
+        <div class="danger-actions-list">
+          <div class="danger-action-item">
+            <div>
+              <strong>Sign Out from this Device</strong>
+              <p>Revokes your local authorization token and redirects to home screen.</p>
+            </div>
+            <button type="button" class="btn-logout-solid" (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              <span>Log Out</span>
+            </button>
+          </div>
+
+          <div class="danger-action-item">
+            <div>
+              <strong>Deactivate Account</strong>
+              <p>Temporarily hides your feed, photos, and messages.</p>
+            </div>
+            <button type="button" class="btn-disabled-action" disabled>
+              <span>Planned for Phase 2</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+    }
+
+  </div>
+
+  <!-- Global Action Footer -->
+  <footer class="settings-footer">
+    <div class="footer-note">
+      <mat-icon>cloud_done</mat-icon>
+      <span>Changes apply instantly across your Synq node.</span>
+    </div>
+
+    <button type="button" class="btn-save-master" (click)="saveSettings()" [disabled]="isSaving">
+      @if (isSaving) {
+      <span>Saving changes...</span>
+      }
+      @if (!isSaving) {
+      <mat-icon>done_all</mat-icon>
+      <span>Save changes</span>
+      }
+    </button>
+  </footer>
+
 </div>

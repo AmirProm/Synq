@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { LoggedIn } from '../../../models/logged-in.model';
 
@@ -15,9 +16,13 @@ import { LoggedIn } from '../../../models/logged-in.model';
   standalone: true,
   imports: [
     RouterLink,
-    FormsModule, ReactiveFormsModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatCardModule,
-    MatButtonModule, MatFormFieldModule, MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -27,12 +32,11 @@ export class LoginComponent {
   fB = inject(FormBuilder);
   loggedInRes: LoggedIn | undefined | null;
 
-
   //#region formGroup
   loginFg = this.fB.group({
     emailCtrl: ['', [Validators.required, Validators.email]],
     passwordCtrl: ['']
-  })
+  });
 
   get EmailCtrl(): FormControl {
     return this.loginFg.get('emailCtrl') as FormControl;
@@ -47,7 +51,7 @@ export class LoginComponent {
     let userInput: Login = {
       email: this.EmailCtrl.value,
       password: this.PasswordCtrl.value
-    }
+    };
 
     let loginResponse$: Observable<LoggedIn | null> = this.accountService.login(userInput);
 
